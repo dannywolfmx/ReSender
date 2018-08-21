@@ -206,64 +206,99 @@
                 position: relative;
                 padding: 20px;
             }
+
+            #row {
+                padding: 24px;
+                margin: 20px 0px;
+                @apply --layout-horizontal;
+                @apply --layout-around-justified;
+                border-bottom: 2px solid var(--paper-grey-200)
+            }
+
+            .column {
+                font-size: var(--lumo-font-size-m);
+                padding: var(--lumo-space-xs) var(--lumo-space-m);
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                line-height: var(--lumo-line-height-s);
+                color: #212121;
+                font-weight: bold;
+            }
+
+            .c2 {
+                width: 15% !important;
+            }
+
+            .flexible {
+                @apply --layout-flex;
+            }
+
+            .estatus {
+                background: var(--paper-green-200);
+                color: white;
+                text-align: center;
+                padding: 12px;
+                border-radius: 30px;
+            }
         </style>
 
         <firebase-document id="query" app-name="bla" path="/ordenes/[[llaveOrden]]" data="{{ordenDeCompra}}">
         </firebase-document>
-
-
-
-        <div id="ordenCaja" on-drop="guardarArchivoDrag">
-            <vaadin-form-layout>
-                <vaadin-text-field label="Orden de compra" value="{{ordenDeCompra.ordenDeCompra}}"></vaadin-text-field>
-                <vaadin-text-field label="Factura" value="{{ordenDeCompra.factura}}"></vaadin-text-field>
-                <vaadin-text-field colspan="2" label="Nombre cliente" value="{{ordenDeCompra.cliente}}"></vaadin-text-field>
-                <paper-icon-button class="botonEliminar boton" icon="remove" on-tap="eliminarOrdenDeCompra"></paper-icon-button>
-            </vaadin-form-layout>
-
-            <vaadin-form-layout>
-                <template is="dom-repeat" items="{{ordenDeCompra.listaCorreos}}" as="correo">
-                    <vaadin-text-field label="Direccion de correo" value="{{correo}}">
-                        <paper-icon-button slot="suffix" class="botonRemover" icon="remove" on-tap="eliminarCorreo"></paper-icon-button>
-                    </vaadin-text-field>
-                </template>
-                <paper-icon-button class="botonAgregar boton" icon="add" on-tap="agregarCorreo"></paper-icon-button>
-            </vaadin-form-layout>
-
-
-
-            <div id="status">
-
-                <template is="dom-repeat" items="[[listaTemplatesCorreos]]">
-                    <paper-icon-button icon="[[item.icon]]" on-click="fijaEstatus" class="botonEstatus" pendiente$="[[estiloBoton(index,ordenDeCompra.template)]]"></paper-icon-button>
-                    <div class="barraEstatus" pendiente$="[[estiloBoton(index,ordenDeCompra.template)]]"></div>
-                </template>
-
-            </div>
-            <div>
-                <vaadin-date-picker label="fecha de envio" placeholder="Placeholder" value="{{ordenDeCompra.fechaEnvio}}">
-                </vaadin-date-picker>
-            </div>
-
-            <div id="listaArchivos">
-                <template is="dom-repeat" items="{{ordenDeCompra.listaArchivos}}" as="archivo">
-                    <div class="archivo">
-                        [[archivo.nombre]]
-                        <paper-icon-button class="botonEliminar" icon="remove" on-tap="eliminarArchivoDB" data-item$="[[ordenDeCompra.listaArchivos]]"></paper-icon-button>
-                    </div>
-                </template>
-
-                <paper-icon-button class="agregarArchivo boton" on-tap="agregarArchivo" icon="add"></paper-icon-button>
-            </div>
-
-            <vaadin-form-layout>
-
-                [[mensaje]]
-                <paper-icon-button class="botonEnviar boton" icon="send" on-tap="enviarCorreo"></paper-icon-button>
-            </vaadin-form-layout>
-
+        <div id="row" on-click="fijaLlave">
+            <div class="column flexible">[[orden.cliente]]</div>
+            <div class="column c2">[[orden.ordenDeCompra]]</div>
+            <div class="column c2">[[orden.factura]]</div>
+            <div class="column c2 estatus">[[orden.estatus]]</div>
         </div>
-        <input type="file" id="fileInput" multiple>
+
+        <template is="dom-if" if="{{mostrarOrden}}">
+            <div id="ordenCaja" on-drop="guardarArchivoDrag">
+                <vaadin-form-layout>
+                    <vaadin-text-field label="Orden de compra" value="{{ordenDeCompra.ordenDeCompra}}"></vaadin-text-field>
+                    <vaadin-text-field label="Factura" value="{{ordenDeCompra.factura}}"></vaadin-text-field>
+                    <vaadin-text-field colspan="2" label="Nombre cliente" value="{{ordenDeCompra.cliente}}"></vaadin-text-field>
+                    <paper-icon-button class="botonEliminar boton" icon="remove" on-tap="eliminarOrdenDeCompra"></paper-icon-button>
+                </vaadin-form-layout>
+
+                <vaadin-form-layout>
+                    <template is="dom-repeat" items="{{ordenDeCompra.listaCorreos}}" as="correo">
+                        <vaadin-text-field label="Direccion de correo" value="{{correo}}">
+                            <paper-icon-button slot="suffix" class="botonRemover" icon="remove" on-tap="eliminarCorreo"></paper-icon-button>
+                        </vaadin-text-field>
+                    </template>
+                    <paper-icon-button class="botonAgregar boton" icon="add" on-tap="agregarCorreo"></paper-icon-button>
+                </vaadin-form-layout>
+
+                <div id="status">
+                    <template is="dom-repeat" items="[[listaTemplatesCorreos]]">
+                        <paper-icon-button icon="[[item.icon]]" on-click="fijaEstatus" class="botonEstatus" pendiente$="[[estiloBoton(index,ordenDeCompra.template)]]"></paper-icon-button>
+                        <div class="barraEstatus" pendiente$="[[estiloBoton(index,ordenDeCompra.template)]]"></div>
+                    </template>
+                </div>
+                <div>
+                    <vaadin-date-picker label="fecha de envio" placeholder="Placeholder" value="{{ordenDeCompra.fechaEnvio}}">
+                    </vaadin-date-picker>
+                </div>
+
+                <div id="listaArchivos">
+                    <template is="dom-repeat" items="{{ordenDeCompra.listaArchivos}}" as="archivo">
+                        <div class="archivo">
+                            [[archivo.nombre]]
+                            <paper-icon-button class="botonEliminar" icon="remove" on-tap="eliminarArchivoDB" data-item$="[[ordenDeCompra.listaArchivos]]"></paper-icon-button>
+                        </div>
+                    </template>
+
+                    <paper-icon-button class="agregarArchivo boton" on-tap="agregarArchivo" icon="add"></paper-icon-button>
+                </div>
+
+                <vaadin-form-layout>
+
+                    [[mensaje]]
+                    <paper-icon-button class="botonEnviar boton" icon="send" on-tap="enviarCorreo"></paper-icon-button>
+                </vaadin-form-layout>
+
+            </div>
+            <input type="file" id="fileInput" multiple>
+        </template>
     </template>
 
     <script>
@@ -288,6 +323,10 @@
              */
             static get properties() {
                 return {
+                    mostrarOrden: {
+                        type: Boolean,
+                        value: false
+                    },
                     llaveOrden: {
                         type: String,
                         value: "",
@@ -327,8 +366,7 @@
                         ]
                     },
                     ipcRenderer: {
-                        type: Object,
-                        value: {}
+                        type: Object
                     },
                     configuarionCorreo: {
                         type: Object,
@@ -366,15 +404,8 @@
                 super.ready();
 
                 Polymer.RenderStatus.afterNextRender(this, function () {
-                    this.ipcRenderer = require('electron').ipcRenderer
 
-                    this.ipcRenderer.on("respuestaEnvioCorreo", function (e, arg) {
-                        if (arg) {
-                            this.set("mensaje", "Correo enviado")
-                        } else {
-                            this.set("mensaje", "Error al enviar mensaje")
-                        }
-                    }.bind(this))
+
                 });
             }
 
@@ -618,9 +649,21 @@
                         break;
                     default:
                 }
-                console.log(templateCorreo)
+
                 let idTemplate = this.ordenDeCompra.template
+
+                this.ipcRenderer = this.ipcRenderer || require('electron').ipcRenderer
+
                 this.ipcRenderer.send("enviarCorreo", templateCorreo)
+
+                this.ipcRenderer.on("respuestaEnvioCorreo", function (e, arg) {
+                    if (arg) {
+                        this.set("mensaje", "Correo enviado")
+                    } else {
+                        this.set("mensaje", "Error al enviar mensaje")
+                    }
+                }.bind(this))
+
             }
 
             fijaEstatus(e) {
@@ -629,6 +672,15 @@
             }
             estiloBoton(e, b) {
                 return e > this.ordenDeCompra.template
+            }
+
+            fijaLlave(e) {
+                this.set("mostrarOrden", !this.mostrarOrden)
+
+                if (this.mostrarOrden) {
+                    this.set("llaveOrden", undefined)
+                    this.set("llaveOrden", this.orden.$key)
+                }
             }
         }
 

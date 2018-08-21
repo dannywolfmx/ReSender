@@ -14,54 +14,20 @@
                 display: block
             }
 
-            #row {
-                padding: 24px;
-                margin: 20px 0px;
-                @apply --layout-horizontal;
-                @apply --layout-around-justified;
-                border-bottom: 2px solid var(--paper-grey-200)
-            }
-
-            .column {
-                font-size: var(--lumo-font-size-m);
-                padding: var(--lumo-space-xs) var(--lumo-space-m);
-                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                line-height: var(--lumo-line-height-s);
-                color: #212121;
-                font-weight: bold;
-            }
-
-            .c2 {
-                width: 15% !important;
-            }
-
-            .flexible {
-                @apply --layout-flex;
-            }
+            
 
             #grid {
                 padding: 24px;
             }
 
-            .estatus {
-                background: var(--paper-green-200);
-                color: white;
-                text-align: center;
-                padding: 12px;
-                border-radius: 30px;
-            }
         </style>
 
         <div id="grid">
 
             Mostrar Ordenes entregadas: <paper-toggle-button checked="{{mostrarOrdenes}}"></paper-toggle-button>
             <template is="dom-repeat" items="[[ordenes]]" initial-count="2" as="orden" sort="computeSort" filter="{{mostrarOrden(mostrarOrdenes)}}" observe="estatus">
-                <div id="row" on-click="fijaLlave">
-                    <div class="column flexible">[[orden.cliente]]</div>
-                    <div class="column c2">[[orden.ordenDeCompra]]</div>
-                    <div class="column c2">[[orden.factura]]</div>
-                    <div class="column c2 estatus">[[orden.estatus]]</div>
-                </div>
+                <orden-de-compra orden="{{orden}}" llave-orden={{llaveOrden}} id="ordenDeCompra" configuarion-correo="[[configuarionCorreo]]">    
+                </orden-de-compra>
             </template>
         </div>
 
@@ -135,10 +101,7 @@
                 }
                 return a.$key > b.$key ? -1 : 1;
             }
-            fijaLlave(e) {
-                this.set("llaveOrden", undefined)
-                this.set("llaveOrden", e.model.orden.$key)
-            }
+
 
             mostrarOrden(mostrarTodo) {
                 if (mostrarTodo) {

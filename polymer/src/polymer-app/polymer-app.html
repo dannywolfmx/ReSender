@@ -120,15 +120,7 @@
 
     </div>
 
-    <lista-ordenes ordenes="[[listaOrdenes]]" llave-orden={{llaveOrden}}></lista-ordenes>
-
-    <paper-dialog id="ordenDeCompraDialog">
-      <paper-dialog-scrollable>
-        <orden-de-compra llave-orden={{llaveOrden}} id="ordenDeCompra" configuarion-correo="[[configuarionCorreo]]">
-
-        </orden-de-compra>
-      </paper-dialog-scrollable>
-    </paper-dialog>
+    <lista-ordenes ordenes="[[listaOrdenes]]" llave-orden={{llaveOrden}} configuarion-correo=[[configuarionCorreo]]></lista-ordenes>
 
   </template>
   <script>
@@ -150,12 +142,6 @@
             type: Array,
             value: []
           },
-          llaveOrden: {
-            type: String,
-            value: "",
-            observer: "muestraItem",
-            notify: true
-          },
           orden: {
             type: Object,
             value: {}
@@ -174,17 +160,8 @@
             0: ""
           }
         })
-        this.$.ordenDeCompra.llaveOrden = a.getKey()
-        this.muestraItem()
       }
 
-      muestraItem() {
-        if (this.$.ordenDeCompra.llaveOrden) {
-          this.$.ordenDeCompraDialog.open()
-        } else {
-          this.$.ordenDeCompraDialog.close()
-        }
-      }
 
       clickLoggin() {
         console.log(this.$.auth)

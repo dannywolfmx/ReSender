@@ -140,7 +140,6 @@ function getDirectories(path) {
 
 
 ipcMain.on("enviarCorreo", function (event, templateCorreo) {
-
   let transporter = nodemailer.createTransport(templateCorreo.smtp)
   let localsTemplate = templateCorreo.send.locals
   let mailOptions = templateCorreo.send.message
