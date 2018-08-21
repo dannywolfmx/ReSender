@@ -1,0 +1,208 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/timeu-wizard/timeu-wizard.html">
+
+<link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-storage-multiupload.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-storage-upload-task.html">
+
+
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
+<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-text-field.html">
+<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-password-field.html">
+
+
+
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
+
+<link rel="import" href="../orden/lista-ordenes.html">
+<link rel="import" href="../orden/orden-de-compra.html">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+
+
+<dom-module id="polymer-app">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+      }
+
+      #configuracionCorreo {
+        padding: 24px;
+        border-radius: 12px;
+      }
+
+      .botonEliminar {
+        background: var(--paper-red-300);
+        border-radius: 50%;
+        position: absolute;
+        height: 48px;
+        width: 48px;
+        top: -24px;
+        right: -24px;
+        margin: 0;
+        margin: 0;
+        color: white;
+        @apply --shadow-elevation-4dp;
+      }
+
+      #ordenDeCompra {
+        max-width: 680px;
+      }
+    </style>
+
+    <div id="herramientas">
+
+      <paper-button on-tap="agregarNuevaOrdenDeCompra" raised>Agregar nueva orden</paper-button>
+
+      <paper-button on-tap="abrirConfiguracion" raised>Configuracion</paper-button>
+
+
+      <paper-button on-click="upload" raised>Subir archivo</paper-button>
+
+
+      <firebase-app name="bla" auth-domain="resender-b91e7.firebaseapp.com" database-url="https://resender-b91e7.firebaseio.com"
+        api-key="AIzaSyCtLZ9t6H1W7K2c39gYn5X08aj7bnvLhT4" storage-bucket="resender-b91e7.appspot.com" messaging-sender-id="311497558478">
+      </firebase-app>
+
+      <firebase-document app-name="bla" id="configuarionCorreoQuery" path="/configuarionCorreo" data="{{configuarionCorreo}}"></firebase-document>
+      <firebase-query app-name="bla" id="query" path="/ordenes" data="{{listaOrdenes}}" order-by-child="key"></firebase-query>
+
+      <firebase-storage-multiupload app-name="bla" id="fs" path="/users/files/prueba" files="[[fileArray]]" upload-tasks="{{uploadTasks}}">
+      </firebase-storage-multiupload>
+
+      <input id="fileUpload" type="file" multiple />
+      <br>
+
+
+      <template is="dom-repeat" items="[[uploadTasks]]">
+          {{item.downloadUrl}}
+        <firebase-storage-upload-task task="[[item]]" bytes-transferred="{{item.bytesTransferred}}" total-bytes="{{item.totalBytes}}"
+          state="{{item.state}}" download-url="{{item.downloadUrl}}" metadata="{{item.metadata}}" path="{{item.path}}"></firebase-storage-upload-task>
+      </template>
+
+
+
+
+      <paper-dialog id="configuracionCorreo">
+        <paper-icon-button class="botonEliminar botonMediano" icon="remove" dialog-dismiss></paper-icon-button>
+
+        <h2>Configuracion del correo</h2>
+
+        <paper-dialog-scrollable>
+          <vaadin-text-field label="Correo" value="{{configuarionCorreo.user}}"></vaadin-text-field>
+          <vaadin-text-field label="Host" value="{{configuarionCorreo.service}}">
+
+
+          </vaadin-text-field>
+          <vaadin-password-field label="Password" value="{{configuarionCorreo.pass}}" type="password"></vaadin-password-field>
+        </paper-dialog-scrollable>
+      </paper-dialog>
+
+    </div>
+
+    <lista-ordenes ordenes="[[listaOrdenes]]" llave-orden={{llaveOrden}}></lista-ordenes>
+
+    <paper-dialog id="ordenDeCompraDialog">
+      <paper-dialog-scrollable>
+        <orden-de-compra llave-orden={{llaveOrden}} id="ordenDeCompra" configuarion-correo="[[configuarionCorreo]]">
+
+        </orden-de-compra>
+      </paper-dialog-scrollable>
+    </paper-dialog>
+
+  </template>
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class PolymerApp extends Polymer.Element {
+      static get is() {
+        return 'polymer-app';
+      }
+
+      ready() {
+        super.ready()
+      }
+      static get properties() {
+        return {
+          listaOrdenes: {
+            type: Array,
+            value: []
+          },
+          llaveOrden: {
+            type: String,
+            value: "",
+            observer: "muestraItem",
+            notify: true
+          },
+          orden: {
+            type: Object,
+            value: {}
+          }
+        };
+      }
+
+      abrirConfiguracion() {
+        this.$.configuracionCorreo.open();
+      }
+
+      agregarNuevaOrdenDeCompra() {
+        let a = this.$.query.ref.push({
+          "ordenDeCompra": "",
+          "listaCorreos": {
+            0: ""
+          }
+        })
+        this.$.ordenDeCompra.llaveOrden = a.getKey()
+        this.muestraItem()
+      }
+
+      muestraItem() {
+        if (this.$.ordenDeCompra.llaveOrden) {
+          this.$.ordenDeCompraDialog.open()
+        } else {
+          this.$.ordenDeCompraDialog.close()
+        }
+      }
+
+      clickLoggin() {
+        console.log(this.$.auth)
+        this.$.auth.signInWithPopup()
+          .then(function (response) {
+            console.log(response)
+          })
+          .catch(function (error) {
+            console.log(error)
+          });
+      }
+
+      upload() {
+        this.$.fs.upload(this.$.fileUpload.files)
+      }
+
+    }
+
+    window.customElements.define(PolymerApp.is, PolymerApp);
+  </script>
+</dom-module>

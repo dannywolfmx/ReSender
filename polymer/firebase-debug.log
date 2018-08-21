@@ -1,0 +1,40 @@
+[debug] [2018-07-20T02:33:34.045Z] ----------------------------------------------------------------------
+[debug] [2018-07-20T02:33:34.051Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\daniel\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-07-20T02:33:34.052Z] CLI Version:   3.19.3
+[debug] [2018-07-20T02:33:34.052Z] Platform:      win32
+[debug] [2018-07-20T02:33:34.052Z] Node Version:  v8.9.4
+[debug] [2018-07-20T02:33:34.053Z] Time:          Thu Jul 19 2018 21:33:34 GMT-0500 (Hora de verano central (México))
+[debug] [2018-07-20T02:33:34.053Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-07-20T02:33:34.079Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-20T02:33:34.080Z] > authorizing via signed-in user
+[debug] [2018-07-20T02:33:34.084Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-07-20T02:33:34.084Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/vTyoF7PYEclBbkjbtcet4F9uO-cMpASXOxwpLU5PkAU',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Thu Jul 19 2018 21:33:34 GMT-0500 (Hora de verano central (México))
+[debug] [2018-07-20T02:33:34.421Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-20T02:33:34.458Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/resender-b91e7  
+  
+ Thu Jul 19 2018 21:33:34 GMT-0500 (Hora de verano central (México))
+[debug] [2018-07-20T02:33:34.980Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-20T02:33:34.981Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/resender-b91e7/tokens  
+  
+ Thu Jul 19 2018 21:33:34 GMT-0500 (Hora de verano central (México))
+[debug] [2018-07-20T02:33:35.425Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-20T02:33:35.426Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/resender-b91e7  
+  
+ Thu Jul 19 2018 21:33:35 GMT-0500 (Hora de verano central (México))
+[debug] [2018-07-20T02:33:35.852Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\daniel\programacion\ReSender\polymer'...
+[info] 
+[debug] [2018-07-20T02:33:35.862Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/311497558478/clients/_:getWebAppConfig  
+  
+ Thu Jul 19 2018 21:33:35 GMT-0500 (Hora de verano central (México))
+[debug] [2018-07-20T02:33:36.383Z] <<< HTTP RESPONSE 200
+[info] +  hosting: Local server: http://localhost:5000
+
