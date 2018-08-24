@@ -1,0 +1,75 @@
+<dom-module id="lista-compras">
+    <template>
+        <style>
+            :host {
+                display: block
+            }
+        </style>
+
+        <template is="dom-repeat" items="{{compras}}" as="compra">
+            <template is="dom-if" if="{{mostrarCompra(compra.completa)}}">
+                
+            </template>
+        </template>
+        
+
+    </template>
+
+    <script>
+        /**
+         * `lista-compras` Description
+         *
+         * @summary ShortDescription.
+         * @customElement
+         * @polymer
+         * @extends {Polymer.Element}
+         */
+        class ListaCompras extends Polymer.Element {
+            /**
+             * String providing the tag name to register the element under.
+             */
+            static get is() {
+                return 'lista-compras';
+            }
+
+            /**
+             * Object describing property-related metadata used by Polymer features
+             */
+            static get properties() {
+                return {
+                    compras:{
+                        type:Array
+                    }
+                };
+            }
+
+            /**
+             * Instance of the element is created/upgraded. Use: initializing state,
+             * set up event listeners, create shadow dom.
+             * @constructor
+             */
+            constructor() {
+                super();
+            }
+
+            /**
+             * Use for one-time configuration of your component after local DOM is initialized. 
+             */
+            ready() {
+                super.ready();
+
+                Polymer.RenderStatus.afterNextRender(this, function() {
+                    
+                });
+            }
+
+            mostrarCompra(compraCompleta,controlMostrar){
+                //Determinar si muestro o no el elemento
+                return true
+            }
+
+        }
+
+        window.customElements.define(ListaCompras.is, ListaCompras);
+    </script>
+</dom-module>

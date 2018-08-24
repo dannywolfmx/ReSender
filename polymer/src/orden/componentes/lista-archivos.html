@@ -1,0 +1,120 @@
+<dom-module id="lista-archivos">
+    <template>
+        <style>
+            :host {
+                display: block
+            }
+
+            .archivos {
+                @apply --layout-horizontal;
+                @apply --layout-around-justified;
+                @apply --layout-wrap;
+                padding: 26px;
+                background: var(--paper-grey-50);
+                border-top: 1px solid var(--paper-grey-200);
+                border-bottom: 1px solid var(--paper-grey-200);
+            }
+
+            .archivo {
+                height: 64px;
+                border-radius: 8px;
+                position: relative;
+                @apply --shadow-elevation-2dp;
+            }
+
+            .archivo {
+                background: white;
+                margin: 16px;
+                padding: 12px;
+                width: 100%;
+                word-break: break-all;
+                text-align: center;
+            }
+
+            .agregarArchivo {
+                background: var(--paper-blue-400);
+            }
+        </style>
+
+        <div id="listaArchivos">
+
+            <paper-button on-click="abrirCarpetaOC" raised>Abrir carpeta</paper-button>
+
+            <template is="dom-repeat" items="{{archivos}}" as="archivo">
+                <div class="archivo">
+                    [[archivo.nombre]]
+                    <paper-icon-button class="botonEliminar" icon="remove" on-tap="eliminarArchivoDB" data-item$="[[archivos]]"></paper-icon-button>
+                </div>
+            </template>
+
+            <paper-icon-button class="agregarArchivo boton" on-tap="agregarArchivo" icon="add"></paper-icon-button>
+        </div>
+
+    </template>
+
+    <script>
+        /**
+         * `lista-archivos` Description
+         *
+         * @summary ShortDescription.
+         * @customElement
+         * @polymer
+         * @extends {Polymer.Element}
+         */
+        class ListaArchivos extends Polymer.Element {
+            /**
+             * String providing the tag name to register the element under.
+             */
+            static get is() {
+                return 'lista-archivos';
+            }
+
+            /**
+             * Object describing property-related metadata used by Polymer features
+             */
+            static get properties() {
+                return {
+                    archivos: {
+                        type: Array,
+                        notify: true
+                    }
+                };
+            }
+
+            /**
+             * Instance of the element is created/upgraded. Use: initializing state,
+             * set up event listeners, create shadow dom.
+             * @constructor
+             */
+            constructor() {
+                super();
+            }
+
+            /**
+             * Use for one-time configuration of your component after local DOM is initialized. 
+             */
+            ready() {
+                super.ready();
+
+                Polymer.RenderStatus.afterNextRender(this, function () {
+
+                });
+            }
+
+
+            abrirCarpetaOC() {
+
+
+                this.ipcRenderer = this.ipcRenderer || require('electron').ipcRenderer
+                this.ipcRenderer.send("abreArchivo", this.archivos[0].ruta)
+            }
+
+
+            eliminarArchivoDB(e) {
+                this.splice("archivos", e.model.index, 1);
+            }
+        }
+
+        window.customElements.define(ListaArchivos.is, ListaArchivos);
+    </script>
+</dom-module>

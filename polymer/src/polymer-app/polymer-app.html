@@ -11,7 +11,6 @@
 <link rel="import" href="../../bower_components/timeu-wizard/timeu-wizard.html">
 
 <link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
-<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 
@@ -30,15 +29,22 @@
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 
 
-<link rel="import" href="../orden/lista-ordenes.html">
-<link rel="import" href="../orden/orden-de-compra.html">
-<link rel="import" href="../configuracion-correo/configuracion-correo.html">
-
-
 
 <link rel="import" href="../../bower_components/vaadin-tabs/vaadin-tabs.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+
+
+
+
+<!-- Customs elements -->
+
+<link rel="import" href="../orden/lista-ordenes.html">
+<link rel="import" href="../orden/orden-de-compra.html">
+
+<link rel="import" href="../lista-compras/lista-compras.html">
+
+<link rel="import" href="../configuracion-correo/configuracion-correo.html">
 
 <dom-module id="polymer-app">
   <template>
@@ -69,12 +75,13 @@
 
     <iron-pages selected="[[pagina]]">
       <section>
-
         <paper-fab on-tap="agregarNuevaOrdenDeCompra" icon="add"></paper-fab>
         <lista-ordenes ordenes="[[listaOrdenes]]" llave-orden={{llaveOrden}} configuarion-correo=[[configuarionCorreo]]></lista-ordenes>
       </section>
 
       <configuracion-correo configuarion-correo="{{configuarionCorreo}}"></configuracion-correo>
+
+      <lista-compras compras="[[compras]]"></lista-compras>
     </iron-pages>
 
   </template>
@@ -95,11 +102,11 @@
         return {
           listaOrdenes: {
             type: Array,
-            value: []
+            value: [],
+            observer:"generarCompras"
           },
-          orden: {
-            type: Object,
-            value: {}
+          compras:{
+            type:Array
           }
         };
       }
@@ -116,17 +123,13 @@
         })
       }
 
-
-      clickLoggin() {
-        console.log(this.$.auth)
-        this.$.auth.signInWithPopup()
-          .then(function (response) {
-            console.log(response)
-          })
-          .catch(function (error) {
-            console.log(error)
-          });
+      generarCompras(ordenes){
+        let compras = []
+        ordenes.map(orden =>{
+          console.log(orden.template)
+        })
       }
+
 
     }
 

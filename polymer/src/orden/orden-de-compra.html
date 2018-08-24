@@ -13,7 +13,13 @@
 <link rel="import" href="./componentes/lista-articulos.html">
 <link rel="import" href="./componentes/detalles-orden.html">
 <link rel="import" href="./componentes/lista-correos.html">
+<link rel="import" href="./componentes/lista-archivos.html">
+
+<!-- Custom components estilo -->
+
 <link rel="import" href="./estilo/estilo-botones.html">
+
+
 
 <dom-module id="orden-de-compra">
     <template>
@@ -99,35 +105,7 @@
                 --timeu-wizard-step-font-family: FontAwesome;
             }
 
-            .archivos {
-                @apply --layout-horizontal;
-                @apply --layout-around-justified;
-                @apply --layout-wrap;
-                padding: 26px;
-                background: var(--paper-grey-50);
-                border-top: 1px solid var(--paper-grey-200);
-                border-bottom: 1px solid var(--paper-grey-200);
-            }
 
-            .archivo {
-                height: 64px;
-                margin: 16px;
-                border-radius: 8px;
-                position: relative;
-                @apply --shadow-elevation-2dp;
-            }
-
-            .archivo {
-                background: white;
-                padding: 12px;
-                width: 200px;
-                word-break: break-all;
-                text-align: center;
-            }
-
-            .agregarArchivo {
-                background: var(--paper-blue-400);
-            }
 
 
             #fileInput {
@@ -249,6 +227,7 @@
                         <vaadin-tab>Datos orden</vaadin-tab>
                         <vaadin-tab>Lista articulos</vaadin-tab>
                         <vaadin-tab>Lista correos</vaadin-tab>
+                        <vaadin-tab>Lista archivos</vaadin-tab>
                         <vaadin-tab>Default</vaadin-tab>
                     </vaadin-tabs>
 
@@ -273,19 +252,19 @@
                                 <paper-icon-button class="botonEnviar boton" icon="send" on-tap="enviarCorreo"></paper-icon-button>
                             </vaadin-form-layout>
                         </section>
+
+
+                        <!-- Lista de articulos ligados a una orden de compra -->
                         <lista-articulos productos="{{ordenDeCompra.productos}}"></lista-articulos>
+
+
+                        <!-- Lista de correos ligados a una orden de compra -->
                         <lista-correos correos="{{ordenDeCompra.listaCorreos}}"></lista-correos>
 
-                        <div id="listaArchivos">
-                            <template is="dom-repeat" items="{{ordenDeCompra.listaArchivos}}" as="archivo">
-                                <div class="archivo">
-                                    [[archivo.nombre]]
-                                    <paper-icon-button class="botonEliminar" icon="remove" on-tap="eliminarArchivoDB" data-item$="[[ordenDeCompra.listaArchivos]]"></paper-icon-button>
-                                </div>
-                            </template>
 
-                            <paper-icon-button class="agregarArchivo boton" on-tap="agregarArchivo" icon="add"></paper-icon-button>
-                        </div>
+                        <!-- Lista de archivos ligados a una orden de compra -->
+                        <lista-archivos archivos="{{ordenDeCompra.listaArchivos}}"></lista-archivos>
+
                     </iron-pages>
 
 

@@ -2,7 +2,8 @@
 const {
   app,
   BrowserWindow,
-  ipcMain
+  ipcMain,
+  shell
 } = require('electron')
 const fs = require('fs');
 let nodemailer = require("nodemailer")
@@ -70,7 +71,12 @@ function createWindow() {
     }
   })
 
+  ipcMain.on("abreArchivo",function(event,ruta){
+    shell.showItemInFolder(app.getAppPath() +'\\'+ ruta)
+  })
+
 }
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
