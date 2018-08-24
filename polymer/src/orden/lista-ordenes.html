@@ -14,19 +14,26 @@
                 display: block
             }
 
-            
+
 
             #grid {
                 padding: 24px;
             }
 
+            .ordenDeCompra {
+                @apply --shadow-elevation-2dp;
+                max-width: 700px;
+                margin:0 auto;
+            }
         </style>
 
         <div id="grid">
 
-            Mostrar Ordenes entregadas: <paper-toggle-button checked="{{mostrarOrdenes}}"></paper-toggle-button>
-            <template is="dom-repeat" items="[[ordenes]]" initial-count="2" as="orden" sort="computeSort" filter="{{mostrarOrden(mostrarOrdenes)}}" observe="estatus">
-                <orden-de-compra orden="{{orden}}" llave-orden={{llaveOrden}} id="ordenDeCompra" configuarion-correo="[[configuarionCorreo]]">    
+            Mostrar Ordenes entregadas:
+            <paper-toggle-button checked="{{mostrarOrdenes}}"></paper-toggle-button>
+            <template is="dom-repeat" items="[[ordenes]]" initial-count="2" as="orden" sort="computeSort" filter="{{mostrarOrden(mostrarOrdenes)}}"
+                observe="estatus">
+                <orden-de-compra orden="{{orden}}" llave-orden={{llaveOrden}} class="ordenDeCompra" configuarion-correo="[[configuarionCorreo]]">
                 </orden-de-compra>
             </template>
         </div>
@@ -59,9 +66,9 @@
                     activeItem: {
                         observer: '_activeItemChanged'
                     },
-                    mostrarOrdenes:{
+                    mostrarOrdenes: {
                         type: Boolean,
-                        value:false
+                        value: false
                     }
                 };
             }
@@ -105,7 +112,7 @@
 
             mostrarOrden(mostrarTodo) {
                 if (mostrarTodo) {
-                    return function(orden){
+                    return function (orden) {
                         return true;
                     }
                 } else {

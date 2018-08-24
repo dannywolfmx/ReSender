@@ -14,8 +14,6 @@
 <link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
-<link rel="import" href="../../bower_components/polymerfire/firebase-storage-multiupload.html">
-<link rel="import" href="../../bower_components/polymerfire/firebase-storage-upload-task.html">
 
 
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
@@ -34,93 +32,50 @@
 
 <link rel="import" href="../orden/lista-ordenes.html">
 <link rel="import" href="../orden/orden-de-compra.html">
+<link rel="import" href="../configuracion-correo/configuracion-correo.html">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 
+<link rel="import" href="../../bower_components/vaadin-tabs/vaadin-tabs.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 
 <dom-module id="polymer-app">
   <template>
-    <style is="custom-style" include="iron-flex iron-flex-alignment">
+    <style is="custom-style">
       :host {
         display: block;
       }
 
-      #configuracionCorreo {
-        padding: 24px;
-        border-radius: 12px;
-      }
-
-      .botonEliminar {
-        background: var(--paper-red-300);
-        border-radius: 50%;
-        position: absolute;
-        height: 48px;
-        width: 48px;
-        top: -24px;
-        right: -24px;
-        margin: 0;
-        margin: 0;
-        color: white;
-        @apply --shadow-elevation-4dp;
-      }
-
-      #ordenDeCompra {
-        max-width: 680px;
+      paper-fab {
+        position: fixed;
+        right: 25px;
+        bottom: 30px;
       }
     </style>
 
-    <div id="herramientas">
+    <firebase-app name="bla" auth-domain="resender-b91e7.firebaseapp.com" database-url="https://resender-b91e7.firebaseio.com"
+      api-key="AIzaSyCtLZ9t6H1W7K2c39gYn5X08aj7bnvLhT4" storage-bucket="resender-b91e7.appspot.com" messaging-sender-id="311497558478">
+    </firebase-app>
 
-      <paper-button on-tap="agregarNuevaOrdenDeCompra" raised>Agregar nueva orden</paper-button>
-
-      <paper-button on-tap="abrirConfiguracion" raised>Configuracion</paper-button>
-
-
-      <paper-button on-click="upload" raised>Subir archivo</paper-button>
+    <firebase-document app-name="bla" id="configuarionCorreoQuery" path="/configuarionCorreo" data="{{configuarionCorreo}}"></firebase-document>
+    <firebase-query app-name="bla" id="query" path="/ordenes" data="{{listaOrdenes}}" order-by-child="key"></firebase-query>
 
 
-      <firebase-app name="bla" auth-domain="resender-b91e7.firebaseapp.com" database-url="https://resender-b91e7.firebaseio.com"
-        api-key="AIzaSyCtLZ9t6H1W7K2c39gYn5X08aj7bnvLhT4" storage-bucket="resender-b91e7.appspot.com" messaging-sender-id="311497558478">
-      </firebase-app>
+    <vaadin-tabs selected="{{pagina}}">
+      <vaadin-tab>Lista de ordenes</vaadin-tab>
+      <vaadin-tab>Configuracion</vaadin-tab>
+    </vaadin-tabs>
 
-      <firebase-document app-name="bla" id="configuarionCorreoQuery" path="/configuarionCorreo" data="{{configuarionCorreo}}"></firebase-document>
-      <firebase-query app-name="bla" id="query" path="/ordenes" data="{{listaOrdenes}}" order-by-child="key"></firebase-query>
+    <iron-pages selected="[[pagina]]">
+      <section>
 
-      <firebase-storage-multiupload app-name="bla" id="fs" path="/users/files/prueba" files="[[fileArray]]" upload-tasks="{{uploadTasks}}">
-      </firebase-storage-multiupload>
+        <paper-fab on-tap="agregarNuevaOrdenDeCompra" icon="add"></paper-fab>
+        <lista-ordenes ordenes="[[listaOrdenes]]" llave-orden={{llaveOrden}} configuarion-correo=[[configuarionCorreo]]></lista-ordenes>
+      </section>
 
-      <input id="fileUpload" type="file" multiple />
-      <br>
-
-
-      <template is="dom-repeat" items="[[uploadTasks]]">
-          {{item.downloadUrl}}
-        <firebase-storage-upload-task task="[[item]]" bytes-transferred="{{item.bytesTransferred}}" total-bytes="{{item.totalBytes}}"
-          state="{{item.state}}" download-url="{{item.downloadUrl}}" metadata="{{item.metadata}}" path="{{item.path}}"></firebase-storage-upload-task>
-      </template>
-
-
-
-
-      <paper-dialog id="configuracionCorreo">
-        <paper-icon-button class="botonEliminar botonMediano" icon="remove" dialog-dismiss></paper-icon-button>
-
-        <h2>Configuracion del correo</h2>
-
-        <paper-dialog-scrollable>
-          <vaadin-text-field label="Correo" value="{{configuarionCorreo.user}}"></vaadin-text-field>
-          <vaadin-text-field label="Host" value="{{configuarionCorreo.service}}">
-
-
-          </vaadin-text-field>
-          <vaadin-password-field label="Password" value="{{configuarionCorreo.pass}}" type="password"></vaadin-password-field>
-        </paper-dialog-scrollable>
-      </paper-dialog>
-
-    </div>
-
-    <lista-ordenes ordenes="[[listaOrdenes]]" llave-orden={{llaveOrden}} configuarion-correo=[[configuarionCorreo]]></lista-ordenes>
+      <configuracion-correo configuarion-correo="{{configuarionCorreo}}"></configuracion-correo>
+    </iron-pages>
 
   </template>
   <script>
@@ -149,14 +104,13 @@
         };
       }
 
-      abrirConfiguracion() {
-        this.$.configuracionCorreo.open();
-      }
-
       agregarNuevaOrdenDeCompra() {
         let a = this.$.query.ref.push({
           "ordenDeCompra": "",
           "listaCorreos": {
+            0: ""
+          },
+          "productos": {
             0: ""
           }
         })
@@ -172,10 +126,6 @@
           .catch(function (error) {
             console.log(error)
           });
-      }
-
-      upload() {
-        this.$.fs.upload(this.$.fileUpload.files)
       }
 
     }

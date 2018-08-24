@@ -4,10 +4,20 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/vaadin-tabs/vaadin-tabs.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
+
+<!-- Custom componnets -->
+
+<link rel="import" href="./componentes/lista-articulos.html">
+<link rel="import" href="./componentes/detalles-orden.html">
+<link rel="import" href="./componentes/lista-correos.html">
+<link rel="import" href="./estilo/estilo-botones.html">
 
 <dom-module id="orden-de-compra">
     <template>
-        <style>
+        <style include="estilo-botones">
             :host {
                 display: block
             }
@@ -23,19 +33,6 @@
                 display: inline-block;
             }
 
-            .cabecera>* {
-                margin-left: 16px;
-            }
-
-            .cabecera {
-                @apply --layout-horizontal;
-                @apply --layout-center;
-                color: #55564F;
-                padding-top: 10px;
-                padding-bottom: 10px;
-                margin: 0px;
-                font-family: sans-serif;
-            }
 
             .listaCorreos {
                 margin-top: 38px;
@@ -60,24 +57,6 @@
 
             .barraEstatus:last-of-type {
                 display: none !important;
-            }
-
-            .botonEstatus {
-                border-radius: 36px;
-                width: 96px;
-                height: 56px;
-                background: white;
-                color: var(--paper-blue-600);
-                transition: color 1s ease;
-                @apply --shadow-elevation-2dp;
-            }
-
-            .botonEstatus[pendiente] {
-                color: var(--paper-grey-500) !important;
-            }
-
-            .barraEstatus[pendiente] {
-                background: var(--paper-grey-400) !important;
             }
 
             .barraEstatus {
@@ -105,18 +84,6 @@
                 --paper-input-container: {
                     padding: 0px;
                 }
-            }
-
-            .botonAgregar {
-                color: white;
-            }
-
-            .botonAgregar {
-                background: var(--paper-blue-300);
-            }
-
-            .botonRemover {
-                color: var(--paper-red-300);
             }
 
             .seccionFormulario,
@@ -162,24 +129,6 @@
                 background: var(--paper-blue-400);
             }
 
-            .boton {
-                color: white;
-                height: 48px !important;
-                width: 48px !important;
-                position: absolute;
-                top: 0;
-                right: 0;
-                @apply --shadow-elevation-4dp;
-            }
-
-            .botonEliminar {
-                background: var(--paper-red-300);
-            }
-
-            .botonEnviar {
-                background: var(--paper-blue-300);
-            }
-
 
             #fileInput {
                 display: none;
@@ -208,11 +157,18 @@
             }
 
             #row {
-                padding: 24px;
                 margin: 20px 0px;
+            }
+
+            #datosRow {
+                @apply --layout-horizontal;
+            }
+
+            .elementosTabla {
+                padding: 24px;
+                width: 100%;
                 @apply --layout-horizontal;
                 @apply --layout-around-justified;
-                border-bottom: 2px solid var(--paper-grey-200)
             }
 
             .column {
@@ -233,72 +189,110 @@
             }
 
             .estatus {
-                background: var(--paper-green-200);
-                color: white;
+                background: var(--paper-blue-600);
+                color: var(--paper-grey-200);
                 text-align: center;
                 padding: 12px;
-                border-radius: 30px;
+            }
+
+
+            .botonEstatus {
+                border-radius: 36px;
+                width: 96px;
+                height: 56px;
+                background: white;
+                color: var(--paper-blue-600);
+                transition: color 1s ease;
+                @apply --shadow-elevation-2dp;
+            }
+
+            .botonEstatus[pendiente] {
+                color: var(--paper-grey-500) !important;
+            }
+
+            .barraEstatus[pendiente] {
+                background: var(--paper-grey-400) !important;
+            }
+
+            #ordenCaja {
+                max-width: 700px;
+                margin: 0 auto;
+                @apply --shadow-elevation-2dp;
+                max-height: 0;
+                transition: max-height 0.15s ease-out;
+                overflow: auto;
+            }
+
+            #ordenCaja[mostrar] {
+                max-height: 500px !important;
+                transition: max-height 0.25s ease-in;
             }
         </style>
 
         <firebase-document id="query" app-name="bla" path="/ordenes/[[llaveOrden]]" data="{{ordenDeCompra}}">
         </firebase-document>
-        <div id="row" on-click="fijaLlave">
-            <div class="column flexible">[[orden.cliente]]</div>
-            <div class="column c2">[[orden.ordenDeCompra]]</div>
-            <div class="column c2">[[orden.factura]]</div>
-            <div class="column c2 estatus">[[orden.estatus]]</div>
-        </div>
-
-        <template is="dom-if" if="{{mostrarOrden}}">
-            <div id="ordenCaja" on-drop="guardarArchivoDrag">
-                <vaadin-form-layout>
-                    <vaadin-text-field label="Orden de compra" value="{{ordenDeCompra.ordenDeCompra}}"></vaadin-text-field>
-                    <vaadin-text-field label="Factura" value="{{ordenDeCompra.factura}}"></vaadin-text-field>
-                    <vaadin-text-field colspan="2" label="Nombre cliente" value="{{ordenDeCompra.cliente}}"></vaadin-text-field>
-                    <paper-icon-button class="botonEliminar boton" icon="remove" on-tap="eliminarOrdenDeCompra"></paper-icon-button>
-                </vaadin-form-layout>
-
-                <vaadin-form-layout>
-                    <template is="dom-repeat" items="{{ordenDeCompra.listaCorreos}}" as="correo">
-                        <vaadin-text-field label="Direccion de correo" value="{{correo}}">
-                            <paper-icon-button slot="suffix" class="botonRemover" icon="remove" on-tap="eliminarCorreo"></paper-icon-button>
-                        </vaadin-text-field>
-                    </template>
-                    <paper-icon-button class="botonAgregar boton" icon="add" on-tap="agregarCorreo"></paper-icon-button>
-                </vaadin-form-layout>
-
-                <div id="status">
-                    <template is="dom-repeat" items="[[listaTemplatesCorreos]]">
-                        <paper-icon-button icon="[[item.icon]]" on-click="fijaEstatus" class="botonEstatus" pendiente$="[[estiloBoton(index,ordenDeCompra.template)]]"></paper-icon-button>
-                        <div class="barraEstatus" pendiente$="[[estiloBoton(index,ordenDeCompra.template)]]"></div>
-                    </template>
+        <div id="row">
+            <div id="datosRow"  on-click="mostrarDetalles">
+                <div class="elementosTabla">
+                    <div class="column flexible">[[orden.cliente]]</div>
+                    <div class="column c2">[[orden.ordenDeCompra]]</div>
+                    <div class="column c2">[[orden.factura]]</div>
                 </div>
-                <div>
-                    <vaadin-date-picker label="fecha de envio" placeholder="Placeholder" value="{{ordenDeCompra.fechaEnvio}}">
-                    </vaadin-date-picker>
-                </div>
-
-                <div id="listaArchivos">
-                    <template is="dom-repeat" items="{{ordenDeCompra.listaArchivos}}" as="archivo">
-                        <div class="archivo">
-                            [[archivo.nombre]]
-                            <paper-icon-button class="botonEliminar" icon="remove" on-tap="eliminarArchivoDB" data-item$="[[ordenDeCompra.listaArchivos]]"></paper-icon-button>
-                        </div>
-                    </template>
-
-                    <paper-icon-button class="agregarArchivo boton" on-tap="agregarArchivo" icon="add"></paper-icon-button>
-                </div>
-
-                <vaadin-form-layout>
-
-                    [[mensaje]]
-                    <paper-icon-button class="botonEnviar boton" icon="send" on-tap="enviarCorreo"></paper-icon-button>
-                </vaadin-form-layout>
-
+                <div class="column c2 estatus">[[orden.estatus]]</div>
             </div>
-            <input type="file" id="fileInput" multiple>
-        </template>
+
+
+            <template is="dom-if" if="{{mostrarOrden}}">
+
+                <div id="ordenCaja" on-drop="guardarArchivoDrag" mostrar$="[[mostrarOrdenAnimacion]]">
+                    <vaadin-tabs selected="{{pagina}}">
+                        <vaadin-tab>Datos orden</vaadin-tab>
+                        <vaadin-tab>Lista articulos</vaadin-tab>
+                        <vaadin-tab>Lista correos</vaadin-tab>
+                        <vaadin-tab>Default</vaadin-tab>
+                    </vaadin-tabs>
+
+                    <iron-pages selected="[[pagina]]">
+                        <section>
+                            <detalles-orden orden-de-compra="{{ordenDeCompra}}">
+                                <paper-icon-button class="botonEliminar boton" icon="remove" on-tap="eliminarOrdenDeCompra"></paper-icon-button>
+                            </detalles-orden>
+
+                            <div id="status">
+                                <template is="dom-repeat" items="[[listaTemplatesCorreos]]">
+                                    <paper-icon-button icon="[[item.icon]]" on-click="fijaEstatus" class="botonEstatus" pendiente$="[[estiloBoton(index,ordenDeCompra.template)]]"></paper-icon-button>
+                                    <div class="barraEstatus" pendiente$="[[estiloBoton(index,ordenDeCompra.template)]]"></div>
+                                </template>
+                            </div>
+
+                            <vaadin-form-layout>
+                                <vaadin-date-picker label="fecha de envio" placeholder="Placeholder" value="{{ordenDeCompra.fechaEnvio}}">
+                                </vaadin-date-picker>
+
+                                [[mensaje]]
+                                <paper-icon-button class="botonEnviar boton" icon="send" on-tap="enviarCorreo"></paper-icon-button>
+                            </vaadin-form-layout>
+                        </section>
+                        <lista-articulos productos="{{ordenDeCompra.productos}}"></lista-articulos>
+                        <lista-correos correos="{{ordenDeCompra.listaCorreos}}"></lista-correos>
+
+                        <div id="listaArchivos">
+                            <template is="dom-repeat" items="{{ordenDeCompra.listaArchivos}}" as="archivo">
+                                <div class="archivo">
+                                    [[archivo.nombre]]
+                                    <paper-icon-button class="botonEliminar" icon="remove" on-tap="eliminarArchivoDB" data-item$="[[ordenDeCompra.listaArchivos]]"></paper-icon-button>
+                                </div>
+                            </template>
+
+                            <paper-icon-button class="agregarArchivo boton" on-tap="agregarArchivo" icon="add"></paper-icon-button>
+                        </div>
+                    </iron-pages>
+
+
+                </div>
+                <input type="file" id="fileInput" multiple>
+            </template>
+        </div>
     </template>
 
     <script>
@@ -324,6 +318,10 @@
             static get properties() {
                 return {
                     mostrarOrden: {
+                        type: Boolean,
+                        value: false
+                    },
+                    mostrarOrdenAnimacion: {
                         type: Boolean,
                         value: false
                     },
@@ -413,23 +411,30 @@
                 return index !== (this.ordenDeCompra.listaCorreos.length - 1)
             }
 
-            agregarCorreo(e) {
-                let query = `ordenDeCompra.listaCorreos`
-                this.agregarElmementoArray(query)
+
+
+            agregarProducto() {
+                if (!this.ordenDeCompra.productos) {
+                    this.set("ordenDeCompra.productos", {
+                        0: {
+                            nombre: "",
+                            proveedor: ""
+                        }
+                    })
+                } else {
+                    let query = `ordenDeCompra.productos`
+                    this.agregarElmementoArray(query, {
+                        nombre: "",
+                        proveedor: ""
+                    })
+                }
             }
 
-            eliminarCorreo(e) {
-                let query = `ordenDeCompra.listaCorreos`
-                this.eliminarElementoArray(query, e.model.index)
-            }
+
+
             eliminarElementoArray(arrayOriginal, indice) {
                 //Eliminar el indice indicado
                 this.splice(arrayOriginal, indice, 1);
-            }
-
-            agregarElmementoArray(arrayOriginal) {
-                //Agregar elemento vacio en la lista
-                this.push(arrayOriginal, "")
             }
 
             agregarArchivo(e) {
@@ -674,13 +679,36 @@
                 return e > this.ordenDeCompra.template
             }
 
-            fijaLlave(e) {
-                this.set("mostrarOrden", !this.mostrarOrden)
+            mostrarDetalles(e) {
+                if (this.mostrarOrden) {
+                    //Ocultar orden cuando este ya se este mostrando
+                    this.ocultarOrdenFunc()
+                } else {
+                    //Mostrar orden cuando esta no se este mostrando
+                    this.mostrarOrdenFunc()
+                }
+
 
                 if (this.mostrarOrden) {
                     this.set("llaveOrden", undefined)
                     this.set("llaveOrden", this.orden.$key)
                 }
+            }
+
+            mostrarOrdenFunc() {
+                this.set("mostrarOrden", true)
+
+
+                setTimeout(() => {
+                    this.set("mostrarOrdenAnimacion", true)
+                }, 1)
+            }
+
+            ocultarOrdenFunc() {
+                this.set("mostrarOrdenAnimacion", false)
+                setTimeout(() => {
+                    this.set("mostrarOrden", false)
+                }, 250)
             }
         }
 

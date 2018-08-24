@@ -1,0 +1,94 @@
+<link rel="import" href="../estilo/estilo-formulario.html">
+<link rel="import" href="../estilo/estilo-botones.html">
+
+<dom-module id="lista-correos">
+    <template>
+        <style include="estilo-formulario estilo-botones">
+            :host {
+                display: block
+            }
+            vaadin-text-field{
+                width: 44%;
+                margin: 10px;
+            }
+        </style>
+        <h1>Correos</h1>
+        <div class="formulario">
+            <template is="dom-repeat" items="{{correos}}" as="correo">
+                <vaadin-text-field label="Direccion de correo" value="{{correo}}">
+                    <paper-icon-button slot="suffix" class="botonRemover" icon="remove" on-tap="eliminarCorreo"></paper-icon-button>
+                </vaadin-text-field>
+            </template>
+            <paper-icon-button class="botonAgregar boton" icon="add" on-tap="agregarCorreo"></paper-icon-button>
+        </div>
+
+
+    </template>
+
+    <script>
+        /**
+         * `lista-correos` Description
+         *
+         * @summary ShortDescription.
+         * @customElement
+         * @polymer
+         * @extends {Polymer.Element}
+         */
+        class ListaCorreos extends Polymer.Element {
+            /**
+             * String providing the tag name to register the element under.
+             */
+            static get is() {
+                return 'lista-correos';
+            }
+
+            /**
+             * Object describing property-related metadata used by Polymer features
+             */
+            static get properties() {
+                return {
+                    correos: {
+                        type: Array
+                    }
+                };
+            }
+
+            /**
+             * Instance of the element is created/upgraded. Use: initializing state,
+             * set up event listeners, create shadow dom.
+             * @constructor
+             */
+            constructor() {
+                super();
+            }
+
+            /**
+             * Use for one-time configuration of your component after local DOM is initialized. 
+             */
+            ready() {
+                super.ready();
+
+                Polymer.RenderStatus.afterNextRender(this, function () {
+
+                });
+            }
+
+            agregarCorreo() {
+                if (this.correos) {
+                    this.push("correos", "")
+                } else {
+                    this.set("correos", {
+                        0: ""
+                    })
+                }
+            }
+
+            eliminarCorreo(e) {
+                this.splice("correos", e.model.index, 1);
+            }
+
+        }
+
+        window.customElements.define(ListaCorreos.is, ListaCorreos);
+    </script>
+</dom-module>
