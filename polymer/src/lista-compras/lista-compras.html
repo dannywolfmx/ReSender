@@ -6,10 +6,13 @@
             }
         </style>
 
-        <template is="dom-repeat" items="{{compras}}" as="compra">
-            <template is="dom-if" if="{{mostrarCompra(compra.completa)}}">
-                
-            </template>
+        <template is="dom-repeat" items="[[compras]]" as="compra">
+               <h1>[[compra.nombre]]</h1>
+               <ul>
+                   <template is="dom-repeat" items="{{compra.articulos}}" as="articulo">
+                        <li>({{articulo.cantidad}})    {{articulo.nombre}}</li>
+                   </template>
+               </ul>
         </template>
         
 
