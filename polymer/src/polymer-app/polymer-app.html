@@ -37,13 +37,13 @@
 
 
 
+
 <!-- Customs elements -->
 
 <link rel="import" href="../orden/lista-ordenes.html">
 <link rel="import" href="../orden/orden-de-compra.html">
-
+<link rel="import" href="../orden/detalle-orden-compra.html">
 <link rel="import" href="../lista-compras/lista-compras.html">
-
 <link rel="import" href="../configuracion-correo/configuracion-correo.html">
 
 <dom-module id="polymer-app">
@@ -53,10 +53,43 @@
         display: block;
       }
 
+
+
       paper-fab {
         position: fixed;
         right: 25px;
         bottom: 30px;
+      }
+
+      #panelDetalleOrden {
+        width: 50%;
+        overflow: auto;
+        max-height: calc(100vh - 44px);
+      }
+
+      #listaOrdenes {
+        width: 50%;
+        overflow: overlay;
+        max-height: calc(100vh - 44px);
+      }
+
+
+
+      #paginaListaOrdenes {
+        @apply --layout-horizontal;
+        @apply --layout-around-justified;
+        @apply --layout-wrap;
+        height: 100%;
+      }
+
+      #contenedor {
+        @apply --layout-vertical;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      #pagina {
+        @apply --layout-flex;
       }
     </style>
 
@@ -67,24 +100,32 @@
     <firebase-document app-name="bla" id="configuarionCorreoQuery" path="/configuarionCorreo" data="{{configuarionCorreo}}"></firebase-document>
     <firebase-query app-name="bla" id="query" path="/ordenes" data="{{listaOrdenes}}" order-by-child="key"></firebase-query>
 
+    <div id="contenedor">
 
-    <vaadin-tabs selected="{{pagina}}">
-      <vaadin-tab>Lista de ordenes</vaadin-tab>
-      <vaadin-tab>Lista de compras ( {{cantidadCompras}} )</vaadin-tab>
-      <vaadin-tab>Configuracion</vaadin-tab>
-    </vaadin-tabs>
+      <vaadin-tabs selected="{{pagina}}">
+        <vaadin-tab>Lista de ordenes</vaadin-tab>
+        <vaadin-tab>Lista de compras ( {{cantidadCompras}} )</vaadin-tab>
+        <vaadin-tab>CVA</vaadin-tab>
+        <vaadin-tab>Configuracion</vaadin-tab>
+      </vaadin-tabs>
 
-    <iron-pages selected="[[pagina]]">
-      <section>
-        <paper-fab on-tap="agregarNuevaOrdenDeCompra" icon="add"></paper-fab>
-        <lista-ordenes ordenes="[[listaOrdenes]]" llave-orden={{llaveOrden}} configuarion-correo=[[configuarionCorreo]]></lista-ordenes>
-      </section>
-      <lista-compras compras="[[compras]]"></lista-compras>
+      <iron-pages selected="[[pagina]]" id="pagina">
+        <section id="paginaListaOrdenes">
+          <paper-fab on-tap="agregarNuevaOrdenDeCompra" icon="add"></paper-fab>
+          <lista-ordenes id="listaOrdenes" ordenes="[[listaOrdenes]]" llave-orden={{llaveOrden}}></lista-ordenes>
 
-      <configuracion-correo configuarion-correo="{{configuarionCorreo}}"></configuracion-correo>
+          <detalle-orden-compra id="panelDetalleOrden" llave-orden={{llaveOrden}} configuarion-correo=[[configuarionCorreo]]></detalle-orden-compra>
 
-    </iron-pages>
+        </section>
+        <lista-compras compras="[[compras]]"></lista-compras>
+        <section>
+          <iframe src="https://www.grupocva.com/catalogo_clientes_xml/lista_precios.xml?cliente=18848&marca=%25&grupo=%25&clave=%25&codigo=H110MHC"
+            frameborder="0"></iframe>
+        </section>
+        <configuracion-correo configuarion-correo="{{configuarionCorreo}}"></configuracion-correo>
 
+      </iron-pages>
+    </div>
   </template>
   <script>
     /**
@@ -145,9 +186,10 @@
           if (orden.productos) {
             orden.productos.map(producto => {
               //Verificar que producto sea un objeto
-              if(!(typeof producto == 'object')) return -1
+              if (!(typeof producto == 'object')) return -1
               //Verificamos que este producto tenga un proveedor
-              if (!producto.proveedor || producto.proveedor.length < 0) producto.proveedor = "Proveedor sin definir"
+              if (!producto.proveedor || producto.proveedor.length < 0) producto.proveedor =
+                "Proveedor sin definir"
 
               //Verifica si el proveedor ya esta en la lista
               let posicion = compras.findIndex(x => x.nombre === producto.proveedor)

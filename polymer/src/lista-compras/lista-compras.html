@@ -4,17 +4,22 @@
             :host {
                 display: block
             }
+
+            h1 {
+                font-family: Roboto;
+                margin-left: 24px;
+            }
         </style>
 
         <template is="dom-repeat" items="[[compras]]" as="compra">
-               <h1>[[compra.nombre]]</h1>
-               <ul>
-                   <template is="dom-repeat" items="{{compra.articulos}}" as="articulo">
-                        <li>({{articulo.cantidad}})    {{articulo.nombre}}</li>
-                   </template>
-               </ul>
+            <h1>[[compra.nombre]]</h1>
+            <ul>
+                <template is="dom-repeat" items="{{compra.articulos}}" as="articulo">
+                    <li>({{articulo.cantidad}}) {{articulo.nombre}}</li>
+                </template>
+            </ul>
         </template>
-        
+
 
     </template>
 
@@ -40,8 +45,8 @@
              */
             static get properties() {
                 return {
-                    compras:{
-                        type:Array
+                    compras: {
+                        type: Array
                     }
                 };
             }
@@ -61,12 +66,12 @@
             ready() {
                 super.ready();
 
-                Polymer.RenderStatus.afterNextRender(this, function() {
-                    
+                Polymer.RenderStatus.afterNextRender(this, function () {
+
                 });
             }
 
-            mostrarCompra(compraCompleta,controlMostrar){
+            mostrarCompra(compraCompleta, controlMostrar) {
                 //Determinar si muestro o no el elemento
                 return true
             }
