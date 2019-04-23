@@ -1,0 +1,192 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/timeu-wizard/timeu-wizard.html">
+
+<link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
+
+
+
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
+<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-text-field.html">
+<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-password-field.html">
+
+
+
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
+
+
+<link rel="import" href="../../bower_components/vaadin-tabs/vaadin-tabs.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+
+
+
+
+
+<!-- Customs elements -->
+
+<link rel="import" href="../orden/lista-ordenes.html">
+<link rel="import" href="../orden/orden-de-compra.html">
+<link rel="import" href="../orden/detalle-orden-compra.html">
+<link rel="import" href="../lista-compras/panel-compras.html">
+<link rel="import" href="../configuracion-correo/configuracion-correo.html">
+
+<dom-module id="polymer-app">
+  <template>
+    <style is="custom-style">
+      :host {
+        display: block;
+      }
+
+
+
+      paper-fab {
+        position: fixed;
+        right: 25px;
+        bottom: 30px;
+      }
+
+      #panelDetalleOrden {
+        width: 50%;
+        overflow: auto;
+        max-height: calc(100vh - 44px);
+      }
+
+      #listaOrdenes {
+        width: 50%;
+        overflow: overlay;
+        max-height: calc(100vh - 44px);
+      }
+
+
+
+      #paginaListaOrdenes {
+        @apply --layout-horizontal;
+        @apply --layout-around-justified;
+        @apply --layout-wrap;
+        height: 100%;
+      }
+
+      #contenedor {
+        @apply --layout-vertical;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      #pagina {
+        @apply --layout-flex;
+      }
+    </style>
+
+    <firebase-app name="bla" auth-domain="resender-b91e7.firebaseapp.com" database-url="https://resender-b91e7.firebaseio.com"
+      api-key="AIzaSyCtLZ9t6H1W7K2c39gYn5X08aj7bnvLhT4" storage-bucket="resender-b91e7.appspot.com" messaging-sender-id="311497558478">
+    </firebase-app>
+
+    <firebase-auth app-name="bla" id="auth" user="{{user}}" on-error="handleError">
+    </firebase-auth>
+
+
+    <firebase-document app-name="bla" id="configuarionCorreoQuery" path="/configuarionCorreo" data="{{configuarionCorreo}}"></firebase-document>
+    <firebase-query app-name="bla" id="query" path="/ordenes" data="{{listaOrdenes}}" order-by-child="key"></firebase-query>
+
+    <div id="contenedor">
+
+      <vaadin-tabs selected="{{pagina}}">
+        <vaadin-tab>Lista de ordenes</vaadin-tab>
+        <vaadin-tab>Lista de compras ( {{cantidadCompras}} )</vaadin-tab>
+        <vaadin-tab>CVA</vaadin-tab>
+        <vaadin-tab>Configuracion</vaadin-tab>
+      </vaadin-tabs>
+
+      <iron-pages selected="[[pagina]]" id="pagina">
+        <section id="paginaListaOrdenes">
+          <paper-fab on-tap="agregarNuevaOrdenDeCompra" icon="add"></paper-fab>
+          <lista-ordenes id="listaOrdenes" ordenes="[[listaOrdenes]]" llave-orden={{llaveOrden}}></lista-ordenes>
+
+          <detalle-orden-compra id="panelDetalleOrden" llave-orden={{llaveOrden}} configuarion-correo=[[configuarionCorreo]]></detalle-orden-compra>
+
+        </section>
+        <panel-compras compras="[[compras]]"></panel-compras>
+        <section>
+          <!--           <iframe src="https://www.grupocva.com/catalogo_clientes_xml/lista_precios.xml?cliente=18848&marca=%25&grupo=%25&clave=%25&codigo=H110MHC"
+            frameborder="0"></iframe> -->
+        </section>
+        <configuracion-correo configuarion-correo="{{configuarionCorreo}}"></configuracion-correo>
+
+      </iron-pages>
+    </div>
+  </template>
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class PolymerApp extends Polymer.Element {
+      static get is() {
+        return 'polymer-app';
+      }
+
+      ready() {
+        super.ready()
+      }
+      static get properties() {
+        return {
+          listaOrdenes: {
+            type: Array,
+            value: [],
+            observer: "generarCompras"
+          },
+          compras: {
+            type: Array
+          },
+          cantidadCompras: {
+            type: Number,
+            value: 0
+          }
+        };
+      }
+
+      agregarNuevaOrdenDeCompra() {
+        let a = this.$.query.ref.push({
+          "ordenDeCompra": "",
+          "listaCorreos": {
+            0: ""
+          },
+          "productos": {
+            0: ""
+          }
+        })
+      }
+      constructor() {
+        super();
+
+      }
+      ready() {
+        super.ready()
+
+      }
+      generarCompras(ordenes) {
+        console.log(ordenes)
+      }
+    }
+
+    window.customElements.define(PolymerApp.is, PolymerApp);
+  </script>
+</dom-module>

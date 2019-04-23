@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd" xmlns:cfdi="http://www.sat.gob.mx/cfd/3" Version="3.3" Serie="FAC" Folio="3473" Fecha="2018-09-10T15:37:01" Sello="nS0Qv/HekCd1bBRlRPfYSeXGco5b6rV3LQnhFmnQ0cRSf0qSuduwCE83Z+SbsWJfD7oD5eIRo4oyFvF2crSYltxdGAwptYoMO8yq+0HXILL2zYsbSCyiynto6QyrUD4qFKhn5fYwh0u1ANA0jp0JefkNKOyEg9ad8XMtXG5qoVuQOBBnigWMztZhUe9YIhn6JSa7ECE3pVZYm2qZBV75x+BqWCiBqCwqGuSqMMsB+2LlNlaQPhgXEOb500Fg/O9wJfGrpNjY87fkL1Xg0S/BZXv5JQwNl10aXBHdQXLJARcLrN7A8HsBixijlmLGDiKvlLilQdLQY+EC0v/bXlEP0g==" FormaPago="99" NoCertificado="00001000000408401785" Certificado="MIIGKjCCBBKgAwIBAgIUMDAwMDEwMDAwMDA0MDg0MDE3ODUwDQYJKoZIhvcNAQELBQAwggGyMTgwNgYDVQQDDC9BLkMuIGRlbCBTZXJ2aWNpbyBkZSBBZG1pbmlzdHJhY2nDs24gVHJpYnV0YXJpYTEvMC0GA1UECgwmU2VydmljaW8gZGUgQWRtaW5pc3RyYWNpw7NuIFRyaWJ1dGFyaWExODA2BgNVBAsML0FkbWluaXN0cmFjacOzbiBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpw7NuMR8wHQYJKoZIhvcNAQkBFhBhY29kc0BzYXQuZ29iLm14MSYwJAYDVQQJDB1Bdi4gSGlkYWxnbyA3NywgQ29sLiBHdWVycmVybzEOMAwGA1UEEQwFMDYzMDAxCzAJBgNVBAYTAk1YMRkwFwYDVQQIDBBEaXN0cml0byBGZWRlcmFsMRQwEgYDVQQHDAtDdWF1aHTDqW1vYzEVMBMGA1UELRMMU0FUOTcwNzAxTk4zMV0wWwYJKoZIhvcNAQkCDE5SZXNwb25zYWJsZTogQWRtaW5pc3RyYWNpw7NuIENlbnRyYWwgZGUgU2VydmljaW9zIFRyaWJ1dGFyaW9zIGFsIENvbnRyaWJ1eWVudGUwHhcNMTcxMjA1MDAzMDE5WhcNMjExMjA1MDAzMDE5WjCByjEqMCgGA1UEAxMhQ0FSTE9TIEVOUklRVUUgTUVOQ0hBQ0EgUk9EUklHVUVaMSowKAYDVQQpEyFDQVJMT1MgRU5SSVFVRSBNRU5DSEFDQSBST0RSSUdVRVoxKjAoBgNVBAoTIUNBUkxPUyBFTlJJUVVFIE1FTkNIQUNBIFJPRFJJR1VFWjEWMBQGA1UELRMNTUVSQzY0MDIwOUI5MDEbMBkGA1UEBRMSTUVSQzY0MDIwOUhOVE5EUjAxMQ8wDQYDVQQLEwZBVkFOVEkwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDiz/LyyDQ4yFKb5z5cvASnn+EumGnDFd2vV83hwzffbOxWNTIKSX90l4QYGxwnBNxXLEuNRcuLRw04BTYB8VFZgvqydL5t6pED0zHhqVf243W7dO9Nm1AJi6rHxsiuXiRAMdXFiMlL/w55w4TI4tf+HO6ePVNfXnEbKtCgFVrCbO875FWvmjQeNu3nFPYzhi8mX/zsg2UWFt+PD+lRhuKgewLmYYzkAB3mE4ID3v7e+Uar4YZLlFlWLkXJrhQkf2X/U+f7enuSSP/e28W/oz6QbOcqBOVb95DOeSx4YXNsqLC9HqPjWrW9VaoC6Ykgr2SoEkB/hGNZ1enVLnmxAOIlAgMBAAGjHTAbMAwGA1UdEwEB/wQCMAAwCwYDVR0PBAQDAgbAMA0GCSqGSIb3DQEBCwUAA4ICAQAN8lTNsBivQ4k8EyK2E5OOg7NN2TrnZS/k++rT0Kwh4RzKJRqaaKIv7TH9M/2/TE2Lf53zb3NfzFK/JsWhRiK8pAcmZnZbvYNwOrkd5Xu2r88/93ewPb+WV8Kx60apt3SXBimccx+/myXs/R4xoCb6EDc6U901NdqdMzEOIzG4WZlRU7L8/MTQ14GWk80Tqaj2LV5IrTpnRgqXnPVwFi5wdKUUZNu3OucJZ262kfKZAXksz6VZkrE6qqJPANHdhKe5LQ/73xU+Db9iLuQXtaj6nABE/EUMQoz9mAZ2QYc607QKcfjoN6FY8aJ/xGlKqY2cpH2cd12gz3J6lz2cWYW3DGhQJqFrcxCxYi3z/MatxII9GX6twLX3YK1IUJtMMAX2iXn8wqZKhhZm/LMLXaCQRHO+oO6KVifP7uF9mOPXHu64czssnPTWlUMMs1mESlP8HyCznNnWv6RcMqdPDV4m0cSjE0z4++jckNFBLMt6bC292ZpyMi8fp9hu4hQz4L0TVK+kNS//ZeNbXqR/nMNK3GbYv4gJc0tbYwTef6tUWvkfMOSNcYRLQChkrADQL4+mmusRAMfr2z/7Bq4Su35rD/4w8noj2J4podn+cxj3WFbUPnhhwM3FolvYm/H0gz4GxEY6Gp+lKFt96ODd+WXMXeFk3/E91QGy8xGh2TYC1A==" CondicionesDePago="CREDITO 60 DIAS" SubTotal="1207.90" Moneda="MXN" Total="1401.16" TipoDeComprobante="I" MetodoPago="PPD" LugarExpedicion="44190">
+	<cfdi:Emisor Rfc="MERC640209B90" Nombre="CARLOS ENRIQUE MENCHACA RODRIGUEZ" RegimenFiscal="612"/>
+	<cfdi:Receptor Rfc="VEC0510258I0" Nombre="VECTRALIS, S.A. DE C.V." UsoCFDI="G01"/>
+	<cfdi:Conceptos>
+		<cfdi:Concepto ClaveProdServ="26121609" NoIdentificacion="N6PATCH14BL" Cantidad="4" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="CABLE DE RED STARTECH 4.2 METROS COLOR AZUL CAT 6 UTP" ValorUnitario="130.00" Importe="520.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="520.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="83.20"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="26121609" NoIdentificacion="N6PATCH25BL" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="CABLE DE RED STARTECH 7.6 METROS COLOR AZUL CAT 6 UTP" ValorUnitario="160.00" Importe="480.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="480.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="76.80"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="26121609" NoIdentificacion="317887" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="CABLE MANHATTAN USB TIPO-A MACHO MACHO, 1.8 METROS" ValorUnitario="69.30" Importe="207.90">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="207.90" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="33.264"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+	</cfdi:Conceptos>
+	<cfdi:Impuestos TotalImpuestosTrasladados="193.26">
+		<cfdi:Traslados>
+			<cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="193.26"/>
+		</cfdi:Traslados>
+	</cfdi:Impuestos>
+	<cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" SelloSAT="lH6QIXdAttHlhnbrGMRtF53jNJ1FZVc9s2O2fWTBuNVW+MqPqVyUyJHSpIfp0JIGr/4Bn/eOd17tXj8iS2AvUwv16JFfi5SPs5/09OrpAzs/dvhnDxn7Xjk8Ulf4yUO2SV3b3Jv9AkNUtn14VGGvole5vK3hu9FxxaxH0ki6iJd8p59ZakMvZ04RyF9crX1RmcNeuSGhqSpa3MTO3qvzH8mGHT2z8L72O4sT9raV497zoBuQPf2CCc3JwQ0gyTDn8h3PwiIvyyxJAbP7pv3WOFnoYOu+o+hWIwc2/JnxEq5hNJs33i2IC7W2yHV7KzSlpErLymX+e1KG6/OEaFNdag==" NoCertificadoSAT="00001000000401041203" SelloCFD="nS0Qv/HekCd1bBRlRPfYSeXGco5b6rV3LQnhFmnQ0cRSf0qSuduwCE83Z+SbsWJfD7oD5eIRo4oyFvF2crSYltxdGAwptYoMO8yq+0HXILL2zYsbSCyiynto6QyrUD4qFKhn5fYwh0u1ANA0jp0JefkNKOyEg9ad8XMtXG5qoVuQOBBnigWMztZhUe9YIhn6JSa7ECE3pVZYm2qZBV75x+BqWCiBqCwqGuSqMMsB+2LlNlaQPhgXEOb500Fg/O9wJfGrpNjY87fkL1Xg0S/BZXv5JQwNl10aXBHdQXLJARcLrN7A8HsBixijlmLGDiKvlLilQdLQY+EC0v/bXlEP0g==" RfcProvCertif="SCD110105654" FechaTimbrado="2018-09-10T15:37:32" UUID="B5FF2885-DF73-EA43-BD90-033BAE672091" Version="1.1"/></cfdi:Complemento></cfdi:Comprobante>

@@ -1,0 +1,135 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid-selection-column.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid-filter.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../../bower_components/app-layout/app-grid/app-grid-style.html">
+
+
+<link rel="import" href="./orden-de-compra.html">
+
+<dom-module id="lista-ordenes">
+    <template>
+        <style >
+            :host {
+                display: block
+            }
+
+            #grid {
+                padding: 24px;
+            }
+        </style>
+
+        <div id="grid">
+
+            Mostrar Ordenes entregadas:
+            <paper-toggle-button checked="{{mostrarOrdenes}}"></paper-toggle-button>
+            
+            <paper-input label="{{oc}}"></paper-input>
+            
+            <div class="app-grid">
+                <template is="dom-repeat" items="[[ordenes]]" initial-count="2" as="orden" sort="computeSort" filter="{{mostrarOrden(mostrarOrdenes,oc)}}"
+                    observe="estatus">
+                    <orden-de-compra orden="{{orden}}" llave-orden={{llaveOrden}} class="ordenDeCompra"
+                        configuarion-correo="[[configuarionCorreo]]">
+                    </orden-de-compra>
+                </template>
+            </div>
+        </div>
+
+    </template>
+
+    <script>
+        class ListaOrdenes extends Polymer.Element {
+            /**
+             * String providing the tag name to register the element under.
+             */
+            static get is() {
+                return 'lista-ordenes';
+            }
+
+            /**
+             * Object describing property-related metadata used by Polymer features
+             */
+            static get properties() {
+                return {
+                    ordenes: {
+                        type: Array,
+                        value: []
+                    },
+                    llaveOrden: {
+                        type: String,
+                        value: "",
+                        notify: true
+                    },
+                    activeItem: {
+                        observer: '_activeItemChanged'
+                    },
+                    mostrarOrdenes: {
+                        type: Boolean,
+                        value: false
+                    }
+                };
+            }
+
+            _activeItemChanged(item) {
+                if (item) {
+                    this.set("llaveOrden", item.$key)
+                }
+            }
+            /**
+             * Instance of the element is created/upgraded. Use: initializing state,
+             * set up event listeners, create shadow dom.
+             * @constructor
+             */
+            constructor() {
+                super();
+            }
+
+            /**
+             * Use for one-time configuration of your component after local DOM is initialized. 
+             */
+            ready() {
+                super.ready();
+
+                Polymer.RenderStatus.afterNextRender(this, function () {
+
+                });
+            }
+
+            prueba(e) {
+                console.log(e)
+            }
+
+            computeSort(a, b) {
+                if (a.$key == b.$key) {
+                    return 0;
+                }
+                return a.$key > b.$key ? -1 : 1;
+            }
+
+
+            mostrarOrden(mostrarTodo, oc) {
+                if (mostrarTodo) {
+                    return function (orden) {
+                        return true;
+                    }
+                } else {
+                    return function (orden) {
+                        if(oc.length > 0){
+                            
+                        }
+                        if (orden.estatus) {
+                            return !(orden.estatus === "entrega")
+                        }
+                        return true
+                    }
+                }
+
+            }
+        }
+
+        window.customElements.define(ListaOrdenes.is, ListaOrdenes);
+    </script>
+</dom-module>

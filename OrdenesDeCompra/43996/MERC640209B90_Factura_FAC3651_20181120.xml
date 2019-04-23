@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd" xmlns:cfdi="http://www.sat.gob.mx/cfd/3" Version="3.3" Serie="FAC" Folio="3651" Fecha="2018-11-20T10:19:29" Sello="oR0p9aT3D6HpsCGpv5s+/RPNIQcyGaOxyW/GNG/AwBHYbKs+qUESeBNIbvYLRObyi8JxaDQ5iSW44eJejObaVQ+AAHWAQDK4cdHI6bfEJaiTfLaSivWAYyrOlSAVU+Mr98IvCuiTg/m35Q23fOw7Yoa5tc892Gho9pFLIacrrpB2YIfNehKnw5Y8vLWSSHzNlYKal4ZKEhwiwIHOyVJ9CPmsFhlOaa5dkNYSPzF3COr0AXxz3MeWOl7dXBQtcOgStskCNxncTh1MH4mMkSq7hWDmzshfua4xRfdmmEWRS6T+m9QOTX0opXo7MX+ecblXlUrAhXiibJnavWv08z73Lg==" FormaPago="99" NoCertificado="00001000000408401785" Certificado="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" CondicionesDePago="CREDITO 30 DIAS" SubTotal="11995.30" Moneda="MXN" Total="13914.55" TipoDeComprobante="I" MetodoPago="PPD" LugarExpedicion="44190">
+	<cfdi:Emisor Rfc="MERC640209B90" Nombre="CARLOS ENRIQUE MENCHACA RODRIGUEZ" RegimenFiscal="612"/>
+	<cfdi:Receptor Rfc="SME940803LD1" Nombre="SIDEL DE MEXICO,S.A. DE C.V." UsoCFDI="G03"/>
+	<cfdi:Conceptos>
+		<cfdi:Concepto ClaveProdServ="26121500" NoIdentificacion="AMFIAL-100CMK" Cantidad="6" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="CABLE ADATA USB A LIGHTNING APPLE DE 100CM (CABLE PARA IPHONE/IPAD)" ValorUnitario="170.00" Importe="1020.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="1020.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="163.20"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="52161514" NoIdentificacion="LEVEL U PRO" Cantidad="4" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="AUDIFONOS SAMSUNG LEVEL U PRO WIRELESS COLOR NEGRO" ValorUnitario="1949.00" Importe="7796.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="7796.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1247.36"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="32101622" Cantidad="10" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="MEMORIA FLASH USB 16 GB KINGSTON 3.0" ValorUnitario="92.93" Importe="929.30">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="929.30" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="148.688"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="26121500" NoIdentificacion="USB2AC2M" Cantidad="10" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="CABLE STARTECH.COM USB A - USB TIPO C, 2 METROS, COLOR NEGRO" ValorUnitario="225.00" Importe="2250.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="2250.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="360.00"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+	</cfdi:Conceptos>
+	<cfdi:Impuestos TotalImpuestosTrasladados="1919.25">
+		<cfdi:Traslados>
+			<cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1919.25"/>
+		</cfdi:Traslados>
+	</cfdi:Impuestos>
+	<cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" SelloSAT="SgfYvCnrgLG4piVntE6rpa2cflR25rVxX72KT2/VRs3hKRuukDcjfsjASmxeD1ZvK/fNnhvVxBmKFmL8X7y5/o6fRYWZ9lO8XZyqL/yph8BTZEu678NMoTRy94JQZNKda5IG/ttYBgCl4Piz/0XdFKF5t3oFv4x8Tyk1Giz/YGedRTjBozdbD1iBtfZAJX9W4fWXOemxx54+Yfntb5aXGD3iJVDDsW417jAlFZuqmbWPcacTJA/n6XNGLRPRw+2fA9bAtSmCjt5rXhPqclGb4lyO++MKfCdeIEkskwDrX+AG1hZbm1PBFJzjtd3CZrGSMfNlltb21ak/190ZWWVWvQ==" NoCertificadoSAT="00001000000401041203" SelloCFD="oR0p9aT3D6HpsCGpv5s+/RPNIQcyGaOxyW/GNG/AwBHYbKs+qUESeBNIbvYLRObyi8JxaDQ5iSW44eJejObaVQ+AAHWAQDK4cdHI6bfEJaiTfLaSivWAYyrOlSAVU+Mr98IvCuiTg/m35Q23fOw7Yoa5tc892Gho9pFLIacrrpB2YIfNehKnw5Y8vLWSSHzNlYKal4ZKEhwiwIHOyVJ9CPmsFhlOaa5dkNYSPzF3COr0AXxz3MeWOl7dXBQtcOgStskCNxncTh1MH4mMkSq7hWDmzshfua4xRfdmmEWRS6T+m9QOTX0opXo7MX+ecblXlUrAhXiibJnavWv08z73Lg==" RfcProvCertif="SCD110105654" FechaTimbrado="2018-11-20T10:19:38" UUID="392D8BB7-7587-3E4E-B2E2-34C0DD1F8507" Version="1.1"/></cfdi:Complemento></cfdi:Comprobante>

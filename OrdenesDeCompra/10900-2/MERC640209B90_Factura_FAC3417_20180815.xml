@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd" xmlns:cfdi="http://www.sat.gob.mx/cfd/3" Version="3.3" Serie="FAC" Folio="3417" Fecha="2018-08-15T10:40:14" Sello="3xqMQRBh3a9E3INe6XXiumxCEMbDU4rtCRUaIRyL20vVBLPVS8x1d0RPCtQdmlwz1OHhbv5808bvSlcdnqeSqkUs87vIvGLQpVcTlc4PVWT7UolU7d2IWNnBSjNUvO/dwTbPHqwlYC66s150td9J59ZXBvXT2D/PEx5bCGVfonMvD1yGwtdFD7ekGXQ/oJnP8jX7Uf7ku3xYe8leMu9RCCkQ6PnDhwvO8MO/LPfmzvDHmssKUxQNitArwEUr1Id9LlaQx8VSQ05A7b3I4MFXS/nPdd85A1YqHGkVpG8zC4XuorVcZ6VOBp4310xzJHX5XiYMM/tbh/jlbhb0SrKNIQ==" FormaPago="99" NoCertificado="00001000000408401785" Certificado="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" CondicionesDePago="CREDITO 60 DIAS" SubTotal="5481.57" Moneda="MXN" Total="6358.62" TipoDeComprobante="I" MetodoPago="PPD" LugarExpedicion="44190">
+	<cfdi:Emisor Rfc="MERC640209B90" Nombre="CARLOS ENRIQUE MENCHACA RODRIGUEZ" RegimenFiscal="612"/>
+	<cfdi:Receptor Rfc="VEC0510258I0" Nombre="VECTRALIS, S.A. DE C.V." UsoCFDI="G01"/>
+	<cfdi:Conceptos>
+		<cfdi:Concepto ClaveProdServ="26121609" NoIdentificacion="N6PATCH14BL" Cantidad="4" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="CABLE DE RED STARTECH 4.2 METROS COLOR AZUL CAT 6 UTP" ValorUnitario="112.00" Importe="448.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="448.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="71.68"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43211900" NoIdentificacion="TD2220" Cantidad="1" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="MONITOR VIEWSONIC TD2220 LED 22&quot;1920x1080 5MS VGA/DVI-D VESA, TOUCH" ValorUnitario="4449.22" Importe="4449.22">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="4449.22" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="711.8752"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="39121017" NoIdentificacion="NORTH612-BKT" Cantidad="1" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="BARRA MULTICONTACTOS NORTH SYSTEM CANT. 10 CONTACTOS" ValorUnitario="584.35" Importe="584.35">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="584.35" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="93.496"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+	</cfdi:Conceptos>
+	<cfdi:Impuestos TotalImpuestosTrasladados="877.05">
+		<cfdi:Traslados>
+			<cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="877.05"/>
+		</cfdi:Traslados>
+	</cfdi:Impuestos>
+	<cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" SelloSAT="bDx7NYCXF2Yk0j9zkOXAVZUt/SitouRqu37VFXFpD777k2LAtd2YywMb02y/8kF6vP8kn0FRksDlv/g2cDSIBy1eLGhkY0fb4GDFO9lztFmgtKDnbIDWBw9I0fq+dN8hl3I+jioWNaaczJAbTxLQyXTpkXpEff2A1l1+l3s8rIo+LtG4x/ecyO6SKLtm4gt45qWOdcUv/i/jST8OKEs3Y8A6z9M0C4QGOLQVUoyMNoJOu/T2AQfUwdMi8b9RXmYBr4bXq+YkantenhsVF+1mK1/zEq76XkW6ZQCaiLcfAMkbFNXyi0c0BWAiW7D0MHhQmfETKxOUSbZkXS7ST5FGCQ==" NoCertificadoSAT="00001000000401041203" SelloCFD="3xqMQRBh3a9E3INe6XXiumxCEMbDU4rtCRUaIRyL20vVBLPVS8x1d0RPCtQdmlwz1OHhbv5808bvSlcdnqeSqkUs87vIvGLQpVcTlc4PVWT7UolU7d2IWNnBSjNUvO/dwTbPHqwlYC66s150td9J59ZXBvXT2D/PEx5bCGVfonMvD1yGwtdFD7ekGXQ/oJnP8jX7Uf7ku3xYe8leMu9RCCkQ6PnDhwvO8MO/LPfmzvDHmssKUxQNitArwEUr1Id9LlaQx8VSQ05A7b3I4MFXS/nPdd85A1YqHGkVpG8zC4XuorVcZ6VOBp4310xzJHX5XiYMM/tbh/jlbhb0SrKNIQ==" RfcProvCertif="SCD110105654" FechaTimbrado="2018-08-15T10:40:19" UUID="CF89CA4E-0A95-B34D-B84D-EE631966FA46" Version="1.1"/></cfdi:Complemento></cfdi:Comprobante>

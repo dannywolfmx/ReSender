@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd" xmlns:cfdi="http://www.sat.gob.mx/cfd/3" Version="3.3" Serie="FAC" Folio="3853" Fecha="2019-02-26T10:51:40" Sello="ffXTeqXReFOuvEoA0d/W4xD0AvWwXd7mTBFW/CK+TeoyYJ/4KmC7s1/oqkIeH3TFNddQcp0ZdENFdzAGjnm2eRfSUQVKAkb8qY8xZumovkWdOpl/fvwnhs3RJJGSGcwjex3JGl+VTUuUBcyCHj46DDp/Q/bzu53VZ/Exz6PzolLp6/K42i7SRTfN2nPjL3zfBqsE46GxrgSJ+d2psw/MU4O+4gm6Kodzouxu6pD9O4iDVd6kePoUutWaLr1UmRC35De/7ymextn3SBeq7YsjqVGVLxF6C1nDn/DJXs2PdxgaunGhJeLpVYzYzjCTycOMIXAHzdbco7Lvd1d/4i/3Vg==" FormaPago="99" NoCertificado="00001000000408401785" Certificado="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" CondicionesDePago="CREDITO 60 DIAS" SubTotal="65190.78" Moneda="MXN" Total="75621.30" TipoDeComprobante="I" MetodoPago="PPD" LugarExpedicion="44190">
+	<cfdi:Emisor Rfc="MERC640209B90" Nombre="CARLOS ENRIQUE MENCHACA RODRIGUEZ" RegimenFiscal="612"/>
+	<cfdi:Receptor Rfc="VEC0510258I0" Nombre="VECTRALIS, S.A. DE C.V." UsoCFDI="G01"/>
+	<cfdi:Conceptos>
+		<cfdi:Concepto ClaveProdServ="43201503" NoIdentificacion="BX80677I77700" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="PROCESADOR INTEL CORE I7-7700 3.6 GHZ SOC 1151 DDR4 CON VENTILADOR" ValorUnitario="5625.95" Importe="16877.85">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="16877.85" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2700.456"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43201513" NoIdentificacion="GA-B250M-D3H" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="TARJETA MADRE GIGABYTE GA-B250M-D3H SOCKET 1151, DDR4, VGA, DVI-D, HDMI" ValorUnitario="1372.62" Importe="4117.86">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="4117.86" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="658.8576"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="39121004" NoIdentificacion="R-500 ES-05001" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="FUENTE DE PODER ACTECK DE 500W COLOR NEGRO R-500 ES-05001" ValorUnitario="289.00" Importe="867.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="867.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="138.72"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="26121500" NoIdentificacion="ATXP4EXT" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="Cable 20cm ATX Extensión Macho a Hembra 4 Pines  de Placa Madre Corriente Poder Interno P4" ValorUnitario="60.00" Importe="180.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="180.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="28.80"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43201404" NoIdentificacion="ST1000BT32" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="TARJETA DE RED PCI 10/100/1000 STARTECH.COM ST1000BT32" ValorUnitario="275.00" Importe="825.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="825.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="132.00"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="26121600" NoIdentificacion="PLATE9M16LP" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="CABLE SERIAL STARTECH.COM ADAPTADOR 40 CM SERIAL DB9 RS232 A IDC 10 PINES PARA TARJETA MADRE" ValorUnitario="63.40" Importe="190.20">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="190.20" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="30.432"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43233004" NoIdentificacion="FQC-08981" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="WINDOWS 10 PROFESIONAL 64 BITS OEM ESPAÑOL" ValorUnitario="2983.01" Importe="8949.03">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="8949.03" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1431.8448"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43201803" NoIdentificacion="DT01ACA100" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="DISCO DURO 1.0 TB SATA 3 7200 RPM 3.5&quot; TOSHIBA 32MB Cache (6.0 Gb/S)" ValorUnitario="773.93" Importe="2321.79">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="2321.79" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="371.4864"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43201815" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="DVD 24X QUEMADOR NEGRO SATA GRANEL" ValorUnitario="240.00" Importe="720.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="720.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="115.20"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="32101601" NoIdentificacion="HX424C15FB2/8" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="MEMORIA 8 GB DDR4  KINGSTON 2400 MHZ HYPERX FURY" ValorUnitario="1640.50" Importe="4921.50">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="4921.50" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="787.44"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43201552" NoIdentificacion="USBPLATE4" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="ADAPTADOR STARTECH.COM 4 PUERTOS USB 2.0 CON CONEXION A TARJETA MADRE" ValorUnitario="149.00" Importe="447.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="447.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="71.52"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43211900" NoIdentificacion="24MK430H" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="MONITOR LG 24MK430H FULL HD, VGA, HDMI, 23.8&quot;" ValorUnitario="2480.00" Importe="7440.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="7440.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1190.40"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43201830" NoIdentificacion="ASU800SS-1TT-C" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="DISCO SSD 1TB 2.5&quot; ADATA SU800 SATA" ValorUnitario="2754.00" Importe="8262.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="8262.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1321.92"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="26121500" NoIdentificacion="342766" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="CABLE CONVERTIDOR DE FUENTE IDE A SATA" ValorUnitario="48.25" Importe="144.75">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="144.75" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="23.16"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43201601" NoIdentificacion="SNA-BR2/35" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="BRACKET CHAROLA PARA DISCO DURO DE 2.5&quot; A 3.5&quot;" ValorUnitario="38.60" Importe="115.80">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="115.80" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="18.528"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="26121500" NoIdentificacion="306126" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="CABLE HDMI 3 M MACHO MACHO  MANHATTAN   306126" ValorUnitario="140.00" Importe="420.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="420.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="67.20"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="26121600" NoIdentificacion="ATX24POWEXT" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="CABLE EXTENSION STARTECH MACHO - HEMBRA ATX (24 PIN) 20 CM" ValorUnitario="97.00" Importe="291.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="291.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="46.56"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43201601" NoIdentificacion="RPC-231" Cantidad="3" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="GABINETE NORCO RPC-231 PARA RACK 2U SIN FUENTE DE ALIMENTACION" ValorUnitario="2700.00" Importe="8100.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="8100.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1296.00"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+	</cfdi:Conceptos>
+	<cfdi:Impuestos TotalImpuestosTrasladados="10430.52">
+		<cfdi:Traslados>
+			<cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="10430.52"/>
+		</cfdi:Traslados>
+	</cfdi:Impuestos>
+	<cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" SelloSAT="rRJ2xwJKJCIuko6DAxISBQdWheniI7DlVGIQVOn57qubr8Vrr9/vlm21Zr0IFn2eckWtYge1joE1V5pzKOenAAt5j/RIhRqnrDX4X77jp/YplPXc7jf6gKDkDGiGcom/I9MPi7MSwE3an1mQfjDXxiRgEJdeQawfAR0JRl55z75CQoH2snGqwaJBywayBtxEYEywCutk/kyqLVhIzOkTCmHLcwKa/DZ9ZPbRjgztt5K0B8esnSS3N+UPSuaOl2NHb+PFCSB4rT1fmETXbZciA3GDFF26nYuN9o8BJECRrmsbuhJrrKiO8bBXEdyiqQcgxk7AhPS3bM30IBPrH6o6Mw==" NoCertificadoSAT="00001000000401041203" SelloCFD="ffXTeqXReFOuvEoA0d/W4xD0AvWwXd7mTBFW/CK+TeoyYJ/4KmC7s1/oqkIeH3TFNddQcp0ZdENFdzAGjnm2eRfSUQVKAkb8qY8xZumovkWdOpl/fvwnhs3RJJGSGcwjex3JGl+VTUuUBcyCHj46DDp/Q/bzu53VZ/Exz6PzolLp6/K42i7SRTfN2nPjL3zfBqsE46GxrgSJ+d2psw/MU4O+4gm6Kodzouxu6pD9O4iDVd6kePoUutWaLr1UmRC35De/7ymextn3SBeq7YsjqVGVLxF6C1nDn/DJXs2PdxgaunGhJeLpVYzYzjCTycOMIXAHzdbco7Lvd1d/4i/3Vg==" RfcProvCertif="SCD110105654" FechaTimbrado="2019-02-26T10:51:53" UUID="F5BE8B79-7BD8-CC4A-95CB-0B88FEBB7B0D" Version="1.1"/></cfdi:Complemento></cfdi:Comprobante>

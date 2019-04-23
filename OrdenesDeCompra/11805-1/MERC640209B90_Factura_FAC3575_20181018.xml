@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd" xmlns:cfdi="http://www.sat.gob.mx/cfd/3" Version="3.3" Serie="FAC" Folio="3575" Fecha="2018-10-18T09:08:39" Sello="UP6ubzY2idjwuSfvnZWI2+VX4h8e7PbIEK9J7Zl+2hm1qtEVas4KrL4XSmBpgVzXNJpSLUDi1HJOQlGGL4vJQDtkgyEGYiJ7cX6JI4eKZY3Rly0HabiatEO5oV0rXmN9AjheNgbbsPpCGoIB+5lQ9B3B2o/PbeG9j8O2ctRm53OXWoEnbbxFN3ORWFZcoUsjsAl6yvFrOJwUZ5dADZEH5SPNUBpFQeE5JG9d0DBoSndeEAbD9O/OMumTh6Yxo6//bxQ8vt+FB+zSIpwlaVtiD215sYOWSEBFlLN314DOVskVvdv5TBZcCHieZTEhJHc6GmgZDv9Onm5ZN7KcTZ6BvA==" FormaPago="99" NoCertificado="00001000000408401785" Certificado="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" CondicionesDePago="CREDITO 60 DIAS" SubTotal="57800.25" Moneda="MXN" Total="67048.29" TipoDeComprobante="I" MetodoPago="PPD" LugarExpedicion="44190">
+	<cfdi:Emisor Rfc="MERC640209B90" Nombre="CARLOS ENRIQUE MENCHACA RODRIGUEZ" RegimenFiscal="612"/>
+	<cfdi:Receptor Rfc="VEC0510258I0" Nombre="VECTRALIS, S.A. DE C.V." UsoCFDI="G01"/>
+	<cfdi:Conceptos>
+		<cfdi:Concepto ClaveProdServ="43211507" NoIdentificacion="UN65U-M023M" Cantidad="5" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="COMPUTADORA ASUS VIVOMINI UN65U-M023M I3-7100U 4K, HDMI, WIFI,(SIN HDD NI RAM)" ValorUnitario="5431.02" Importe="27155.10">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="27155.10" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="4344.816"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="32101601" NoIdentificacion="AD4S213338G15" Cantidad="5" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="MEMORIA SODIMM 8GB ADATA DDR4  2133 MHZ" ValorUnitario="1475.49" Importe="7377.45">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="7377.45" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1180.392"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43201830" NoIdentificacion="SA400S37/240G" Cantidad="5" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="DISCO DURO SSD 240GB 2.5&quot; KINGSTON SA400S37/240G" ValorUnitario="1042.20" Importe="5211.00">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="5211.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="833.76"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+		<cfdi:Concepto ClaveProdServ="43233004" NoIdentificacion="FQC-08981" Cantidad="6" ClaveUnidad="H87" Unidad="PIEZA" Descripcion="WINDOWS 10 PROFESIONAL 64 BITS OEM ESPAÑOL" ValorUnitario="3009.45" Importe="18056.70">
+			<cfdi:Impuestos>
+				<cfdi:Traslados>
+					<cfdi:Traslado Base="18056.70" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2889.072"/>
+				</cfdi:Traslados>
+			</cfdi:Impuestos>
+		</cfdi:Concepto>
+	</cfdi:Conceptos>
+	<cfdi:Impuestos TotalImpuestosTrasladados="9248.04">
+		<cfdi:Traslados>
+			<cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="9248.04"/>
+		</cfdi:Traslados>
+	</cfdi:Impuestos>
+	<cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" SelloSAT="gtqw0320s8dUQbkpfzkqo0sUX0Lg9OAB01KnzLolF1BlcR1xuCL3YcWl68U/yrz2FV2vOlXpnE9gGc4Vu6nPtj78c3GTz8CDHgN0C9ZzGv3Qf35R+sZoMEBXBGcRsgM3C7IyO3NYfQdtUdDqq7gn67sWzw/hXrZjs5PEUG/I3SYzNbc0JXGmGQpn7qV7rQR1lkGKZN/PQLuUOlhwF+ivXeLIqXBcDNju/fW/oa09V4vOofNmG+6ehK3wSq2dOC3MlaZ8a+P5iy4ZKC5rlyxlDBtSDOooKqGEeYp0xJ4g0omNdzZ7s/YjxjuNz8MoVCyQDbGM1ZfFpRNYZL0m8Esj5g==" NoCertificadoSAT="00001000000401041203" SelloCFD="UP6ubzY2idjwuSfvnZWI2+VX4h8e7PbIEK9J7Zl+2hm1qtEVas4KrL4XSmBpgVzXNJpSLUDi1HJOQlGGL4vJQDtkgyEGYiJ7cX6JI4eKZY3Rly0HabiatEO5oV0rXmN9AjheNgbbsPpCGoIB+5lQ9B3B2o/PbeG9j8O2ctRm53OXWoEnbbxFN3ORWFZcoUsjsAl6yvFrOJwUZ5dADZEH5SPNUBpFQeE5JG9d0DBoSndeEAbD9O/OMumTh6Yxo6//bxQ8vt+FB+zSIpwlaVtiD215sYOWSEBFlLN314DOVskVvdv5TBZcCHieZTEhJHc6GmgZDv9Onm5ZN7KcTZ6BvA==" RfcProvCertif="SCD110105654" FechaTimbrado="2018-10-18T09:09:24" UUID="1D04BC7B-57A3-1641-83E2-D7A4FAF3991E" Version="1.1"/></cfdi:Complemento></cfdi:Comprobante>

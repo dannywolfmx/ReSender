@@ -1,0 +1,548 @@
+<dom-module id="detalle-orden-compra">
+    <template>
+        <style>
+            :host {
+                display: block
+            }
+
+            ::-webkit-scrollbar {
+                background-color: #fff;
+                width: 16px
+            }
+
+            /* background of the scrollbar except button or resizer */
+
+            ::-webkit-scrollbar-track {
+                background-color: #fff
+            }
+
+            /* scrollbar itself */
+
+            ::-webkit-scrollbar-thumb {
+                background-color: #babac0;
+                border-radius: 16px !important;
+                border: 4px solid #fff
+            }
+
+            /* set button(top and bottom of the scrollbar) */
+
+            ::-webkit-scrollbar-button {
+                display: none !important
+            }
+
+            #ordenCaja {
+                transition: max-height 0.15s ease-out;
+                overflow: hidden;
+                @apply --shadow-elevation-2dp;
+                @apply --layout-vertical;
+                height: 100%;
+            }
+
+
+            #paginas:hover::-webkit-scrollbar{
+                width:1px !important;
+            }
+
+            #paginas {
+                overflow: overlay;
+                @apply --layout-flex;
+            }
+
+            .botonEstatus {
+                border-radius: 36px;
+                width: 96px;
+                height: 56px;
+                background: white;
+                color: var(--paper-blue-600);
+                transition: color 1s ease;
+                @apply --shadow-elevation-2dp;
+            }
+
+            .botonEstatus[pendiente] {
+                color: var(--paper-grey-500) !important;
+            }
+
+            .barraEstatus[pendiente] {
+                background: var(--paper-grey-400) !important;
+            }
+
+            #fileInput {
+                display: none;
+            }
+
+
+            #listaArchivos {
+                @apply --layout-horizontal;
+                @apply --layout-around-justified;
+                @apply --layout-wrap;
+                position: relative;
+                padding: 20px;
+            }
+
+            vaadin-form-layout.with-text-fields>vaadin-text-field {
+                margin-top: .5em;
+                margin-bottom: .5em;
+            }
+
+            vaadin-form-layout {
+                padding: 26px 16px;
+                background: var(--paper-grey-50);
+                border-top: 1px solid var(--paper-grey-200);
+                border-bottom: 1px solid var(--paper-grey-200);
+                position: relative;
+                margin-bottom: 12px;
+            }
+
+            #status {
+                @apply --layout-horizontal;
+                @apply --layout-around-justified;
+                padding: 12px;
+                @apply --layout-center;
+            }
+
+            .barraEstatus:last-of-type {
+                display: none !important;
+            }
+
+            .barraEstatus {
+                transition: background 1s ease;
+                content: '';
+                background: var(--paper-blue-400);
+                height: 3px;
+                @apply --layout-flex;
+                @apply --shadow-elevation-2dp;
+            }
+
+            .botonEstatus:first-child::before {
+                content: none
+            }
+        </style>
+        <firebase-document id="query" app-name="bla" path="/ordenes/[[llaveOrden]]" data="{{ordenDeCompra}}">
+        </firebase-document>
+
+        <div id="ordenCaja" on-drop="guardarArchivoDrag" mostrar$="[[mostrarOrdenAnimacion]]">
+            <vaadin-tabs selected="{{pagina}}">
+                <vaadin-tab>Datos orden</vaadin-tab>
+                <vaadin-tab>Lista articulos</vaadin-tab>
+                <vaadin-tab>Lista correos</vaadin-tab>
+                <vaadin-tab>Lista archivos</vaadin-tab>
+                <vaadin-tab>Default</vaadin-tab>
+            </vaadin-tabs>
+
+            <iron-pages selected="[[pagina]]" id="paginas">
+                <section>
+                    <detalles-orden orden-de-compra="{{ordenDeCompra}}">
+                        <paper-icon-button class="botonEliminar boton" icon="remove" on-tap="eliminarOrdenDeCompra"></paper-icon-button>
+                    </detalles-orden>
+                </section>
+
+
+                <!-- Lista de articulos ligados a una orden de compra -->
+                <lista-articulos productos="{{ordenDeCompra.productos}}"></lista-articulos>
+
+
+                <!-- Lista de correos ligados a una orden de compra -->
+                <lista-correos correos="{{ordenDeCompra.listaCorreos}}"></lista-correos>
+
+
+                <!-- Lista de archivos ligados a una orden de compra -->
+                <lista-archivos archivos="{{ordenDeCompra.listaArchivos}}"></lista-archivos>
+
+            </iron-pages>
+            <div>
+
+            </div>
+            <div id="status">
+                <template is="dom-repeat" items="[[listaTemplatesCorreos]]">
+                    <paper-icon-button icon="[[item.icon]]" on-click="fijaEstatus" class="botonEstatus" pendiente$="[[estiloBoton(index,ordenDeCompra.template)]]"></paper-icon-button>
+                    <div class="barraEstatus" pendiente$="[[estiloBoton(index,ordenDeCompra.template)]]"></div>
+                </template>
+            </div>
+
+            [[mensaje]]
+            <paper-icon-button class="botonEnviar boton" icon="send" on-tap="enviarCorreo"></paper-icon-button>
+        </div>
+
+        <input type="file" id="fileInput" multiple>
+
+    </template>
+
+    <script>
+        /**
+         * `detalle-orden-compra` Description
+         *
+         * @summary ShortDescription.
+         * @customElement
+         * @polymer
+         * @extends {Polymer.Element}
+         */
+        class DetalleOrdenCompra extends Polymer.Element {
+            /**
+             * String providing the tag name to register the element under.
+             */
+            static get is() {
+                return 'detalle-orden-compra';
+            }
+
+            /**
+             * Object describing property-related metadata used by Polymer features
+             */
+            static get properties() {
+                return {
+                    listaTemplatesCorreos: {
+                        type: Array,
+                        value: [{
+                                nombre: "Recepcion Pedido",
+                                template: "recepcionPedido",
+                                tipo: "recepcion",
+                                icon: "maps:local-grocery-store"
+                            },
+                            {
+                                nombre: "Programacion De Pedido",
+                                template: "programacionDePedido",
+                                tipo: "programacion",
+                                icon: "icons:watch-later"
+                            },
+                            {
+                                nombre: "Pedido enviado",
+                                template: "pedidoEnviado",
+                                tipo: "envio",
+                                icon: "maps:local-shipping"
+                            },
+                            {
+                                nombre: "Pedido entregado",
+                                template: "pedidoEntregado",
+                                tipo: "entrega",
+                                icon: "maps:beenhere"
+                            }
+                        ]
+                    },
+                    llaveOrden: {
+                        type: String
+                    },
+                    ordenDeCompra: {
+                        type: Object,
+                        value: {},
+                        notify: true
+                    },
+                    ipcRenderer: {
+                        type: Object
+                    },
+                    configuarionCorreo: {
+                        type: Object,
+                        value: {}
+                    },
+                    mensaje: {
+                        type: String,
+                        value: ""
+                    },
+                    desactivarFireBase: {
+                        type: Boolean,
+                        value: true
+                    }
+                };
+            }
+
+            /**
+             * Instance of the element is created/upgraded. Use: initializing state,
+             * set up event listeners, create shadow dom.
+             * @constructor
+             */
+            constructor() {
+                super();
+
+                this.ipcRenderer = this.ipcRenderer || require('electron').ipcRenderer
+
+
+
+                this.ipcRenderer.on("respuestaEnvioCorreo", (e, arg) => {
+                    if (arg) {
+                        this.set("mensaje", "Correo enviado")
+                    } else {
+                        this.set("mensaje", "Error al enviar mensaje")
+                    }
+                })
+
+            }
+
+            /**
+             * Use for one-time configuration of your component after local DOM is initialized. 
+             */
+            ready() {
+                super.ready();
+
+                Polymer.RenderStatus.afterNextRender(this, function () {
+
+                });
+            }
+
+            estiloBoton(e, b) {
+                return e > this.ordenDeCompra.template
+            }
+
+
+            enviarCorreo(e) {
+                let templateCorreo = {}
+                let template = this.listaTemplatesCorreos[this.ordenDeCompra.template]
+
+                switch (template.tipo) {
+                    case "entrega":
+                        templateCorreo = this.dameTemplateEntrega(template.template);
+                        break;
+                    case "envio":
+                        templateCorreo = this.dameTemplateEnvio(template.template);
+                        break;
+                    case "programacion":
+                        templateCorreo = this.dameTemplateProgramacion(template.template);
+                        break;
+                    case "recepcion":
+                        templateCorreo = this.dameTemplateRecepcion(template.template);
+                        break;
+                    default:
+                }
+
+                let idTemplate = this.ordenDeCompra.template
+                this.ipcRenderer.send("enviarCorreo", templateCorreo)
+            }
+
+            fijaEstatus(e) {
+                this.set("ordenDeCompra.template", e.model.index)
+                this.set("ordenDeCompra.estatus", e.model.item.tipo)
+            }
+
+            dameTemplateRecepcion(templateDelCorreo) {
+
+                let template = this.dameTemplateEstandar()
+
+                template.ordenDeCompra = this.ordenDeCompra
+                template.send.template = templateDelCorreo
+
+                template.send.locals = {
+                    "ordenDeCompra": this.ordenDeCompra.ordenDeCompra
+                }
+                return template
+            }
+
+            mostrarBotonAgregar(index, e) {
+                return index !== (this.ordenDeCompra.listaCorreos.length - 1)
+            }
+
+
+
+            agregarProducto() {
+                if (!this.ordenDeCompra.productos) {
+                    this.set("ordenDeCompra.productos", {
+                        0: {
+                            nombre: "",
+                            proveedor: ""
+                        }
+                    })
+                } else {
+                    let query = `ordenDeCompra.productos`
+                    this.agregarElmementoArray(query, {
+                        nombre: "",
+                        proveedor: ""
+                    })
+                }
+            }
+
+
+
+            eliminarElementoArray(arrayOriginal, indice) {
+                //Eliminar el indice indicado
+                this.splice(arrayOriginal, indice, 1);
+            }
+
+            agregarArchivo(e) {
+                this.$.fileInput.click()
+
+                let self = this
+                this.$.fileInput.onchange = function () {
+                    Object.values(this.files).map(x => {
+
+                        let archivo = {
+                            "nombre": x.name,
+                            "ruta": x.path
+                        }
+                        self.guardarArchivo(e, archivo)
+                    })
+                }
+            }
+
+            guardarArchivo(archivo) {
+                archivo.oc = this.ordenDeCompra.ordenDeCompra
+
+                this.ipcRenderer = this.ipcRenderer || require('electron').ipcRenderer
+                this.ipcRenderer.send("copiarArchivo", archivo)
+
+                let lista = `ordenDeCompra.listaArchivos`
+                archivo.ruta = "OrdenesDeCompra\\" + archivo.oc + "\\" + archivo.nombre
+                //Verificar si la lista esta inicializada
+                if (!this.ordenDeCompra.listaArchivos) {
+                    //Insertar el primer array de archivos
+                    this.set(lista, [])
+                }
+
+                this.push(lista, archivo)
+            }
+
+            guardarArchivoDrag(e) {
+
+                e.preventDefault();
+                let archivos = e.dataTransfer.files
+
+                Object.values(archivos).map(x => {
+
+                    let archivo = {
+                        "nombre": x.name,
+                        "ruta": x.path
+                    }
+                    this.guardarArchivo(archivo)
+                })
+
+
+                // Pass event to removeDragData for cleanup
+                this.removeDragData(e)
+            }
+
+            removeDragData(e) {
+
+
+                if (e.dataTransfer.items) {
+                    // Use DataTransferItemList interface to remove the drag data
+                    e.dataTransfer.items.clear();
+                } else {
+                    // Use DataTransfer interface to remove the drag data
+                    e.dataTransfer.clearData();
+                }
+            }
+
+            eliminarArchivoDB(e) {
+                let query = `ordenDeCompra.listaArchivos`
+                this.eliminarElementoArray(query, e.model.index)
+            }
+
+            eliminarOrdenDeCompra() {
+                //Eliminar con la api de firebird el elemento en base a la llave
+                this.$.query.ref.remove();
+                this.set("ordenDeCompra", {})
+                this.set("llaveOrden", undefined)
+            }
+
+            normalisaArchivosParaCorreo(listaArchivos) {
+                //Normalizar los correos para la forma del NodeMailer
+                return listaArchivos.map(archivo => {
+                    return {
+                        "filename": archivo.nombre,
+                        "path": archivo.ruta
+                    }
+                })
+            }
+
+            dameTemplateEstandar() {
+                return {
+                    "smtp": {
+                        "service": this.configuarionCorreo.service,
+                        "auth": {
+                            "user": this.configuarionCorreo.user,
+                            "pass": this.configuarionCorreo.pass
+                        }
+                    },
+                    "send": {
+                        "message": {
+                            "from": this.configuarionCorreo.user,
+                            "to": this.ordenDeCompra.listaCorreos
+                        }
+                    }
+                }
+            }
+
+            esClienteActual(nombreParsial) {
+                return this.ordenDeCompra.cliente.toUpperCase().includes(nombreParsial.toUpperCase())
+            }
+
+            agregaCorreoEspecial(cliente) {
+                if (this.esClienteActual(cliente.nombre)) {
+                    console.log(this.ordenDeCompra)
+                    if (!this.ordenDeCompra.listaCorreos.includes(cliente.correo)) {
+                        this.push("ordenDeCompra.listaCorreos", cliente.correo)
+                    }
+                }
+            }
+
+            entregaCorreosEspeciales() {
+                return [{
+                        nombre: "VECTRALIS",
+                        correo: "invoice@vectralis.com"
+                    }, {
+                        nombre: "SIDEL",
+                        correo: "invoice.ap@sidel.com"
+                    }
+
+                ]
+            }
+
+
+            dameTemplateEntrega(templateDelCorreo) {
+                this.entregaCorreosEspeciales().map(x => this.agregaCorreoEspecial(x))
+                //Correos especiales
+
+                let template = this.dameTemplateEstandar()
+
+
+                template.ordenDeCompra = this.ordenDeCompra
+
+                if (this.esClienteActual("vectralis")) {
+                    template.send.template = "pedidoEntregadoVectralis"
+                } else if (this.esClienteActual("nature")) {
+                    template.send.template = "pedidoEntregadoNature"
+                } else {
+                    template.send.template = templateDelCorreo
+                }
+
+                if (this.ordenDeCompra.listaArchivos) {
+                    template.send.message.attachments = this.normalisaArchivosParaCorreo(this.ordenDeCompra.listaArchivos)
+                }
+                template.send.locals = {
+                    "ordenDeCompra": this.ordenDeCompra.ordenDeCompra,
+                    "numeroFactura": this.ordenDeCompra.factura,
+                    "fechaEnvio": this.ordenDeCompra.fechaEnvio
+                }
+
+
+                return template
+            }
+
+            dameTemplateEnvio(templateDelCorreo) {
+                let template = this.dameTemplateEstandar()
+
+                template.ordenDeCompra = this.ordenDeCompra
+                template.send.template = templateDelCorreo
+
+                template.send.locals = {
+                    "ordenDeCompra": this.ordenDeCompra.ordenDeCompra,
+                    "fechaEnvio": this.ordenDeCompra.fechaEnvio
+                }
+                return template
+            }
+
+            dameTemplateProgramacion(templateDelCorreo) {
+                let template = this.dameTemplateEstandar()
+
+                template.ordenDeCompra = this.ordenDeCompra
+                template.send.template = templateDelCorreo
+
+                template.send.locals = {
+                    "ordenDeCompra": this.ordenDeCompra.ordenDeCompra,
+                    "fechaEnvio": this.ordenDeCompra.fechaEnvio
+                }
+                return template
+            }
+
+
+
+        }
+
+        window.customElements.define(DetalleOrdenCompra.is, DetalleOrdenCompra);
+    </script>
+</dom-module>

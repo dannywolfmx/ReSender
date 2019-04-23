@@ -1,0 +1,66 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+        }
+
+        body {
+            font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Sans-Serif;
+            letter-spacing: 2px;
+        }
+
+        #caja {
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12),
+            0 3px 1px -2px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 24px auto;
+            max-width: 500px;
+
+        }
+
+        #titulo {
+            background: #1E88E5;
+            color: white;
+            font-weight: bold;
+            font-size: 32px;
+            text-align: center;
+            margin-top: 24px;
+            margin-bottom: 32px;
+            padding: 16px;
+        }
+
+        .nota {
+            margin-top: 32px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center">
+                <div id="caja">
+                    <div id="titulo">
+                        Avanti
+                    </div>
+                    <h1>Confirmación de pedido.</h1>
+                    <h2>Hemos recibido su pedido <b>{{=it.ordenDeCompra}}</b>.</h2>
+                    <p class="nota">Mensaje autogenerado</p>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+</body>

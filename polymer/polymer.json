@@ -1,0 +1,11 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/polymer-app/polymer-app.html",
+  "lint": {
+    "rules": ["polymer-2-hybrid"]
+  },
+  "build":{
+    "preset": "es6-unbundled",
+    "addServiceWorker": true
+  }
+}
