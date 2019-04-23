@@ -5,12 +5,12 @@ const {
   ipcMain,
   shell
 } = require('electron');
-
+//Trabajar con rutas entre plataformas
 const path = require('path');
 
 const fs = require('fs');
 let nodemailer = require("nodemailer")
-const directorioOC = "OrdenesDeCompra"
+const directorioOC = path.join('.',"OrdenesDeCompra")
 var juice = require('juice');
 var dot = require('dot')
 
@@ -59,23 +59,27 @@ function createWindow() {
     mainWindow.show(); // Thumbbar is not showing
 
   });
-
+    
+    //Crear el directorio para ordenes de compra si no existe 
   if (!fs.existsSync(directorioOC)) {
     fs.mkdirSync(directorioOC);
   }
 
   ipcMain.on("copiarArchivo", function (event, archivo) {
     if (archivo) {
-      let directorio = directorioOC + "\\" + archivo.oc
+        let directorio = path.join(directorioOC, archivo.oc);
       if (!fs.existsSync(directorio)) {
         fs.mkdirSync(directorio);
       }
-      fs.createReadStream(archivo.ruta).pipe(fs.createWriteStream(`${directorio}\\${archivo.nombre}`));
+        console.log(archivo.ruta)
+        let rutaArchivo = path.join(directorio,archivo.nombre);
+      fs.createReadStream(archivo.ruta).pipe(fs.createWriteStream(rutaArchivo));
     }
   })
 
-  ipcMain.on("abreArchivo",function(event,ruta){
-    shell.showItemInFolder(app.getAppPath() +'\\'+ ruta)
+    ipcMain.on("abreArchivo",function(event,ruta){
+    let rutaArchivo = path.join(app.getAppPath(),ruta)
+    shell.showItemInFolder(rutaArchivo)
   })
 
 }
@@ -104,14 +108,16 @@ app.on('activate', function () {
 })
 
 function dameTemplateHTML(nombreTemplate) {
-  var html = new Promise((resolve, reject) => {
-    fs.readFile(`./emails/${nombreTemplate}/html.hbs`, 'utf-8', (err, datos) => {
+    var html = new Promise((resolve, reject) => {
+        let rutaTemplate = path.join('.','emails',nombreTemplate,'html.hbs')
+    fs.readFile(rutaTemplate, 'utf-8', (err, datos) => {
       err ? reject(err) : resolve(datos)
     })
   })
 
-  var subject = new Promise((resolve, reject) => {
-    fs.readFile(`./emails/${nombreTemplate}/subject.hbs`, 'utf-8', (err, datos) => {
+    var subject = new Promise((resolve, reject) => {
+    let rutaTemplate = path.join('.','emails',nombreTemplate,'subject.hbs')
+    fs.readFile(rutaTemplate, 'utf-8', (err, datos) => {
       err ? reject(err) : resolve(datos)
     })
   })
@@ -125,7 +131,7 @@ function guardaPlantilla(html, ruta, nombreArchivo) {
       if (err) {
         console.log("Error en la ruta esta")
       } else {
-        let path = `${ruta}/${nombreArchivo}.inline`
+          let path = path.join(ruta,nombreArchivo)
         if(!fs.existsSync(path)){
           fs.writeFile(path, html, function(err){
             if(err){
@@ -140,9 +146,10 @@ function guardaPlantilla(html, ruta, nombreArchivo) {
   }
 }
 
-function getDirectories(path) {
-  return fs.readdirSync(path).filter(function (file) {
-    return fs.statSync(path+'/'+file).isDirectory();
+function getDirectories(ruta) {
+    return fs.readdirSync(ruta).filter(function (file) {
+        let rutaArchivo = path.join(ruta,file)
+    return fs.statSync(rutaArchivo).isDirectory();
   });
 }
 
@@ -153,10 +160,6 @@ ipcMain.on("enviarCorreo", function (event, templateCorreo) {
   let localsTemplate = templateCorreo.send.locals
   let mailOptions = templateCorreo.send.message
 
-
-/*   dameTemplateHTML(templateCorreo.send.template).then(data =>{
-    guardaPlantilla(juice(data[0]),"./templateEmail",templateCorreo.send.template)
-  }) */
   dameTemplateHTML(templateCorreo.send.template)
     .then(data => {
       let html = dot.template(data[0])

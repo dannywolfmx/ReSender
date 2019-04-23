@@ -1,4 +1,4 @@
-<dom-module id="detalle-orden-compra">
+    <dom-module id="detalle-orden-compra">
     <template>
         <style>
             :host {
@@ -368,7 +368,7 @@
                     })
                 }
             }
-
+//TODO Hacer que el servidor se encargue de las rutas
             guardarArchivo(archivo) {
                 archivo.oc = this.ordenDeCompra.ordenDeCompra
 
@@ -376,7 +376,7 @@
                 this.ipcRenderer.send("copiarArchivo", archivo)
 
                 let lista = `ordenDeCompra.listaArchivos`
-                archivo.ruta = "OrdenesDeCompra\\" + archivo.oc + "\\" + archivo.nombre
+                archivo.ruta = "./OrdenesDeCompra/" + archivo.oc + "/" + archivo.nombre
                 //Verificar si la lista esta inicializada
                 if (!this.ordenDeCompra.listaArchivos) {
                     //Insertar el primer array de archivos
@@ -499,7 +499,8 @@
                 } else {
                     template.send.template = templateDelCorreo
                 }
-
+                
+                //Adjuntar archivos a correo
                 if (this.ordenDeCompra.listaArchivos) {
                     template.send.message.attachments = this.normalisaArchivosParaCorreo(this.ordenDeCompra.listaArchivos)
                 }
