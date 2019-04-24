@@ -63,14 +63,14 @@ class ClienteCorreo {
     this.transporter = nodemailer.createTransport(confSMTP);
   }
 
-  enviarCorreo({template, locals, send, message, smtp}) {
+  enviarCorreo({send, smtp}) {
     this.dameTemplateHTML(send.template)
       .then(data => {
         let html = dot.template(data[0]);
-        html = html(locals);
+        html = html(send.locals);
 
         let subject = dot.template(data[1]);
-        subject = subject(locals);
+        subject = subject(send.locals);
         let inline = juice(html);
 
         return Promise.all([inline, subject]);
@@ -79,16 +79,18 @@ class ClienteCorreo {
         mailOptions.html = datos[0];
         mailOptions.subject = datos[1];
 
-        nodemailer.createTransport(smtp).sendMail(message, (error, info) => {
-          if (error) {
-            console.log(error);
-            event.sender.send('respuestaEnvioCorreo', false);
-            return -1;
-          } else {
-            console.log(info);
-            event.sender.send('respuestaEnvioCorreo', true);
-          }
-        });
+        nodemailer
+          .createTransport(smtp)
+          .sendMail(send.message, (error, info) => {
+            if (error) {
+              console.log(error);
+              event.sender.send('respuestaEnvioCorreo', false);
+              return -1;
+            } else {
+              console.log(info);
+              event.sender.send('respuestaEnvioCorreo', true);
+            }
+          });
       });
   }
 }
