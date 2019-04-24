@@ -121,35 +121,6 @@ function getDirectories(ruta) {
 
 
 ipcMain.on("enviarCorreo", function (event, templateCorreo) {
-  let transporter = nodemailer.createTransport(templateCorreo.smtp)
-  let localsTemplate = templateCorreo.send.locals
-  let mailOptions = templateCorreo.send.message
-
-  dameTemplateHTML(templateCorreo.send.template)
-    .then(data => {
-      let html = dot.template(data[0])
-      html = html(localsTemplate)
-
-      let subject = dot.template(data[1])
-      subject = subject(localsTemplate)
-      let inline = juice(html)
-
-      return Promise.all([inline, subject])
-    }).then(
-      datos => {
-        mailOptions.html = datos[0]
-        mailOptions.subject = datos[1]
-
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            console.log(error)
-            event.sender.send("respuestaEnvioCorreo", false)
-            return -1
-          } else {
-            console.log(info)
-            event.sender.send("respuestaEnvioCorreo", true)
-          }
-        })
-      }
-    )
+    let clienteEmail = new ClienteEmail();
+    clienteEmail.enviarCorreo(templateCorreo);
 })

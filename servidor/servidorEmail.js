@@ -1,9 +1,12 @@
 const nodemailer = require("nodemailer")
-
+const juice = require('juice');
+const dot = require('dot')
 export default class EmailServer(){
 
-
 let trasporter = {};
+
+
+
 
 dameTemplateHTML(nombreTemplate) {
     var html = new Promise((resolve, reject) => {
@@ -53,9 +56,37 @@ fijaTransporte(confSMTP){
     this.transporter = nodemailer.createTransport(confSMTP);;
 }
 
-enviaCorreo(){
+enviaCorreo({template,locals,send,message,smtp}){ 
 
+  dameTemplateHTML(template)
+    .then(data => {
+      let html = dot.template(data[0])
+      html = html(locals)
+
+      let subject = dot.template(data[1])
+      subject = subject(locals)
+      let inline = juice(html)
+
+      return Promise.all([inline, subject])
+    }).then(
+      datos => {
+        mailOptions.html = datos[0]
+        mailOptions.subject = datos[1]
+
+          nodemailer.createTransport(smtp).sendMail(message, (error, info) => {
+          if (error) {
+            console.log(error)
+            event.sender.send("respuestaEnvioCorreo", false)
+            return -1
+          } else {
+            console.log(info)
+            event.sender.send("respuestaEnvioCorreo", true)
+          }
+        })
+      }
+    )
 }
+
 
 }
 
