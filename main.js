@@ -9,12 +9,11 @@ const {
 const path = require('path');
 
 const fs = require('fs');
-let nodemailer = require("nodemailer")
+const nodemailer = require("nodemailer")
 const directorioOC = path.join('.',"OrdenesDeCompra")
-var juice = require('juice');
-var dot = require('dot')
-
-var mkdirp = require('mkdirp');
+const juice = require('juice');
+const dot = require('dot')
+const mkdirp = require('mkdirp');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
