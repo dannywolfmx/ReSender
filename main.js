@@ -9,15 +9,18 @@ const {
 const path = require('path');
 
 const fs = require('fs');
-const nodemailer = require("nodemailer")
 const directorioOC = path.join('.',"OrdenesDeCompra")
 const juice = require('juice');
 const dot = require('dot')
 const mkdirp = require('mkdirp');
 
+const ClienteEmail = require('./servidor/servidorEmail.js')
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+
+let clienteEmail = new ClienteEmail();
 
 function createWindow() {
   // Create the browser window.
@@ -106,44 +109,7 @@ app.on('activate', function () {
   }
 })
 
-function dameTemplateHTML(nombreTemplate) {
-    var html = new Promise((resolve, reject) => {
-        let rutaTemplate = path.join('.','emails',nombreTemplate,'html.hbs')
-    fs.readFile(rutaTemplate, 'utf-8', (err, datos) => {
-      err ? reject(err) : resolve(datos)
-    })
-  })
 
-    var subject = new Promise((resolve, reject) => {
-    let rutaTemplate = path.join('.','emails',nombreTemplate,'subject.hbs')
-    fs.readFile(rutaTemplate, 'utf-8', (err, datos) => {
-      err ? reject(err) : resolve(datos)
-    })
-  })
-
-  return Promise.all([html, subject])
-}
-
-function guardaPlantilla(html, ruta, nombreArchivo) {
-  if (html && ruta) {
-    mkdirp(ruta, function (err) {
-      if (err) {
-        console.log("Error en la ruta esta")
-      } else {
-          let path = path.join(ruta,nombreArchivo)
-        if(!fs.existsSync(path)){
-          fs.writeFile(path, html, function(err){
-            if(err){
-              return -1
-            }else{
-              console.log("Archivo guardado")
-            }
-          })
-        }
-      }
-    })
-  }
-}
 
 function getDirectories(ruta) {
     return fs.readdirSync(ruta).filter(function (file) {
