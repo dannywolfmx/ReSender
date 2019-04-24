@@ -4,6 +4,8 @@ const nodemailer = require('nodemailer');
 const juice = require('juice');
 const dot = require('dot');
 const path = require('path');
+const fs = require('fs');
+
 class ClienteCorreo {
   constructor() {
     console.log('Hola');
@@ -62,7 +64,7 @@ class ClienteCorreo {
   }
 
   enviarCorreo({template, locals, send, message, smtp}) {
-    this.dameTemplateHTML(template)
+    this.dameTemplateHTML(send.template)
       .then(data => {
         let html = dot.template(data[0]);
         html = html(locals);
