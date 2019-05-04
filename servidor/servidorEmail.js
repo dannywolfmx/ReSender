@@ -7,10 +7,6 @@ const path = require('path');
 const fs = require('fs');
 
 class ClienteCorreo {
-  constructor() {
-    console.log('Hola');
-  }
-
   dameTemplateHTML(nombreTemplate) {
     var html = new Promise((resolve, reject) => {
       let rutaTemplate = path.join('.', 'emails', nombreTemplate, 'html.hbs');
@@ -76,8 +72,8 @@ class ClienteCorreo {
         return Promise.all([inline, subject]);
       })
       .then(datos => {
-        mailOptions.html = datos[0];
-        mailOptions.subject = datos[1];
+        send.message.html = datos[0];
+        send.message.subject = datos[1];
 
         nodemailer
           .createTransport(smtp)
