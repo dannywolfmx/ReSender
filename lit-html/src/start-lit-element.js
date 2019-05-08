@@ -1,3 +1,6 @@
+//TODO LISTA DE CLIENTE
+//TODO FORMULARIO PARA NUEVA ORDEN DE COMPRA
+//TODO BASE DE DATOS 
 /**
  * @license
  * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
@@ -11,6 +14,8 @@
 
 // Import LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
+import './lista-ordenes.js'
+
 
 export class StartLitElement extends LitElement {
   /**
@@ -50,6 +55,7 @@ export class StartLitElement extends LitElement {
 
       <h1>ReSender</h1>
       <p>${this.message}</p>
+      <lista-ordenes></lista-ordenes>
 
       <input name="myinput" id="myinput" 
         type="checkbox"
