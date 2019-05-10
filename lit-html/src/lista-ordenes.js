@@ -1,4 +1,5 @@
 import {LitElement, html} from 'lit-element';
+import './tarjeta/info-cliente.js';
 
 export class ListaOrdenes extends LitElement {
   static get properties() {
@@ -14,7 +15,9 @@ export class ListaOrdenes extends LitElement {
 
     this.listaOrdenes = [
       {
-        cliente: 'Prueba',
+        cliente: {
+          nombre: 'Nombre de prueba',
+        },
         orden: 1234,
         factura: 'FAC234',
       },
@@ -23,14 +26,12 @@ export class ListaOrdenes extends LitElement {
 
   render() {
     return html`
-      <ul>
-        ${this.listaOrdenes.map(
-          i =>
-            html`
-              <li>${i.factura}</li>
-            `,
-        )}
-      </ul>
+      ${this.listaOrdenes.map(
+        orden =>
+          html`
+            <info-cliente .orden=${orden}> </info-cliente>
+          `,
+      )}
     `;
   }
 }
