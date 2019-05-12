@@ -10,8 +10,13 @@
   "author": "The Polymer Authors",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "latest",
-    "lit-element": "latest"
+    "@material/mwc-icon": "^0.5.0",
+    "@vaadin/vaadin-button": "^2.2.0",
+    "@vaadin/vaadin-form-layout": "^2.1.2",
+    "@vaadin/vaadin-text-field": "^2.4.3",
+    "@webcomponents/webcomponentsjs": "^2.2.10",
+    "lit-element": "latest",
+    "material-components-web": "^2.1.1"
   },
   "devDependencies": {
     "eslint": "^5.16.0",

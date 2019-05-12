@@ -1,6 +1,6 @@
 //TODO LISTA DE CLIENTE
 //TODO FORMULARIO PARA NUEVA ORDEN DE COMPRA
-//TODO BASE DE DATOS 
+//TODO BASE DE DATOS
 /**
  * @license
  * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
@@ -11,25 +11,23 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-
 // Import LitElement base class and html helper function
-import { LitElement, html } from 'lit-element';
-import './lista-ordenes.js'
-
-
+import {LitElement, html} from 'lit-element';
+import './lista-ordenes.js';
+import './formulario/formulario-cliente.js';
 export class StartLitElement extends LitElement {
   /**
-   * Define properties. Properties defined here will be automatically 
+   * Define properties. Properties defined here will be automatically
    * observed.
    */
   static get properties() {
     return {
-      message: { type: String },
-      pie: { type: Boolean }
+      message: {type: String},
+      pie: {type: Boolean},
     };
   }
 
-  /**  
+  /**
    * In the element constructor, assign default property values.
    */
   constructor() {
@@ -49,22 +47,34 @@ export class StartLitElement extends LitElement {
   render() {
     return html`
       <style>
-        :host { display: block; }
-        :host([hidden]) { display: none; }
+        :host {
+          display: block;
+        }
+        :host([hidden]) {
+          display: none;
+        }
       </style>
 
-      <h1>ReSender</h1>
+      <h1>RSender</h1>
+      <formulario-cliente></formulario-cliente>
       <p>${this.message}</p>
       <lista-ordenes></lista-ordenes>
 
-      <input name="myinput" id="myinput" 
+      <input
+        name="myinput"
+        id="myinput"
         type="checkbox"
         ?checked="${this.pie}"
-        @change="${this.togglePie}">
+        @change="${this.togglePie}"
+      />
 
       <label for="myinput">I like pie.</label>
-      
-      ${this.pie ? html`<lazy-element></lazy-element>` : html``}
+
+      ${this.pie
+        ? html`
+            <lazy-element></lazy-element>
+          `
+        : html``}
     `;
   }
 
@@ -91,19 +101,21 @@ export class StartLitElement extends LitElement {
   }
 
   /**
-   * If we need the lazy element && it hasn't already been loaded, 
+   * If we need the lazy element && it hasn't already been loaded,
    * load it and remember that we loaded it.
    */
   async loadLazy() {
     console.log('loadLazy');
-    if(this.pie && !this.loadComplete) {
-      return import('./lazy-element.js').then((LazyElement) => {
-        this.loadComplete = true;
-        console.log("LazyElement loaded");
-      }).catch((reason) => {
-        this.loadComplete = false;
-        console.log("LazyElement failed to load", reason);
-      });
+    if (this.pie && !this.loadComplete) {
+      return import('./lazy-element.js')
+        .then(LazyElement => {
+          this.loadComplete = true;
+          console.log('LazyElement loaded');
+        })
+        .catch(reason => {
+          this.loadComplete = false;
+          console.log('LazyElement failed to load', reason);
+        });
     }
   }
 }
