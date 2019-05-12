@@ -4,7 +4,7 @@ import './tarjeta/info-cliente.js';
 export class ListaOrdenes extends LitElement {
   static get properties() {
     return {
-      listaOrdenes: {
+      lista: {
         type: Array,
       },
     };
@@ -13,25 +13,19 @@ export class ListaOrdenes extends LitElement {
   constructor() {
     super();
 
-    this.listaOrdenes = [
-      {
-        cliente: {
-          nombre: 'Nombre de prueba',
-        },
-        orden: 1234,
-        factura: 'FAC234',
-      },
-    ];
+    this.listaOrdenes = [];
   }
-
+  updated(e) {
+    console.log(e);
+  }
   render() {
     return html`
-      ${this.listaOrdenes.map(
-        orden =>
-          html`
-            <info-cliente .orden=${orden}> </info-cliente>
-          `,
-      )}
+      ${this.lista.map(orden => {
+        return html`
+          ${console.log(orden)}
+          <info-cliente .orden=${orden}></info-cliente>
+        `;
+      })}
     `;
   }
 }

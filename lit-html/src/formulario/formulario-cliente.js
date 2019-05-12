@@ -6,6 +6,9 @@ import '@vaadin/vaadin-button/vaadin-button.js';
 export class FormularioCliente extends LitElement {
   static get properties() {
     return {
+      _id: {
+        type: Number,
+      },
       cliente: {
         type: String,
       },
@@ -39,18 +42,22 @@ export class FormularioCliente extends LitElement {
   fijarOrdenDeCompra({target: {value}}) {
     this.ordenDeCompra = value;
   }
-
+  //TODO Probar el generador de id's
   guardarFormulario() {
     const orden = {
       cliente: this.cliente,
       numeroFactura: this.numeroFactura,
       ordenDeCompra: this.ordenDeCompra,
     };
-    let ordenes = localStorage.getItem('ordenes');
-    ordenes = ordenes ? ordenes.split(',') : [];
 
-    ordenes.push(orden);
-    localStorage.setItem('ordenes', JSON.stringify(ordenes));
+    const event = new CustomEvent('guardar', {
+      detail: {
+        orden,
+        error: false,
+      },
+    });
+
+    this.dispatchEvent(event);
   }
 
   render() {

@@ -1,17 +1,3 @@
-//TODO LISTA DE CLIENTE
-//TODO FORMULARIO PARA NUEVA ORDEN DE COMPRA
-//TODO BASE DE DATOS
-/**
- * @license
- * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-
-// Import LitElement base class and html helper function
 import {LitElement, html} from 'lit-element';
 import './lista-ordenes.js';
 import './formulario/formulario-cliente.js';
@@ -22,8 +8,9 @@ export class StartLitElement extends LitElement {
    */
   static get properties() {
     return {
-      message: {type: String},
-      pie: {type: Boolean},
+      ordenes: {
+        type: Array,
+      },
     };
   }
 
@@ -34,10 +21,14 @@ export class StartLitElement extends LitElement {
     // Must call superconstructor first.
     super();
 
-    // Initialize properties
-    this.loadComplete = false;
-    this.message = 'Hello World from LitElement';
-    this.pie = false;
+    //Solicitar lista de ordenes
+    this.actualizarLista();
+  }
+  //Actualizar la lista de ordenes
+  actualizarLista() {
+    const lista = localStorage.getItem('ordenes');
+
+    this.ordenes = JSON.parse(lista) || [];
   }
 
   /**
@@ -46,77 +37,39 @@ export class StartLitElement extends LitElement {
    */
   render() {
     return html`
-      <style>
-        :host {
-          display: block;
-        }
-        :host([hidden]) {
-          display: none;
-        }
-      </style>
-
       <h1>RSender</h1>
-      <formulario-cliente></formulario-cliente>
-      <p>${this.message}</p>
-      <lista-ordenes></lista-ordenes>
-
-      <input
-        name="myinput"
-        id="myinput"
-        type="checkbox"
-        ?checked="${this.pie}"
-        @change="${this.togglePie}"
-      />
-
-      <label for="myinput">I like pie.</label>
-
-      ${this.pie
-        ? html`
-            <lazy-element></lazy-element>
-          `
-        : html``}
+      <formulario-cliente @guardar="${this.agregarOrden}"></formulario-cliente>
+      <lista-ordenes .lista="${this.ordenes}"></lista-ordenes>
     `;
   }
 
-  /**
-   * Implement firstUpdated to perform one-time work on first update:
-   * - Call a method to load the lazy element if necessary
-   * - Focus the checkbox
-   */
-  firstUpdated() {
-    this.loadLazy();
+  //Agregar una nueva orden de compra
+  agregarOrden({detail: {orden, error}}) {
+    console.log(orden);
 
-    const myInput = this.shadowRoot.getElementById('myinput');
-    myInput.focus();
-  }
-
-  /**
-   * Event handler. Gets called whenever the checkbox fires a `change` event.
-   * - Toggle whether to display <lazy-element>
-   * - Call a method to load the lazy element if necessary
-   */
-  togglePie(e) {
-    this.pie = !this.pie;
-    this.loadLazy();
-  }
-
-  /**
-   * If we need the lazy element && it hasn't already been loaded,
-   * load it and remember that we loaded it.
-   */
-  async loadLazy() {
-    console.log('loadLazy');
-    if (this.pie && !this.loadComplete) {
-      return import('./lazy-element.js')
-        .then(LazyElement => {
-          this.loadComplete = true;
-          console.log('LazyElement loaded');
-        })
-        .catch(reason => {
-          this.loadComplete = false;
-          console.log('LazyElement failed to load', reason);
-        });
+    if (error) {
+      //Notificar error
+      return -1;
     }
+
+    let ordenes = localStorage.getItem('ordenes');
+    let _id = localStorage.getItem('_idOrden');
+    //Verificar que el id sea valido
+    if (!_id) {
+      _id = 0;
+    } else {
+      _id++;
+    }
+
+    localStorage.setItem('_idOrden', _id);
+
+    orden._id = _id;
+
+    ordenes = ordenes ? JSON.parse(ordenes) : [];
+    ordenes.push(orden);
+
+    localStorage.setItem('ordenes', JSON.stringify(ordenes));
+    this.actualizarLista();
   }
 }
 
