@@ -17,9 +17,24 @@ export class InfoCliente extends LitElement {
     };
   }
   //Editar el formulario
-  editar() {}
+  editar() {
+    const evento = new CustomEvent('editar', {
+      detail: {
+        orden: this.orden,
+      },
+    });
+    this.dispatchEvent(evento);
+  }
   //No eliminar, solo marcar como inactivo
-  eliminar() {}
+  eliminar() {
+    const eveto = new CustomEvent('eliminar', {
+      detail: {
+        _id: this.orden._id,
+        error: false,
+      },
+    });
+    this.dispatchEvent(eveto);
+  }
 
   render() {
     return html`

@@ -49,8 +49,8 @@ export class FormularioCliente extends LitElement {
       numeroFactura: this.numeroFactura,
       ordenDeCompra: this.ordenDeCompra,
     };
-
-    const event = new CustomEvent('guardar', {
+    //Si este formulario cuenta con un id, significa que esta es una actualizacion
+    const event = new CustomEvent(this._id ? 'actualizar' : 'guardar', {
       detail: {
         orden,
         error: false,
@@ -59,10 +59,17 @@ export class FormularioCliente extends LitElement {
 
     this.dispatchEvent(event);
   }
+  //https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_drag_and_drop
+  guardarArchivo(evento) {
+    evento.preventDefault();
+    console.log(evento);
+    if (evento) {
+    }
+  }
 
   render() {
     return html`
-      <vaadin-form-layout>
+      <vaadin-form-layout @drop="${this.guardarArchivo}">
         <vaadin-text-field
           label="cliente"
           @change=${this.fijarCliente}

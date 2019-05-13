@@ -4,7 +4,7 @@ import './tarjeta/info-cliente.js';
 export class ListaOrdenes extends LitElement {
   static get properties() {
     return {
-      lista: {
+      ordenes: {
         type: Array,
       },
     };
@@ -12,20 +12,32 @@ export class ListaOrdenes extends LitElement {
 
   constructor() {
     super();
+    this.ordenes = [];
+  }
 
-    this.listaOrdenes = [];
+  editarOrden({detail: {orden}}) {
+    console.log(orden);
   }
-  updated(e) {
-    console.log(e);
+
+  eliminarOrden({detail}) {
+    const evento = new CustomEvent('eliminar', {detail});
+    this.dispatchEvent(evento);
   }
+  //Tarjeta con informacion de la orden
+
+  tarjetaInformacion(orden) {
+    return html`
+      <info-cliente
+        .orden=${orden}
+        @editar=${this.editarOrden}
+        @eliminar="${this.eliminarOrden}"
+      ></info-cliente>
+    `;
+  }
+
   render() {
     return html`
-      ${this.lista.map(orden => {
-        return html`
-          ${console.log(orden)}
-          <info-cliente .orden=${orden}></info-cliente>
-        `;
-      })}
+      ${this.ordenes.map(this.tarjetaInformacion.bind(this))}
     `;
   }
 }
