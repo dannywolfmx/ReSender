@@ -11,6 +11,9 @@ export class StartLitElement extends LitElement {
       ordenes: {
         type: Array,
       },
+      ordenEdicion: {
+        type: Object,
+      },
     };
   }
 
@@ -23,6 +26,15 @@ export class StartLitElement extends LitElement {
 
     //Solicitar lista de ordenes
     this.actualizarLista();
+
+    this.ordenEdicion = {
+      //Nombre del cliente
+      cliente: '',
+      //Numero de factura
+      numeroFactura: '',
+      //Numero de orden de compra
+      ordenDeCompra: '',
+    };
   }
   //Actualizar la lista de ordenes
   actualizarLista() {
@@ -39,14 +51,26 @@ export class StartLitElement extends LitElement {
 
     if (index >= 0) {
       this.ordenes[index] = orden;
-      //TODO Verificar si es necesario clonar
       this.ordenes = [...this.ordenes];
 
       localStorage.setItem('ordenes', JSON.stringify(this.ordenes));
+      this.ordenEdicion = {
+        cliente: '',
+        numeroFactura: '',
+        ordenDeCompra: '',
+      };
     }
   }
 
-  fijarEdicion({detail: {_id}}) {}
+  fijarEdicion({detail: {_id}}) {
+    const index = this.ordenes.findIndex(elemento => {
+      return elemento._id === _id;
+    });
+
+    if (index >= 0) {
+      this.ordenEdicion = this.ordenes[index];
+    }
+  }
 
   /**
    * Define a template for the new element by implementing LitElement's
@@ -58,6 +82,7 @@ export class StartLitElement extends LitElement {
       <formulario-cliente
         @actualizar="${this.actualizarOrden}"
         @guardar="${this.agregarOrden}"
+        .orden=${this.ordenEdicion}
       ></formulario-cliente>
       <lista-ordenes
         .ordenes=${this.ordenes}
@@ -74,9 +99,6 @@ export class StartLitElement extends LitElement {
 
     if (index >= 0) {
       this.ordenes.splice(index, 1);
-      //TODO Verificar si es necesario clonar
-      //this.ordenes = {...this.ordenes}
-      console.log(this.ordenes);
       this.ordenes = [...this.ordenes];
       localStorage.setItem('ordenes', JSON.stringify(this.ordenes));
     }

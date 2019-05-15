@@ -4,6 +4,7 @@ import '@vaadin/vaadin-button/vaadin-button.js';
 export class InfoCliente extends LitElement {
   constructor() {
     super();
+    this.orden = {};
   }
 
   static get properties() {
@@ -13,7 +14,9 @@ export class InfoCliente extends LitElement {
      * ordenDeCompra type String
      */
     return {
-      orden: Object,
+      orden: {
+        type: Object,
+      },
     };
   }
   //Editar el formulario
@@ -37,6 +40,7 @@ export class InfoCliente extends LitElement {
   }
 
   render() {
+    console.log(this.orden._id);
     return html`
       <div>
         <div>Id: ${this.orden._id}</div>

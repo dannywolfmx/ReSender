@@ -6,53 +6,35 @@ import '@vaadin/vaadin-button/vaadin-button.js';
 export class FormularioCliente extends LitElement {
   static get properties() {
     return {
-      _id: {
-        type: Number,
-      },
-      cliente: {
-        type: String,
-      },
-      numeroFactura: {
-        type: String,
-      },
-      ordenDeCompra: {
-        type: String,
+      orden: {
+        type: Object,
       },
     };
   }
 
   constructor() {
     super();
-    //Nombre del cliente
-    this.cliente = '';
-    //Numero de factura
-    this.numeroFactura = '';
-    //Numero de orden de compra
-    this.ordenDeCompra = '';
+    this.orden = {};
   }
 
   fijarCliente({target: {value}}) {
-    this.cliente = value;
+    this.orden.cliente = value;
   }
 
   fijarNumeroFactura({target: {value}}) {
-    this.numeroFactura = value;
+    this.orden.numeroFactura = value;
   }
 
   fijarOrdenDeCompra({target: {value}}) {
-    this.ordenDeCompra = value;
+    this.orden.ordenDeCompra = value;
   }
-  //TODO Probar el generador de id's
+
   guardarFormulario() {
-    const orden = {
-      cliente: this.cliente,
-      numeroFactura: this.numeroFactura,
-      ordenDeCompra: this.ordenDeCompra,
-    };
     //Si este formulario cuenta con un id, significa que esta es una actualizacion
-    const event = new CustomEvent(this._id ? 'actualizar' : 'guardar', {
+
+    const event = new CustomEvent(this.orden._id ? 'actualizar' : 'guardar', {
       detail: {
-        orden,
+        orden: this.orden,
         error: false,
       },
     });
@@ -72,16 +54,19 @@ export class FormularioCliente extends LitElement {
       <vaadin-form-layout @drop="${this.guardarArchivo}">
         <vaadin-text-field
           label="cliente"
+          value="${this.orden.cliente}"
           @change=${this.fijarCliente}
         ></vaadin-text-field>
 
         <vaadin-text-field
           label="Factura"
+          value="${this.orden.numeroFactura}"
           @change=${this.fijarNumeroFactura}
         ></vaadin-text-field>
 
         <vaadin-text-field
           label="Orden de compra"
+          value=${this.orden.ordenDeCompra}
           @change=${this.fijarOrdenDeCompra}
         ></vaadin-text-field>
 
