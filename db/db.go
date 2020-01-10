@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+	"log"
 	"os"
 	"sync"
 )
@@ -44,6 +45,13 @@ func Save(path string, v interface{}) error {
 func Load(path string, v interface{}) error {
 	lock.Lock()
 	defer lock.Unlock()
+	_, err := os.Stat(path)
+	//No existe el archivo
+	if os.IsNotExist(err) {
+		log.Println("Prueba")
+		return err
+	}
+	log.Println("Entre")
 	file, err := os.Open(path)
 	if err != nil {
 		return err
