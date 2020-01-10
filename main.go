@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/dannywolfmx/ReSender/models"
@@ -21,13 +22,14 @@ func main() {
 
 	server.POST("/clientes", func(c *gin.Context) {
 		var cliente models.Cliente
-		if err := c.ShouldBindJSON(&cliente); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
-		}
 
+		if err := c.ShouldBind(&cliente); err != nil {
+			c.String(http.StatusBadRequest, "Formato invalido")
+			return
+		}
+		fmt.Println(cliente.Nombre)
 		clientes = append(clientes, cliente)
+		c.String(http.StatusOK, "ok")
 
 	})
 
