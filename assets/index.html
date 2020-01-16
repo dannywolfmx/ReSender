@@ -3,6 +3,7 @@
 		<title>ReSender</title>
 		<link rel="stylesheet" href="https://unpkg.com/picnic">
 		<script type="text/javascript" src="./js/app.js" ></script>
+		<script src="./js/webComponents/listaClientes.js"></script>
 	</head>
 	<body>
 		<div style="overflow: hidden;height: 250px;"> <!-- For Demo, Represents the body -->
@@ -19,13 +20,9 @@
 		  </div>
 		</nav>
 		</div>
-		<div class="flex demo">
-			<div><span>Cliente 1</span></div>
-			<div><span>Cliente 2</span></div>
-			<div><span>Cliente 3</span></div>
-			<div><span>Cliente 4</span></div>
-			<div><span>Cliente 5</span></div>
-		<div>
+
+		<lista-clientes id="clientes" class="flex demo"></lista-clientes>
+
 		<form id="formAgregarCliente" class="third">
 			Agregar Cliente:
 			
