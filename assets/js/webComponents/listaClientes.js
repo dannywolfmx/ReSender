@@ -1,18 +1,21 @@
 class ListaClientes extends HTMLElement{
 	constructor(){
 		super()
-		let s = this.attachShadow({mode:'open'})
+		this.attachShadow({mode:'open'})
 		fetch('clientes').then((r)=>{
 			return r.json()
-		}).then((clientes)=>{
-			s.innerHTML = `
-				<ul>
-					${clientes.map((cliente)=> `<li>${cliente.nombre}</li>`).join('')}
-				</ul>
-			`
-		}).catch((e)=>{
+		}).then(this.template.bind(this)).catch((e)=>{
 			console.log("Error al obtener clientes: ",e)
 		})
+	}
+	
+	//Imprime la lista de clientes
+	template(clientes){
+		 this.shadowRoot.innerHTML= `
+			<ul>
+				${clientes.map((cliente)=> `<li>${cliente.nombre}</li>`).join('')}
+			</ul>
+		`
 	}
 	
 }
