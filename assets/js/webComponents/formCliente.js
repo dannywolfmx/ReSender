@@ -1,10 +1,7 @@
 class FormCliente extends HTMLFormElement{
 	constructor(){
 		super()
-		//this.attachShadow({mode:"open"})
-		console.log("Hola")
 		this.template()	
-		//this.agregarEvento()
 	}
 
 	template(){
@@ -17,22 +14,19 @@ class FormCliente extends HTMLFormElement{
 		`
 	}
 
-	//Boton de buscar
-	agregarEvento(){
-		let botonAgregarCliente = this.shadowRoot.getElementById("agregarCliente"); 
+	connectedCallback(){
+		 //Accion al enviar formulario
 
-		botonAgregarCliente.addEventListener("click", (e)=>{
+		 this.querySelector("#agregarCliente").addEventListener("click", (e)=>{
 			e.preventDefault()
-	
-			form = this.shadowRoot.getElementById("formulario")
-			
+			this.submit()
 			fetch('./clientes',{
 				method:'POST',
-				body:new FormData(form)
+				body:new FormData(this)
 			}).then((respuesta) => {
 				//Limpiar el formulario si la respuesta es Ok
 				if(respuesta.ok){
-					form.reset()
+					this.reset()
 				}else{
 					//Notificar error en el formato
 					alert("Error: revisa tus datos")
