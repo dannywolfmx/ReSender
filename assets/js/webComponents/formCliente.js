@@ -1,20 +1,19 @@
-class FormCliente extends HTMLElement{
+class FormCliente extends HTMLFormElement{
 	constructor(){
 		super()
-		this.attachShadow({mode:"open"})
+		//this.attachShadow({mode:"open"})
+		console.log("Hola")
 		this.template()	
-		this.agregarEvento()
+		//this.agregarEvento()
 	}
 
 	template(){
-		this.shadowRoot.innerHTML = `
-			<form id="formulario">
+		this.innerHTML = `
 				Agregar Cliente:
 					
 				<input type="number" name="id" placeholder="Agregar id"/>
 				<input type="text" name="nombre" placeholder="Agregar cliente"/>
 				<input type="submit" id="agregarCliente" class="stack icon-paper-plane"/>
-			</form>	
 		`
 	}
 
@@ -47,4 +46,4 @@ class FormCliente extends HTMLElement{
 	}
 }
 
-customElements.define("form-cliente", FormCliente)
+customElements.define("form-cliente", FormCliente, {extends:"form"})
