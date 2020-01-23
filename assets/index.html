@@ -12,7 +12,20 @@
 		</div>
 		<nav-bar></nav-bar>
 		<lista-clientes id="clientes" class="flex demo"></lista-clientes>
-		<form is="form-cliente"></form>
+		<form id="agregarCliente" is="form-cliente" ></form>
+		<script>
+			//Eventos del form
+			let form = document.getElementById("agregarCliente")
+			let cliente = document.getElementById("clientes")
+
+			form.addEventListener('crear', ()=>{
+				clientes.actualiza()
+			})	
+
+			form.addEventListener('error',()=>{
+				console.log("Error en el formulario")	
+			})		
+		</script>
 	</body>
 
-</html>
+<html>

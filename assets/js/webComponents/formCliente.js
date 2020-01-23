@@ -24,12 +24,16 @@ class FormCliente extends HTMLFormElement{
 			//Limpiar el formulario si la respuesta es Ok
 			if(respuesta.ok){
 				this.reset()
+				//Mencionar que se a creado un nuevo elemento
+				this.dispatchEvent(new CustomEvent('crear'))
 			}else{
 				//Notificar error en el formato
+				this.dispatchEvent(new CustomEvent('error'))
 				alert("Error: revisa tus datos")
 			}
 		}).catch((error) =>{
 			//Posible error en la conexion
+			this.dispatchEvent(new CustomEvent('sin-conexion'))
 			console.log("Error de conexion")
 		})
 	}
