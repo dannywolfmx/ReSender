@@ -1,25 +1,26 @@
-class FormCliente extends HTMLFormElement{
+class FormCliente extends HTMLElement{
 	constructor(){
 		super()
+		this.attachShadow({mode:"open"})
 		this.template()	
 	}
 
 	template(){
-		this.innerHTML = `
+		this.shadowRoot.innerHTML = `
+			<link rel="stylesheet" href="https://unpkg.com/picnic">
+			<form>
 				Agregar Cliente:
-					
 				<input type="number" name="id" placeholder="Agregar id"/>
 				<input type="text" name="nombre" placeholder="Agregar cliente"/>
-				<input type="submit" id="agregarCliente" class="stack icon-paper-plane"/>
+				<input type="submit" id="boton" class="stack icon-paper-plane"/>
+			</form>
 		`
 	}
 
 	connectedCallback(){
-		 //Accion al enviar formulario
-
-		 this.querySelector("#agregarCliente").addEventListener("click", (e)=>{
+		//Accion al enviar formulario
+		 this.shadowRoot.getElementById("boton").addEventListener("click", (e)=>{
 			e.preventDefault()
-			this.submit()
 			fetch('./clientes',{
 				method:'POST',
 				body:new FormData(this)
@@ -35,9 +36,9 @@ class FormCliente extends HTMLFormElement{
 				//Posible error en la conexion
 				console.log("Error de conexion")
 			})
-	
+			
 		})
 	}
 }
 
-customElements.define("form-cliente", FormCliente, {extends:"form"})
+customElements.define("form-cliente", FormCliente)

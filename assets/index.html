@@ -5,24 +5,14 @@
 		<script type="text/javascript" src="./js/app.js" ></script>
 		<script src="./js/webComponents/listaClientes.js"></script>
 		<script src="./js/webComponents/formCliente.js"></script>
+		<script src="./js/webComponents/navbar.js"></script>
 	<body>
 		<div style="overflow: hidden;height: 250px;"> <!-- For Demo, Represents the body -->
 
-		<nav class="demo">
-		  <a hrefi="/" class="brand">ReSender</a>
-		
-		  <!-- responsive-->
-		  <input id="bmenug" type="checkbox" class="show">
-		  <label for="bmenug" class="burger pseudo button">&#8801;</label>
-		
-		  <div class="menu">
-		    <input placeholder="Buscar" />
-		  </div>
-		</nav>
 		</div>
-
+		<nav-bar></nav-bar>
 		<lista-clientes id="clientes" class="flex demo"></lista-clientes>
-		<form is="form-cliente"></form>
+		<form-cliente></form-cliente>
 	</body>
 
 </html>
