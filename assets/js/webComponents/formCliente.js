@@ -37,6 +37,19 @@ class FormCliente extends HTMLFormElement{
 			console.log("Error de conexion")
 		})
 	}
+		
+	//Recuperar archivos de un dataTransfer
+	_recuperaArchivos(items){
+		let archivos = []
+		for(let i=0; i< items.length; i++){
+			//Detectar si de tipo file
+			if(items[i].kind === 'file'){
+				let archivo = items[i].getAsFile();
+				archivos.push(archivo)
+			}
+		}
+		return archivos
+	}
 
 	connectedCallback(){
 		//Accion al enviar formulario
@@ -45,6 +58,25 @@ class FormCliente extends HTMLFormElement{
 		 this._botonEnviar.addEventListener("click", (e)=>{
 			e.preventDefault()
 			this.enviarFormulario()	
+		})
+		
+		//Evento que indica que el elemento fue arrastrado al formulario
+		this.addEventListener('drop',(e)=>{
+			e.preventDefault()
+			let items = e.dataTransfer.items
+			if(items){
+				let archivos = this._recuperaArchivos(items)
+			}else{
+				console.log("No se encontraron archivos")
+			}
+			console.log('drop')
+		})
+
+		//Evento para mostrar que el elemento esta siendo arrastrado
+		//al formulario
+		this.addEventListener('dragover',(e)=>{
+			e.preventDefault()
+			//Prograr animacion de drag y deteccion de archivos validos
 		})
 	}
 }
