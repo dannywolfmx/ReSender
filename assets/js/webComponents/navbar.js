@@ -11,16 +11,16 @@ class NavBar extends HTMLElement{
 	
 	template(){
 		this.innerHTML = `
-			<nav>
-			  <a hrefi="/" class="brand">ReSender</a>
-			
-			  <!-- responsive-->
-			  <input id="bmenug" type="checkbox" class="show">
-			  <label for="bmenug" class="burger pseudo button">&#8801;</label>
-			
-			  <div class="menu">
-			    <input placeholder="Buscar" />
-			  </div>
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<a href="/" class="navbar-brand">ReSender</a>
+				<div class="collapse navbar-collapse">
+					<ul class="navbar-nav mr-auto">
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+					</form>	
+				</div>
 			</nav>
 		`	
 	}

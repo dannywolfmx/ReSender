@@ -1,17 +1,27 @@
 class FormCliente extends HTMLFormElement{
 	constructor(){
 		super()
-		this._botonEnviar = document.createElement("input")
+		this._botonEnviar = document.createElement("button")
 		this._botonEnviar.type = "submit"
-		this._botonEnviar.className = "stack icon-paper-plane"
+		this._botonEnviar.className = "btn btn-primary"
+		this._botonEnviar.innerText = "Guardar"
 	}
 
 	_render(){
 			
 		this.innerHTML = `
-			Agregar Cliente:
-			<input type="number" name="id" placeholder="Agregar id"/>
-			<input type="text" name="nombre" placeholder="Agregar cliente"/>
+			<div class="form-group">
+				<label for="id">
+					Id (Elemento temporal)
+				</label>
+				<input type="number" name="id" placeholder="Agregar id" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label for="Nombre">
+					Nombre
+				</label>
+				<input type="text" name="nombre" placeholder="Agregar cliente" class="form-control"/>
+			</div>
 		`
 	}
 

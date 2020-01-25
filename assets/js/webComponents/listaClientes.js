@@ -1,7 +1,6 @@
 class ListaClientes extends HTMLElement{
 	constructor(){
 		super()
-		this.attachShadow({mode:'open'})
 	}
 	
 	connectedCallback(){
@@ -10,10 +9,9 @@ class ListaClientes extends HTMLElement{
 	
 	//Imprime la lista de clientes
 	_render(clientes){
-		 this.shadowRoot.innerHTML= `
-			<ul>
-				${clientes.map((cliente)=> `<li>${cliente.nombre}</li>`).join('')}
-			</ul>
+		 console.log(clientes)
+		 this.innerHTML= `
+			${clientes.map((cliente)=> `<button>${cliente.nombre}</button>`).join('')}
 		`
 	}
 	
