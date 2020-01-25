@@ -1,6 +1,7 @@
 class ListaClientes extends HTMLElement{
 	constructor(){
 		super()
+		this.clientes = ["khdlskajd","akodjlkasjd"]
 	}
 	
 	connectedCallback(){
@@ -8,17 +9,26 @@ class ListaClientes extends HTMLElement{
 	}
 	
 	//Imprime la lista de clientes
-	_render(clientes){
-		 console.log(clientes)
+	_render(){
 		 this.innerHTML= `
-			${clientes.map((cliente)=> `<button>${cliente.nombre}</button>`).join('')}
+		 	<ul class="list-group list-group-horizontal">
+				${
+					this.clientes.map(cliente =>(
+						`<li class="list-group-item">${cliente.nombre}</li>`
+					)).join('')
+				}
+			</ul>
 		`
 	}
-	
+
 	actualiza(){
 		fetch('clientes').then((r)=>{
 			return r.json()
-		}).then(this._render.bind(this)).catch((e)=>{
+		}).then(c => {
+			this.clientes = c
+			//Mandrar a renderizar el contenido
+			this._render()
+		}).catch((e)=>{
 			console.log("Error al obtener clientes: ",e)
 		})
 	}
