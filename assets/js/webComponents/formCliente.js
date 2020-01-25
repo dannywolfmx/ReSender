@@ -11,12 +11,6 @@ class FormCliente extends HTMLFormElement{
 			
 		this.innerHTML = `
 			<div class="form-group">
-				<label for="id">
-					Id (Elemento temporal)
-				</label>
-				<input type="number" name="id" placeholder="Agregar id" class="form-control"/>
-			</div>
-			<div class="form-group">
 				<label for="Nombre">
 					Nombre
 				</label>
