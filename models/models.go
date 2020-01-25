@@ -1,8 +1,10 @@
 package models
 
+import "github.com/rs/xid"
+
 //Cliente describe la estructura de un cliente
 type Cliente struct {
-	Id     uint64 `json:"id" form:"id" binding:"required"`
+	Id     xid.ID `json:"id" form:"id" binding:""`
 	Nombre string `json:"nombre" form:"nombre" binding:"required"`
 }
 

@@ -8,6 +8,7 @@ import (
 	"github.com/dannywolfmx/ReSender/models"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/rs/xid"
 )
 
 func main() {
@@ -28,6 +29,7 @@ func main() {
 			c.String(http.StatusBadRequest, "Datos invalidos")
 			return
 		}
+		cliente.Id = xid.New()
 		//Agregar a la db
 		clientes = append(clientes, cliente)
 		Guardar(clientes)
