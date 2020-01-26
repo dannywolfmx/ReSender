@@ -26,7 +26,7 @@ class FormOrden extends HTMLFormElement{
 				<input type="text" name="orden" placeholder="Orden de compra" class="form-control"/>
 			</div>
 			<div is="drop-area"></div>
-			<drop-area></drop-area>
+			<drop-area id="dropArea"></drop-area>
 		`
 
 		this.innerHTML = `
@@ -36,26 +36,27 @@ class FormOrden extends HTMLFormElement{
 	
 
 	//Enviar el formulario al servidor
+	//Pendiente agregar funcionalidad para este form
 	enviarFormulario(){
-		fetch('./clientes',{
-			method:'POST',
-			body:new FormData(this)
-		}).then((respuesta) => {
-			//Limpiar el formulario si la respuesta es Ok
-			if(respuesta.ok){
-				this.reset()
-				//Mencionar que se a creado un nuevo elemento
-				this.dispatchEvent(new CustomEvent('crear'))
-			}else{
-				//Notificar error en el formato
-				this.dispatchEvent(new CustomEvent('error'))
-				alert("Error: revisa tus datos")
-			}
-		}).catch((error) =>{
-			//Posible error en la conexion
-			this.dispatchEvent(new CustomEvent('sin-conexion'))
-			console.log("Error de conexion")
-		})
+	//	fetch('./clientes',{
+	//		method:'POST',
+	//		body:new FormData(this)
+	//	}).then((respuesta) => {
+	//		//Limpiar el formulario si la respuesta es Ok
+	//		if(respuesta.ok){
+	//			this.reset()
+	//			//Mencionar que se a creado un nuevo elemento
+	//			this.dispatchEvent(new CustomEvent('crear'))
+	//		}else{
+	//			//Notificar error en el formato
+	//			this.dispatchEvent(new CustomEvent('error'))
+	//			alert("Error: revisa tus datos")
+	//		}
+	//	}).catch((error) =>{
+	//		//Posible error en la conexion
+	//		this.dispatchEvent(new CustomEvent('sin-conexion'))
+	//		console.log("Error de conexion")
+	//	})
 	}
 		
 
@@ -66,6 +67,10 @@ class FormOrden extends HTMLFormElement{
 		 this._botonEnviar.addEventListener("click", (e)=>{
 			e.preventDefault()
 			this.enviarFormulario()	
+		})
+		
+		document.getElementById("dropArea").addEventListener("archivos",(e)=>{
+			console.log(e.detail.archivos)
 		})
 		
 	}

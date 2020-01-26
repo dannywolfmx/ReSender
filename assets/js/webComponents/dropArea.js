@@ -2,21 +2,27 @@ class DropArea extends HTMLElement{
 	constructor(){
 		super()
 		this.attachShadow({mode:'open'})
+		this. notificacion = ''
 	}
+
 	connectedCallback(){
 		this._render()		
-		
+		let notificacion = this.shadowRoot.getElementById("notificacion")	
 		//Evento que indica que el elemento fue arrastrado al formulario
 		this.addEventListener('drop',(e)=>{
 			e.preventDefault()
 			let items = e.dataTransfer.items
 			if(items){
 				let archivos = this._recuperaArchivos(items)
-				console.log(archivos)
+				//Enviar los archivos como un evento
+				this.dispatchEvent(new CustomEvent('archivos',{
+					"detail":{archivos}
+				}))
 			}else{
 				console.log("No se encontraron archivos")
 			}
-			console.log('drop')
+			notificacion.style.display = "none"
+
 		})
 
 		//Evento para mostrar que el elemento esta siendo arrastrado
@@ -24,6 +30,7 @@ class DropArea extends HTMLElement{
 		this.addEventListener('dragover',(e)=>{
 			e.preventDefault()
 			//Prograr animacion de drag y deteccion de archivos validos
+			notificacion.style.display = "block"
 		})
 	}
 
@@ -36,17 +43,26 @@ class DropArea extends HTMLElement{
 					margin:10px;
 					border:1px solid black;
 				}
-				.file{
-					height:50px;
-					width:50px;
-					border:1px solid black;
-					display:inline-block;
+
+				#notificacion{
+					display:none;	
 				}
+
+				.file{
+					border: 1px solid black;
+					display: inline-block;
+					padding: 10px;
+					margin: 10px;
+				}
+
 			</style>
 		`
 		this.shadowRoot.innerHTML = `
 			${style}
 			<div id="dropArea">
+				<div id="notificacion">
+					<h1>Suelta los archivos</h1>
+				</div>
 			</div>
 		`
 	}
@@ -59,6 +75,7 @@ class DropArea extends HTMLElement{
 			//Detectar si de tipo file
 			if(items[i].kind === 'file'){
 				let archivo = items[i].getAsFile();
+				archivos.push(archivo)
 				this._crearArchivo(archivo.name)
 			}
 		}
