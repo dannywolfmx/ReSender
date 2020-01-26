@@ -5,18 +5,30 @@
 		<script type="text/javascript" src="./js/app.js" ></script>
 		<script src="./js/webComponents/listaClientes.js"></script>
 		<script src="./js/webComponents/formCliente.js"></script>
+		<script src="./js/webComponents/dropArea.js"></script>
+		<script src="./js/webComponents/formOrden.js"></script>
 		<script src="./js/webComponents/navbar.js"></script>
+
 	<body>
 		<nav-bar></nav-bar>
+		
 		<lista-clientes id="clientes" class="flex center two four-500 six-800 demo"></lista-clientes>
+
 		<div class="card">
 			<div class="card-body">
-				<form id="agregarCliente" is="form-cliente" class="form-group"></form>
+				<form id="crearCliente" is="form-cliente" class="form-group"></form>
 			</div>
 		</div>
+
+		<div class="card">
+			<div class="card-body">
+				<form id="crearOrden" is="form-orden" class="form-group"></form>
+			</div>
+		</div>
+
 		<script>
 			//Eventos del form
-			let form = document.getElementById("agregarCliente")
+			let form = document.getElementById("crearCliente")
 			let cliente = document.getElementById("clientes")
 
 			form.addEventListener('crear', ()=>{

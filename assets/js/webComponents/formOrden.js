@@ -1,4 +1,5 @@
-class FormCliente extends HTMLFormElement{
+
+class FormOrden extends HTMLFormElement{
 	constructor(){
 		super()
 		this._botonEnviar = document.createElement("button")
@@ -10,15 +11,27 @@ class FormCliente extends HTMLFormElement{
 	}
 
 	_render(){
-		this.innerHTML = 			
+		let formulario = 			
 		`
 			<div class="form-group">
-				<label for="Nombre">
-					Nombre
+				<label for="Factura">
+					Factura
 				</label>
-				<input type="text" name="nombre" placeholder="Agregar cliente" class="form-control"/>
+				<input type="text" name="factura" placeholder="Numero de factura" class="form-control"/>
 			</div>
+			<div class="form-group">
+				<label for="Orden">
+					Orden de compra
+				</label>
+				<input type="text" name="orden" placeholder="Orden de compra" class="form-control"/>
+			</div>
+			<div is="drop-area"></div>
+			<drop-area></drop-area>
 		`
+
+		this.innerHTML = `
+			${formulario}
+		` 
 	}
 	
 
@@ -54,7 +67,8 @@ class FormCliente extends HTMLFormElement{
 			e.preventDefault()
 			this.enviarFormulario()	
 		})
+		
 	}
 }
 
-customElements.define("form-cliente", FormCliente, {extends: "form"})
+customElements.define("form-orden", FormOrden, {extends: "form"})
