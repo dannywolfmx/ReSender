@@ -1,10 +1,8 @@
 package route
 
 import (
-	"log"
 	"net/http"
 
-	"github.com/dannywolfmx/ReSender/db"
 	"github.com/dannywolfmx/ReSender/models"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
@@ -38,19 +36,4 @@ func Run(server *gin.Engine) {
 	})
 
 	server.Run()
-}
-
-func initDB() {
-	Leer(&clientes)
-}
-
-func Guardar(o interface{}) {
-	err := db.Save("./db/data/cliente.json", o)
-	if err != nil {
-		log.Fatalln(err)
-	}
-}
-
-func Leer(o interface{}) {
-	db.Load("./db/data/cliente.json", o)
 }

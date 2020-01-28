@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"log"
+
+	"github.com/dannywolfmx/ReSender/db"
 	"github.com/dannywolfmx/ReSender/models"
 	"github.com/rs/xid"
 )
@@ -18,6 +21,11 @@ type ClienteRepository struct{}
 
 //Save guarda un cliente
 func (c *ClienteRepository) save() (bool, error) {
+	cliente := &models.Cliente{}
+	err := db.Save("./db/data/cliente.json", cliente)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	return true, nil
 }
 
@@ -38,4 +46,9 @@ func Delete(id xid.ID) (*models.Cliente, error) {
 func All() ([]models.Cliente, error) {
 	var clientes []models.Cliente
 	return clientes, nil
+}
+
+func initDB() {
+	var clientes []models.Cliente
+	db.Load("./db/data/cliente.json", clientes)
 }
