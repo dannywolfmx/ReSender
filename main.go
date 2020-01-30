@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/dannywolfmx/ReSender/db"
 	"github.com/dannywolfmx/ReSender/models"
 	"github.com/dannywolfmx/ReSender/repository"
+	"github.com/rs/xid"
 )
 
 func main() {
@@ -18,12 +20,15 @@ func main() {
 		log.Fatalf("Error al momento de iniciar DB %g", err)
 	}
 
-	repositorio := repository.ClienteRepository{
-		Cliente: &models.Cliente{Nombre: "Prueba"},
-	}
-	repositorio.Save()
+	repositorio := repository.ClienteRepository{}
 
-	repositorio.All()
+	cliente := &models.Cliente{Id: xid.New(), Nombre: "prueba2"}
+	repositorio.Save(cliente)
+
+	clientes := []models.Cliente{}
+	repositorio.All(&clientes)
+
+	fmt.Println(clientes)
 
 	//	server := gin.Default()
 	//	{

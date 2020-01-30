@@ -14,15 +14,14 @@ type ClienteRepository struct {
 }
 
 //Save guarda un cliente
-func (c *ClienteRepository) Save() error {
+func (c *ClienteRepository) Save(cliente *models.Cliente) error {
 	query, err := db.DB.Prepare("INSERT INTO clientes (id, nombre) VALUES (?, ?)")
 
 	if err != nil {
 		return fmt.Errorf("Error al crear query de insertar cliente %g", err)
 	}
 
-	id := xid.New()
-	_, err = query.Exec(id, c.Cliente.Nombre)
+	_, err = query.Exec(cliente.Id, cliente.Nombre)
 
 	if err != nil {
 		return fmt.Errorf("Error al insertar un nuevo cliente %g", err)
@@ -32,37 +31,40 @@ func (c *ClienteRepository) Save() error {
 }
 
 //Get Retorna un cliente localizado por el id
-func (c *ClienteRepository) Get(nombre string) (*models.Cliente, error) {
+func (c *ClienteRepository) Get(nombre string, cliente *models.Cliente) error {
 	filas, err := db.DB.Query("SELECT id, nombre FROM clientes")
 	if err != nil {
-		return nil, fmt.Errorf("Error al recuparar clientes %g", err)
+		return fmt.Errorf("Error al recuparar clientes %g", err)
 	}
 
+	var id xid.ID
+	var name string
 	for filas.Next() {
-		filas.Scan(&id, &nombre)
-		fmt.Println(nombre)
+		filas.Scan(&id, &name)
+		fmt.Println(name)
 	}
-	return nil, nil
+	return nil
 }
 
 //Delete elimina un cliente en la base de datos
 //retorna el cliente encontrado y un estado de error en caso de existir este error
-func (c *ClienteRepository) Delete(id xid.ID) (*models.Cliente, error) {
-	cliente := &models.Cliente{}
-	return cliente, nil
+func (c *ClienteRepository) Delete(id xid.ID) error {
+	//cliente := &models.Cliente{}
+	return nil
 }
 
-//All, ¡¡Importante, recoradar hacer una copia de lo que retorne, por la forma en que funciona Go puede mejorar el rendimiento!!
-func (c *ClienteRepository) All() ([]models.Cliente, error) {
+//All genera una lista de clientes
+func (c *ClienteRepository) All(clientes *[]models.Cliente) error {
 	filas, err := db.DB.Query("SELECT id, nombre FROM clientes")
 	if err != nil {
-		return nil, fmt.Errorf("Error al recuparar clientes %g", err)
+		return fmt.Errorf("Error al recuparar clientes %g", err)
 	}
 	var id xid.ID
 	var nombre string
 	for filas.Next() {
 		filas.Scan(&id, &nombre)
-		fmt.Println(nombre)
+		cliente := models.Cliente{id, nombre}
+		*clientes = append(*clientes, cliente)
 	}
-	return nil, nil
+	return nil
 }
