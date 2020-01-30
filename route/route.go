@@ -12,7 +12,6 @@ import (
 var clientes []models.Cliente
 
 func Run(server *gin.Engine) {
-	initDB()
 	//Archivos estaticos
 	server.Use(static.Serve("/", static.LocalFile("./assets", true)))
 	server.GET("/clientes", func(c *gin.Context) {
