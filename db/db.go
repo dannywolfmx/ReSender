@@ -1,24 +1,24 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 
+	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var DB *sql.DB
+var DB *sqlx.DB
 
 type DataBase interface {
 	InitDB() error
-	Ping(data *sql.DB) error
+	Ping(data *sqlx.DB) error
 }
 
 type DBSqlite struct {
 }
 
-func (db DBSqlite) InitDB() (*sql.DB, error) {
-	database, err := sql.Open("sqlite3", "./db/data/data.db")
+func (db DBSqlite) InitDB() (*sqlx.DB, error) {
+	database, err := sqlx.Open("sqlite3", "./db/data/data.db")
 	if err != nil {
 		return nil, fmt.Errorf("Error al abrir la base de datos %g", err)
 	}
@@ -32,7 +32,7 @@ func (db DBSqlite) InitDB() (*sql.DB, error) {
 }
 
 //Crear tablas por default en caso de que no existan
-func createTables(db *sql.DB) error {
+func createTables(db *sqlx.DB) error {
 	//Crear Clientes
 	statement, err := db.Prepare("CREATE TABLE IF NOT EXISTS clientes (id TEXT PRIMARY KEY, nombre TEXT)")
 	if err != nil {
@@ -46,7 +46,7 @@ func createTables(db *sql.DB) error {
 	return err
 }
 
-func (db DBSqlite) Ping(data *sql.DB) error {
+func (db DBSqlite) Ping(data *sqlx.DB) error {
 	if err := data.Ping(); err != nil {
 		fmt.Println("Error en Pong")
 	} else {
