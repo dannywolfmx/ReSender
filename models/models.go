@@ -2,21 +2,27 @@ package models
 
 import "github.com/rs/xid"
 
-//Cliente describe la estructura de un cliente
-type Cliente struct {
-	Id     xid.ID `json:"id" form:"id" binding:""`
-	Nombre string `json:"nombre" form:"nombre" binding:"required"`
-}
+type (
+	//Client
+	Client struct {
+		ID        xid.ID `json:"id" form:"id" binding:""`
+		Name      string `json:"name" form:"name" binding:"required"`
+		CreatedAt int64  `json:"create_at"`
+	}
 
-//Orden describe a una orden de comrpa
-type Orden struct {
-	Serie    string    `json:"serie"`
-	Factura  string    `json:"factura"`
-	Archivos []Archivo `json:"archivos"`
-}
+	//Order
+	Order struct {
+		ID        xid.ID `json:"id" form:"id" binding:""`
+		Serial    string `json:"serial"`
+		Invoice   string `json:"invoice"`
+		Files     []File `json:"files"`
+		CreatedAt int64  `json:"create_at"`
+	}
 
-//Archivos describe a una archivo
-type Archivo struct {
-	Ruta   string `json:"ruta"`
-	Nombre string `json:"nombre"`
-}
+	//File
+	File struct {
+		Path      string `json:"path"`
+		Name      string `json:"name"`
+		CreatedAt int64  `json:"create_at"`
+	}
+)

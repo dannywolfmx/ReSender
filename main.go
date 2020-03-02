@@ -13,6 +13,7 @@ import (
 func main() {
 	//Inicializar la base de datos
 	sqlite := db.DBSqlite{}
+
 	var err error
 	db.DB, err = sqlite.InitDB()
 

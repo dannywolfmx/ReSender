@@ -5,10 +5,20 @@ import (
 	"github.com/rs/xid"
 )
 
-//Repository cuenta con las funciones principales para manejar interactuar con un modelo en la base de datos
-type Repository interface {
-	Save(cliente *models.Cliente) error
-	Get(nombre string, cliente *models.Cliente) error
-	Delete(id xid.ID) error
-	All(clientes *[]models.Cliente) error
-}
+//RepositoryClient available methods to manipulate a Client
+type (
+	Client interface {
+		Save(client *models.Client) error
+		Get(name string, client *models.Client) error
+		Delete(id xid.ID) error
+		All(clients *[]models.Client) error
+	}
+
+	//RepositoryOrder available methods to manipulate a Order
+	Order interface {
+		Save(orders *models.Order) error
+		Get(id xid.ID, order *models.Order) error
+		Delete(id xid.ID) error
+		All(order *[]models.Order) error
+	}
+)
