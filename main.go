@@ -1,35 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/dannywolfmx/ReSender/db"
-	"github.com/dannywolfmx/ReSender/models"
-	"github.com/dannywolfmx/ReSender/repository"
-	"github.com/rs/xid"
 )
+
+//path sqlite
 
 func main() {
 	//Inicializar la base de datos
-	sqlite := db.DBSqlite{}
-
+	pathDB := "./db/data/data.db"
 	var err error
-	db.DB, err = sqlite.InitDB()
+	db.DB, err = db.NewDBSqliteConnection(pathDB).InitDB()
 
 	if err != nil {
 		log.Fatalf("Error al momento de iniciar DB %g", err)
 	}
-
-	repositorio := repository.ClienteRepository{}
-
-	cliente := &models.Cliente{Id: xid.New(), Nombre: "prueba2"}
-	repositorio.Save(cliente)
-
-	clientes := []models.Cliente{}
-	repositorio.All(&clientes)
-
-	fmt.Println(clientes)
 
 	//	server := gin.Default()
 	//	{
