@@ -18,7 +18,7 @@ func NewOrderRepository(db *sqlx.DB) *orderRepository {
 
 func (r *orderRepository) Save(m *model.Order) error {
 	query := `
-		INSERT INTO order (
+		INSERT INTO orden (
 			id,
 			number,
 			invoice
@@ -32,7 +32,7 @@ func (r *orderRepository) Save(m *model.Order) error {
 func (r *orderRepository) FindByInvoice(invoice string) (*model.Order, error) {
 	order := new(model.Order)
 	query := `
-		SELECT * from order LIMIT 1 WHERE invoice = $1
+		SELECT * from orden LIMIT 1 WHERE invoice = $1
 	`
 	err := r.db.Get(order, query, invoice)
 	if err != nil {
@@ -42,8 +42,12 @@ func (r *orderRepository) FindByInvoice(invoice string) (*model.Order, error) {
 }
 
 func (r *orderRepository) All() ([]*model.Order, error) {
-	query := `SELECT * FROM order`
+	query := `SELECT * FROM orden`
 	orders := []*model.Order{}
-	r.db.Select(orders, query)
+	err := r.db.Select(&orders, query)
+	if err != nil {
+		return nil, err
+	}
 	return orders, nil
+
 }

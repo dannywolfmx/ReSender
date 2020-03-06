@@ -9,11 +9,11 @@ import (
 	"github.com/sarulabs/di"
 )
 
-type container struct {
+type Container struct {
 	ctn di.Container
 }
 
-func NewContainer() (*container, error) {
+func NewContainer() (*Container, error) {
 	build, err := di.NewBuilder()
 
 	if err != nil {
@@ -41,7 +41,15 @@ func NewContainer() (*container, error) {
 		return nil, err
 	}
 
-	return &container{
+	return &Container{
 		ctn: build.Build(),
 	}, nil
+}
+
+func (c *Container) Resolve(name string) interface{} {
+	return c.ctn.Get(name)
+}
+
+func (c *Container) Clean() error {
+	return c.ctn.Clean()
 }

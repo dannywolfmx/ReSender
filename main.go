@@ -1,26 +1,27 @@
 package main
 
 import (
-	"log"
-
-	"github.com/dannywolfmx/ReSender/db"
+	"github.com/dannywolfmx/ReSender/app/interface/api"
+	"github.com/dannywolfmx/ReSender/app/registry"
+	"github.com/gin-gonic/gin"
 )
 
 //path sqlite
 
 func main() {
 	//Inicializar la base de datos
-	pathDB := "./db/data/data.db"
-	var err error
-	db.DB, err = db.NewDBSqliteConnection(pathDB).InitDB()
 
+	ctn, err := registry.NewContainer()
 	if err != nil {
-		log.Fatalf("Error al momento de iniciar DB %g", err)
+		panic(err)
 	}
 
+	server := gin.Default()
+
+	api.Apply(server, ctn)
 	//	server := gin.Default()
 	//	{
 	//		route.Run(server)
 	//	}
-	//	server.Run()
+	server.Run()
 }
