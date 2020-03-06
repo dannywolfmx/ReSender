@@ -9,4 +9,5 @@ require (
 	github.com/mattn/go-sqlite3 v2.0.2+incompatible
 	github.com/pkg/errors v0.9.1
 	github.com/rs/xid v1.2.1
+	github.com/sarulabs/di v2.0.0+incompatible
 )
