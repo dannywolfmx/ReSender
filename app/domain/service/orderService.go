@@ -10,6 +10,12 @@ type OrderService struct {
 	repo repository.Order
 }
 
+func NewOrderService(repo repository.Order) *OrderService {
+	return &OrderService{
+		repo: repo,
+	}
+}
+
 func (s *OrderService) Duplicated(invoice string) error {
 	order, err := s.repo.FindByInvoice(invoice)
 	if order != nil {
