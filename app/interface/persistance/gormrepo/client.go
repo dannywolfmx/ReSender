@@ -29,7 +29,8 @@ func (r clientRepository) FindByName(name string) (*model.Client, error) {
 //TODO: Convertir esta lista a una lista de apuntadores "[]*model.Client"
 func (r clientRepository) All() ([]model.Client, error) {
 	clients := []model.Client{}
-	r.db.Find(&clients)
+	//Pedir a GORM que agregue las ordenes del usuario
+	r.db.Preload("Orders").Find(&clients)
 	return clients, nil
 }
 

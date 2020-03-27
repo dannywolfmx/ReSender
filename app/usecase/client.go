@@ -8,7 +8,7 @@ import (
 
 type ClientUseCase interface {
 	ListClient() ([]model.Client, error)
-	RegisterClient(name string) error
+	RegisterClient(name string, orders interface{}) error
 	DeleteClient(name string) error
 	UpdateClient(id uint, name string) error
 }
@@ -29,8 +29,9 @@ func (c *clientUsecase) ListClient() ([]model.Client, error) {
 	return c.repo.All()
 }
 
-func (c *clientUsecase) RegisterClient(name string) error {
-	return c.repo.Save(&model.Client{Name: name})
+func (c *clientUsecase) RegisterClient(name string, orders interface{}) error {
+	o := orders.([]model.Order)
+	return c.repo.Save(&model.Client{Name: name, Orders: o})
 }
 
 func (c *clientUsecase) DeleteClient(name string) error {

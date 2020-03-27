@@ -19,8 +19,8 @@ func (c *clientService) ListClient() ([]model.Client, error) {
 	return c.clientUseCase.ListClient()
 }
 
-func (c *clientService) RegisterClient(name string) error {
-	return c.clientUseCase.RegisterClient(name)
+func (c *clientService) RegisterClient(name string, orders interface{}) error {
+	return c.clientUseCase.RegisterClient(name, orders)
 }
 
 func (c *clientService) DeleteClient(name string) error {

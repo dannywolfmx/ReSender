@@ -11,7 +11,8 @@ func Apply(server *gin.Engine, ctn *registry.Container) {
 	//Crear el caso de uso
 	orderUseCase := NewOrderService(ctn.Resolve("order-usecase").(usecase.OrderUseCase))
 
-	server.GET("/order", func(c *gin.Context) {
+	//List of orders
+	server.GET("/orders", func(c *gin.Context) {
 		j, err := orderUseCase.ListOrder()
 		if err != nil {
 			panic(err)
@@ -32,16 +33,17 @@ func restClient(s *gin.Engine, ctn *registry.Container) {
 		}
 		c.JSON(200, j)
 	})
+
 	//Crear cliente
 	s.POST("/client", func(c *gin.Context) {
 		client := &model.Client{}
 		c.BindJSON(client)
-		err := clienteUseCase.RegisterClient(client.Name)
+		err := clienteUseCase.RegisterClient(client.Name, client.Orders)
 		if err != nil {
 			panic(err)
 		}
 		c.JSON(200, gin.H{
-			"client": client.Name,
+			"client": client,
 		})
 	})
 }
