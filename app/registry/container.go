@@ -45,7 +45,7 @@ func NewContainer() (*Container, error) {
 			return db.(*gorm.DB).Close()
 		},
 	}, {
-		Name: "order-usercase",
+		Name: "order-usecase",
 		Build: func(ctn di.Container) (interface{}, error) {
 			//connDB := ctn.Get("sqlite").(*sqlx.DB)
 			connDB := ctn.Get("gormSqlite").(*gorm.DB)
@@ -54,7 +54,7 @@ func NewContainer() (*Container, error) {
 			return usecase.NewOrderUsecase(repo, service), nil
 		},
 	}, {
-		Name: "client-usercase",
+		Name: "client-usecase",
 		Build: func(ctn di.Container) (interface{}, error) {
 			connDB := ctn.Get("gormSqlite").(*gorm.DB)
 			//TODO: Revisar por que no devuelvo un puntero en el repositorio

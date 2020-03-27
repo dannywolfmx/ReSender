@@ -29,7 +29,7 @@ func (r clientRepository) FindByName(name string) (*model.Client, error) {
 //TODO: Convertir esta lista a una lista de apuntadores "[]*model.Client"
 func (r clientRepository) All() ([]model.Client, error) {
 	clients := []model.Client{}
-	r.db.Find(clients)
+	r.db.Find(&clients)
 	return clients, nil
 }
 
