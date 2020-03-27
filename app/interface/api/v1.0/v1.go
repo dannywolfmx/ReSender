@@ -7,7 +7,9 @@ import (
 )
 
 func Apply(server *gin.Engine, ctn *registry.Container) {
+	//Crear el caso de uso
 	orderUseCase := NewOrderService(ctn.Resolve("order-usercase").(usecase.OrderUseCase))
+
 	server.GET("/order", func(c *gin.Context) {
 		j, err := orderUseCase.ListOrder()
 		if err != nil {
@@ -15,4 +17,5 @@ func Apply(server *gin.Engine, ctn *registry.Container) {
 		}
 		c.JSON(200, j)
 	})
+
 }

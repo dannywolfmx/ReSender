@@ -15,18 +15,18 @@ func NewOrderService(orderUseCase usecase.OrderUseCase) *orderService {
 	}
 }
 
-func (s *orderService) ListOrder() ([]*model.Order, error) {
-	orders, err := s.orderUseCase.ListOrder()
-	if err != nil {
-		return nil, err
-	}
-	return orders, nil
+func (s *orderService) ListOrder() ([]model.Order, error) {
+	return s.orderUseCase.ListOrder()
 }
 
 func (s *orderService) RegisterOrder(number, invoice string) error {
-	err := s.orderUseCase.RegisterOrder(number, invoice)
-	if err != nil {
-		return err
-	}
-	return nil
+	return s.orderUseCase.RegisterOrder(number, invoice)
+}
+
+func (s *orderService) DeleteOrder(invoice string) error {
+	return s.orderUseCase.DeleteOrder(invoice)
+}
+
+func (s *orderService) UpdateOrder(id uint, number, invoice string) error {
+	return s.orderUseCase.UpdateOrder(id, number, invoice)
 }

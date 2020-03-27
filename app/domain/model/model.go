@@ -1,33 +1,38 @@
 package model
 
-type orm struct {
-	ID string
-	//	CreatedAt string
-	//	UpdatedAt string
+import "time"
 
+//Orm es una estrucura para ser embebida no esta planeada para instanciarla sola
+type Orm struct {
+	ID        uint `gorm:"primary_key"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time
 }
 
 type Order struct {
-	orm
+	Orm
 	Number  string
 	Invoice string
-	//	Clients *Client
+	Clients *Client
+
 	//	Mails   []MailDirection
 	//	Files   []File
 }
 
 type Client struct {
-	orm
+	Orm
 	Name string
 }
 
+//TODO: Estructuras
 type MailDirection struct {
-	orm
+	Orm
 	Direction string
 }
 
 type File struct {
-	orm
+	Orm
 	Path  string
 	Title string
 }

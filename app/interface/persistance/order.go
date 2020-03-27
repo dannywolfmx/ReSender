@@ -17,13 +17,13 @@ func NewOrderRepository(db *sqlx.DB) *orderRepository {
 }
 
 func (r *orderRepository) Save(m *model.Order) error {
-	query := `
-		INSERT INTO orden (
+	query := ` INSERT INTO orden (
 			id,
 			number,
 			invoice
 		) Values ($1,$2,$3)
 	`
+
 	//Insertar valores en la tabla
 	_, err := r.db.Exec(query, xid.New(), m.Number, m.Invoice)
 	return err
@@ -49,5 +49,4 @@ func (r *orderRepository) All() ([]*model.Order, error) {
 		return nil, err
 	}
 	return orders, nil
-
 }

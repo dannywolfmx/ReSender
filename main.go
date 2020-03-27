@@ -15,13 +15,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	server := gin.Default()
-
 	api.Apply(server, ctn)
-	//	server := gin.Default()
-	//	{
-	//		route.Run(server)
-	//	}
 	server.Run()
 }

@@ -31,6 +31,7 @@ func (db dbSqlite) Ping(data *sqlx.DB) error {
 		fmt.Println("Pong")
 	}
 	return nil
+
 }
 
 func (db dbSqlite) InitDB() (*sqlx.DB, error) {
