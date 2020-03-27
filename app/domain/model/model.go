@@ -11,18 +11,18 @@ type Orm struct {
 }
 
 type Order struct {
-	Orm
-	Number  string
-	Invoice string
-	Clients *Client
-
+	Orm      `json:"orm"`
+	Number   string `json:"number"`
+	Invoice  string `json:"invoice"`
+	ClientID uint
 	//	Mails   []MailDirection
 	//	Files   []File
 }
 
 type Client struct {
-	Orm
-	Name string
+	Orm    `json:"orm"`
+	Name   string `json:"name"`
+	Orders []Order
 }
 
 //TODO: Estructuras

@@ -26,12 +26,7 @@ func NewOrderUsecase(repo repository.Order, service *service.OrderService) *orde
 }
 
 func (o *orderUsecase) ListOrder() ([]model.Order, error) {
-	orders, err := o.repo.All()
-	if err != nil {
-		return nil, err
-	}
-
-	return orders, nil
+	return o.repo.All()
 }
 
 func (o *orderUsecase) RegisterOrder(number, invoice string) error {

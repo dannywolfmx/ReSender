@@ -53,6 +53,15 @@ func NewContainer() (*Container, error) {
 			service := service.NewOrderService(repo)
 			return usecase.NewOrderUsecase(repo, service), nil
 		},
+	}, {
+		Name: "client-usercase",
+		Build: func(ctn di.Container) (interface{}, error) {
+			connDB := ctn.Get("gormSqlite").(*gorm.DB)
+			//TODO: Revisar por que no devuelvo un puntero en el repositorio
+			repo := gormrepo.NewClientRepository(connDB)
+			service := service.NewClientService(repo)
+			return usecase.NewClientUsecase(repo, service), nil
+		},
 	}}...)
 
 	if err != nil {

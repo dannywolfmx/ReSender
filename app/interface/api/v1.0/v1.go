@@ -17,5 +17,4 @@ func Apply(server *gin.Engine, ctn *registry.Container) {
 		}
 		c.JSON(200, j)
 	})
-
 }
