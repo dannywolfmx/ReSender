@@ -1,44 +1,12 @@
 <html>
+	<meta charset="UTF-8">
 	<head>
-		<title>ReSender</title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<script type="text/javascript" src="./js/app.js" ></script>
-		<script src="./js/webComponents/listaClientes.js"></script>
-		<script src="./js/webComponents/formCliente.js"></script>
-		<script src="./js/webComponents/dropArea.js"></script>
-		<script src="./js/webComponents/formOrden.js"></script>
-		<script src="./js/webComponents/navbar.js"></script>
-
-	<body>
-		<nav-bar></nav-bar>
-		
-		<lista-clientes id="clientes" class="flex center two four-500 six-800 demo"></lista-clientes>
-
-		<div class="card">
-			<div class="card-body">
-				<form id="crearCliente" is="form-cliente" class="form-group"></form>
-			</div>
-		</div>
-
-		<div class="card">
-			<div class="card-body">
-				<form id="crearOrden" is="form-orden" class="form-group"></form>
-			</div>
-		</div>
-
-		<script>
-			//Eventos del form
-			let form = document.getElementById("crearCliente")
-			let cliente = document.getElementById("clientes")
-
-			form.addEventListener('crear', ()=>{
-				clientes.actualiza()
-			})	
-
-			form.addEventListener('error',()=>{
-				console.log("Error en el formulario")	
-			})		
+		<script type="module">
+			import {html, render} from 'https://unpkg.com/lit-html?module';
+			const tem = (name) => html`<p>Hello ${name}</p>`;
+			render(tem("Hola"),document.body)
 		</script>
-	</body>
-
-<html>
+	</head>
+	<body>
+	</body>	
+</html>

@@ -16,6 +16,11 @@ func main() {
 		panic(err)
 	}
 	server := gin.Default()
+	renderIndexPage(server)
 	api.Apply(server, ctn)
 	server.Run()
+}
+
+func renderIndexPage(server *gin.Engine) {
+	server.Static("/assets", "./assets")
 }
