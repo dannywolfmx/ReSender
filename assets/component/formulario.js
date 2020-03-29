@@ -10,7 +10,7 @@ const guardar = (e) => {
     body: JSON.stringify(Object.fromEntries(data)),
   }).then((r) => {
     if (r.ok) {
-      console.log("Cliente creado");
+      formulario.reset();
     } else {
       console.log("Error");
     }
