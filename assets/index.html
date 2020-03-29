@@ -1,10 +1,12 @@
 <html>
   <meta charset="UTF-8" />
   <head>
+    <script type="module" src="./component/clients.js"></script>
     <script type="module">
       import { html, render } from "https://unpkg.com/lit-html?module";
-      import createClient from "./component/formulario.js";
-      render(createClient(), document.body);
+
+      import { dashboard } from "./component/dashboard.js";
+      render(dashboard(), document.body);
     </script>
     <link
       rel="stylesheet"
@@ -13,5 +15,7 @@
       crossorigin="anonymous"
     />
   </head>
-  <body></body>
+  <body>
+    <div id="component"></div>
+  </body>
 </html>
