@@ -3,8 +3,8 @@
   <head>
     <script type="module">
       import { html, render } from "https://unpkg.com/lit-html?module";
-      import { app } from "./component/formulario.js";
-      render(app(), document.body);
+      import createClient from "./component/formulario.js";
+      render(createClient(), document.body);
     </script>
     <link
       rel="stylesheet"

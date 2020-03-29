@@ -1,24 +1,42 @@
 import { html } from "https://unpkg.com/lit-html?module";
+import { card } from "./cardComponent.js";
 
-const app = () => {
-  return html`
-    <div class="card">
-      <div class="card-body">
-        <form>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Nombre</label>
-            <input
-              type="text"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <button type="submit" class="btn btn-primary">Crear</button>
-        </form>
-      </div>
-    </div>
-  `;
+const guardar = (e) => {
+  e.preventDefault();
+  let formulario = document.getElementById("crearCliente");
+  let data = new FormData(formulario);
+  fetch("/client", {
+    method: "POST",
+    body: JSON.stringify(Object.fromEntries(data)),
+  }).then((r) => {
+    if (r.ok) {
+      console.log("Cliente creado");
+    } else {
+      console.log("Error");
+    }
+  });
 };
 
-export { app };
+const form = html`
+  <form id="crearCliente">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="exampleInputEmail1"
+        name="name"
+        aria-describedby="emailHelp"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary" @click=${guardar}>
+      Crear
+    </button>
+  </form>
+`;
+
+const tarjeta = () => {
+  return card("Crear cliente", form);
+};
+
+export default tarjeta;
