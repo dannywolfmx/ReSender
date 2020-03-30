@@ -19,8 +19,8 @@ func (s *orderService) ListOrder() ([]model.Order, error) {
 	return s.orderUseCase.ListOrder()
 }
 
-func (s *orderService) RegisterOrder(number, invoice string) error {
-	return s.orderUseCase.RegisterOrder(number, invoice)
+func (s *orderService) RegisterOrder(number, invoice string, clientid uint) error {
+	return s.orderUseCase.RegisterOrder(number, invoice, clientid)
 }
 
 func (s *orderService) DeleteOrder(invoice string) error {

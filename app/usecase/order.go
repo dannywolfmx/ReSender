@@ -8,7 +8,7 @@ import (
 
 type OrderUseCase interface {
 	ListOrder() ([]model.Order, error)
-	RegisterOrder(number, invoice string) error
+	RegisterOrder(number, invoice string, clientid uint) error
 	DeleteOrder(invoice string) error
 	UpdateOrder(id uint, number, invoice string) error
 }
@@ -29,8 +29,8 @@ func (o *orderUsecase) ListOrder() ([]model.Order, error) {
 	return o.repo.All()
 }
 
-func (o *orderUsecase) RegisterOrder(number, invoice string) error {
-	return o.repo.Save(&model.Order{Number: number, Invoice: invoice})
+func (o *orderUsecase) RegisterOrder(number, invoice string, clientid uint) error {
+	return o.repo.Save(&model.Order{Number: number, Invoice: invoice, ClientID: clientid})
 }
 func (o *orderUsecase) DeleteOrder(invoice string) error {
 	return o.repo.Detele(invoice)
