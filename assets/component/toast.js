@@ -12,6 +12,7 @@ class Toast extends HTMLElement {
       "style",
       "position: absolute; top: 20px; right: 20px; min-width:350px;"
     );
+    this.toast.setAttribute("class", "toast fade");
     this.appendChild(this.toast);
     this._update();
   }
@@ -40,11 +41,17 @@ class Toast extends HTMLElement {
   }
   _show() {
     //Cambiar el opacity para mostrar el elemento
-    this.toast.setAttribute("class", "toast show fade");
+    this.toast.classList.remove("hide");
+    setTimeout(() => {
+      this.toast.classList.add("show");
+    }, 0.1);
   }
 
   _hide() {
-    this.toast.setAttribute("class", "toast hide fade");
+    this.toast.classList.remove("show");
+    setTimeout(() => {
+      this.toast.classList.add("hide");
+    }, 150);
   }
 
   _toastHeader() {
