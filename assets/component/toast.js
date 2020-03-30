@@ -4,12 +4,18 @@ class Toast extends HTMLElement {
   constructor() {
     super();
     this.toast = document.createElement("div");
+    this.setAttribute(
+      "style",
+      "position: relative; min-height:200px; display:block;"
+    );
+    this.toast.setAttribute(
+      "style",
+      "position: absolute; top: 20px; right: 20px; min-width:350px;"
+    );
     this.appendChild(this.toast);
     this._update();
   }
-  connectedCallback() {
-    this.toast.setAttribute("class", "toast");
-  }
+  connectedCallback() {}
 
   attributeChangedCallback(attr, oldval, newval) {
     if (attr === "titulo") {
@@ -34,11 +40,11 @@ class Toast extends HTMLElement {
   }
   _show() {
     //Cambiar el opacity para mostrar el elemento
-    this.toast.setAttribute("style", "opacity:1");
+    this.toast.setAttribute("class", "toast show fade");
   }
 
   _hide() {
-    this.toast.setAttribute("style", "opacity:0");
+    this.toast.setAttribute("class", "toast hide fade");
   }
 
   _toastHeader() {
