@@ -2,6 +2,7 @@ import { html } from "https://unpkg.com/lit-html?module";
 
 import formulario from "./formulario.js";
 import { MyForm } from "./form/form.js";
+import { card } from "./cardComponent.js";
 
 class Formulario extends MyForm {
   constructor(nameForm, inputs, url) {
@@ -45,7 +46,7 @@ const dashboard = () => {
 
   return html`
     <toast-noti titulo="Titulo" message="Prueba mensaje" duration="50000" />
-    ${formCliente} ${formOrder}
+    ${card("Crear cliente", formCliente)} ${card("crear orden", formOrder)}
   `;
 };
 export { dashboard };
