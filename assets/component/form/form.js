@@ -1,15 +1,36 @@
 import { html, render } from "https://unpkg.com/lit-html?module";
 
 class MyForm extends HTMLElement {
-  constructor(nameForm, inputs, sumbitEvent) {
+  constructor(nameForm, inputs, url) {
     super();
     this.nameForm = nameForm;
     this.inputs = inputs;
     //Function to send data
-    this.sumbitEvent = sumbitEvent;
+    this.url = url;
+    this.sumbitEvent = this._defaultSubmit;
   }
   connectedCallback() {
     this._update();
+  }
+
+  _defaultSubmit(data, form) {
+    let datos = Object.fromEntries(data);
+    this.inputs.map((i) => {
+      if (i.type === "number") {
+        datos[i.name] = Number(datos[i.name]);
+      }
+    });
+    console.log(datos);
+    fetch(this.url, {
+      method: "POST",
+      body: JSON.stringify(datos),
+    }).then((r) => {
+      if (r.ok) {
+        form.reset();
+      } else {
+        console.log("Error");
+      }
+    });
   }
 
   _submit(e) {
