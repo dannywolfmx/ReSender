@@ -37,7 +37,8 @@ const dashboard = () => {
     {
       name: "ClientID",
       type: "number",
-      label: "Client ID",
+      hide: true,
+      value: 7,
     },
   ];
   let formOrder = new MyForm("order", inputsOrder, "/order");

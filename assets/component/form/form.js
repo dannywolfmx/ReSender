@@ -4,7 +4,15 @@ class MyForm extends HTMLElement {
   constructor(nameForm, inputs, url) {
     super();
     this.nameForm = nameForm;
-    this.inputs = inputs;
+    this.inputHide = [];
+    this.inputs = [];
+    inputs.map((i) => {
+      if (i.hide) {
+        this.inputHide.push(i);
+      } else {
+        this.inputs.push(i);
+      }
+    });
     //Function to send data
     this.url = url;
     this.sumbitEvent = this._defaultSubmit;
@@ -19,6 +27,9 @@ class MyForm extends HTMLElement {
       if (i.type === "number") {
         datos[i.name] = Number(datos[i.name]);
       }
+    });
+    this.inputHide.map((i) => {
+      datos[i.name] = i.value;
     });
     console.log(datos);
     fetch(this.url, {
