@@ -1,6 +1,5 @@
 import { html, render } from "https://unpkg.com/lit-html?module";
 
-import { card } from "./cardComponent.js";
 import { list } from "./listComponent.js";
 
 class Clients extends HTMLElement {
@@ -24,7 +23,7 @@ class Clients extends HTMLElement {
       });
   }
   _template() {
-    return html` ${card("Clientes", list(this.list))} `;
+    return html` ${list(this.list)} `;
   }
   _update() {
     render(this._template(), this.root, { eventContext: this });

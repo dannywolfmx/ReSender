@@ -1,16 +1,4 @@
 import { html } from "https://unpkg.com/lit-html?module";
-
-import formulario from "./formulario.js";
-import { MyForm } from "./form/form.js";
-import { card } from "./cardComponent.js";
-
-class Formulario extends MyForm {
-  constructor(nameForm, inputs, url) {
-    super();
-    // Como procesar los datos del submit
-  }
-}
-
 const dashboard = () => {
   //Elementos de inputs del fomulario
   const inputsClient = [
@@ -20,9 +8,6 @@ const dashboard = () => {
       label: "Nombre",
     },
   ];
-
-  //Crear un formulario
-  let formCliente = new MyForm("clients", inputsClient, "/client");
 
   const inputsOrder = [
     {
@@ -42,11 +27,28 @@ const dashboard = () => {
       value: 7,
     },
   ];
-  let formOrder = new MyForm("order", inputsOrder, "/order");
-
+  let serialClientInput = JSON.stringify(inputsClient);
   return html`
-    <toast-noti titulo="Titulo" message="Prueba mensaje" duration="50000" />
-    ${card("Crear cliente", formCliente)} ${card("crear orden", formOrder)}
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">"Crear orders"</h5>
+        <post-form
+          nameform="orders"
+          url="/order"
+          inputs=${JSON.stringify(inputsOrder)}
+        ></post-form>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">"Crear client"</h5>
+        <post-form
+          nameform="clients"
+          url="/client"
+          inputs=${serialClientInput}
+        ></post-form>
+      </div>
+    </div>
   `;
 };
 export { dashboard };

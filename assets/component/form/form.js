@@ -1,11 +1,16 @@
 import { html, render } from "https://unpkg.com/lit-html?module";
 
 class MyForm extends HTMLElement {
-  constructor(nameForm, inputs, url) {
+  constructor() {
     super();
-    this.nameForm = nameForm;
-    this.inputHide = [];
     this.inputs = [];
+    this.inputHide = [];
+  }
+  setNameForm(nameForm) {
+    this.nameForm = nameForm;
+  }
+
+  setInput(inputs) {
     inputs.map((i) => {
       if (i.hide) {
         this.inputHide.push(i);
@@ -13,42 +18,21 @@ class MyForm extends HTMLElement {
         this.inputs.push(i);
       }
     });
-    //Function to send data
-    this.url = url;
-    this.sumbitEvent = this._defaultSubmit;
   }
   connectedCallback() {
     this._update();
   }
 
-  _defaultSubmit(data, form) {
-    let datos = Object.fromEntries(data);
-    this.inputs.map((i) => {
-      if (i.type === "number") {
-        datos[i.name] = Number(datos[i.name]);
-      }
-    });
-    this.inputHide.map((i) => {
-      datos[i.name] = i.value;
-    });
-    console.log(datos);
-    fetch(this.url, {
-      method: "POST",
-      body: JSON.stringify(datos),
-    }).then((r) => {
-      if (r.ok) {
-        form.reset();
-      } else {
-        console.log("Error");
-      }
-    });
-  }
+  //Implements by the Class child
+  submitCallback(data, form) {}
 
   _submit(e) {
     e.preventDefault();
-    let form = document.forms[this.nameForm];
+    let form = document.forms[this.nameform];
+    console.log(form);
+    console.log(this.nameform);
     let data = new FormData(form);
-    this.sumbitEvent(data, form);
+    this.submitCallback(data, form);
   }
 
   _input(label, type, name) {
@@ -59,7 +43,7 @@ class MyForm extends HTMLElement {
   }
   _template() {
     return html`
-      <form name=${this.nameForm}>
+      <form name=${this.nameform}>
         <div class="form-group">
           ${this.inputs.map((i) => this._input(i.label, i.type, i.name))}
         </div>
@@ -69,6 +53,7 @@ class MyForm extends HTMLElement {
       </form>
     `;
   }
+
   _update() {
     render(this._template(), this, { eventContext: this });
   }
