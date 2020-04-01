@@ -1,15 +1,9 @@
 <html>
   <meta charset="UTF-8" />
   <head>
-    <script type="module" src="./component/clients.js"></script>
     <script type="module" src="./component/toast.js"></script>
     <script type="module" src="./component/form/postform.js"></script>
-    <script type="module">
-      import { html, render } from "https://unpkg.com/lit-html?module";
-
-      import { dashboard } from "./component/dashboard.js";
-      render(dashboard(), document.body);
-    </script>
+    <script type="module" src="./component/dashboard.js"></script>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -17,5 +11,7 @@
       crossorigin="anonymous"
     />
   </head>
-  <body></body>
+  <body>
+    <my-dashboard></my-dashboard>
+  </body>
 </html>

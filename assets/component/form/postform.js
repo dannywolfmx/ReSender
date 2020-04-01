@@ -1,6 +1,6 @@
 import { MyForm } from "./form.js";
 
-class POSTForm extends MyForm {
+export class POSTForm extends MyForm {
   constructor() {
     super();
   }
@@ -61,5 +61,4 @@ class POSTForm extends MyForm {
   }
 }
 
-export { POSTForm };
 customElements.define("post-form", POSTForm);
