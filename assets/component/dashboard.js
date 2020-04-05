@@ -1,4 +1,6 @@
 import { html, render } from "https://unpkg.com/lit-html?module";
+import "./navbar.js";
+import "./marcadores.js";
 
 const inputsClient = [
   {
@@ -35,30 +37,36 @@ export class MyDashboard extends HTMLElement {
 
   connectedCallback() {
     this._update();
-    console.log(new POSTForm());
   }
   _template() {
     return html`
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">"Crear orders"</h5>
-          <post-form
-            nameform="orders"
-            url="/order"
-            inputs=${this.inputsOrder}
-          ></post-form>
+      <nav-bar>
+        <h1 slot="title">Titulo</h1>
+        <input placeholder="search" slot="search" />
+      </nav-bar>
+
+      <my-marcadores>
+        <div class="card" slot="marcadores">
+          <div class="card-body">
+            <h5 class="card-title">"Crear orders"</h5>
+            <post-form
+              nameform="orders"
+              url="/order"
+              inputs=${this.inputsOrder}
+            ></post-form>
+          </div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">"Crear client"</h5>
-          <post-form
-            nameform="clients"
-            url="/client"
-            inputs=${this.inputsClient}
-          ></post-form>
+        <div class="card" slot="marcadores">
+          <div class="card-body">
+            <h5 class="card-title">"Crear client"</h5>
+            <post-form
+              nameform="clients"
+              url="/client"
+              inputs=${this.inputsClient}
+            ></post-form>
+          </div>
         </div>
-      </div>
+      </my-marcadores>
     `;
   }
   _update() {
