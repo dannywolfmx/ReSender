@@ -33,6 +33,7 @@ export class NavBar extends HTMLElement {
     return html`
       ${style}
       <nav id="navbar">
+        <slot name="icon"></slot>
         <slot name="title" id="title"></slot>
         <slot name="menu" id="menu"></slot>
         <slot name="search" id="search"></slot>

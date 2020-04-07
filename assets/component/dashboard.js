@@ -2,6 +2,7 @@ import { html, render } from "https://unpkg.com/lit-html?module";
 import "./navbar.js";
 import "./marcadores.js";
 import "./lateral-menu.js";
+import "./bootstrap-input.js";
 
 const style = html`
   <style>
@@ -13,10 +14,28 @@ const style = html`
       text-align: center;
       flex: 1;
     }
+    #lateral {
+    }
+    .lateralFull {
+      display: block;
+      flex: 1 250px;
+    }
+
+    .lateralMin {
+      display: none;
+      flex: 0;
+    }
     #content {
       display: flex;
       flex-direction: column;
-      width: calc(100%-250px);
+    }
+
+    .contentMin {
+      width: calc(100% - 250px);
+    }
+
+    .contentFull {
+      width: 100%;
     }
   </style>
 `;
@@ -57,14 +76,28 @@ export class MyDashboard extends HTMLElement {
   connectedCallback() {
     this._update();
   }
+
+  ocultarMenu(e) {
+    let content = this.root.getElementById("content");
+    let lateral = this.root.getElementById("lateral");
+
+    //Ocultar o mostrar menu
+    content.classList.toggle("contentMin");
+    lateral.classList.toggle("lateralMin");
+
+    content.classList.toggle("contentFull");
+    lateral.classList.toggle("lateralFull");
+  }
+
   _template() {
     return html`
       ${style}
-      <lateral-menu id="lateral"></lateral-menu>
-      <div id="content">
+      <lateral-menu id="lateral" class="lateralFull"></lateral-menu>
+      <div id="content" class="contentMin">
         <nav-bar>
+          <button @click=${this.ocultarMenu} slot="icon">Ocultar</button>
           <h1 slot="title">Titulo</h1>
-          <input placeholder="search" slot="search" />
+          <bootstrap-input label="Prueba" slot="search"></bootstrap-input>
         </nav-bar>
 
         <my-marcadores>

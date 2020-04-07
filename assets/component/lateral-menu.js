@@ -3,7 +3,6 @@ import "./menu-item.js";
 const style = html`
   <style>
     :host {
-      flex: 1 250px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
     }
 
@@ -32,10 +31,7 @@ export class LateralMenu extends HTMLElement {
         <h1>Titulo</h1>
       </div>
       <div id="menu">
-        <menu-item>Prueba</menu-item>
-        <menu-item>Prueba</menu-item>
-        <menu-item>Prueba</menu-item>
-        <menu-item>Prueba</menu-item>
+        <menu-item title="Menu"></menu-item>
       </div>
     `;
   }

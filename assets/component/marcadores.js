@@ -14,6 +14,7 @@ const style = html`
       width: 448px;
       border: none !important;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+      background: white;
     }
   </style>
 `;

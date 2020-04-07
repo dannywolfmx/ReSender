@@ -2,13 +2,16 @@ import { html, render } from "https://unpkg.com/lit-html?module";
 const style = html`
   <style>
     :host {
-      width: 100%;
       display: block;
-      padding: 16px 0px;
+      padding: 8px 0px;
     }
 
     :host(:hover) {
       background: #6777ef;
+      color: white;
+    }
+    p {
+      margin: 0px;
     }
   </style>
 `;
@@ -23,7 +26,7 @@ export class MenuItem extends HTMLElement {
   _template() {
     return html`
       ${style}
-      <slot></slot>
+      <p>${this.title}</p>
     `;
   }
   _update() {

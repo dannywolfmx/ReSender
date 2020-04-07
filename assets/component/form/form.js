@@ -1,5 +1,6 @@
 import { html, render } from "https://unpkg.com/lit-html?module";
 
+import "../bootstrap-input.js";
 class MyForm extends HTMLElement {
   constructor() {
     super();
@@ -37,8 +38,12 @@ class MyForm extends HTMLElement {
 
   _input(label, type, name) {
     return html`
-      <label for="exampleInputEmail1">${label}</label>
-      <input type=${type} class="form-control" name=${name} />
+      <bootstrap-input
+        label=${label}
+        type=${type}
+        name=${name}
+        slot="search"
+      ></bootstrap-input>
     `;
   }
   _template() {
