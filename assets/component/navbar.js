@@ -9,13 +9,19 @@ const style = html`
       height: 56px;
       flex-direction: row;
     }
-    #title {
+    #title[hide] {
       color: white;
     }
     nav ::slotted(input) {
       display: flex;
       color: red;
       margin-left: 24px !important;
+    }
+    #title {
+      display: none;
+    }
+    #title[expand] {
+      display: block;
     }
   </style>
 `;
@@ -29,6 +35,17 @@ export class NavBar extends HTMLElement {
     this._update();
   }
 
+  static get observedAttributes() {
+    return ["expand"];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (newValue !== null) {
+      this.root.getElementById("title").setAttribute("expand", "");
+    } else {
+      this.root.getElementById("title").removeAttribute("expand");
+    }
+  }
   _template() {
     return html`
       ${style}

@@ -13,6 +13,7 @@ const style = html`
       padding: 8px;
       border-radius: 6px;
       border: 1px solid #ecececd4;
+      margin-left: 16px;
     }
   </style>
 `;

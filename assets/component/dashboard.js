@@ -92,7 +92,10 @@ export class MyDashboard extends HTMLElement {
   ocultarMenu(e) {
     let content = this.root.getElementById("content");
     let lateral = this.root.getElementById("lateral");
+    let navbar = this.root.getElementById("navbar");
+
     lateral.toggleAttribute("open");
+    navbar.toggleAttribute("expand");
     content.toggleAttribute("expand");
   }
 
@@ -101,7 +104,7 @@ export class MyDashboard extends HTMLElement {
       ${style}
       <lateral-menu id="lateral" class="lateralFull" open></lateral-menu>
       <div id="content" class="contentMin">
-        <nav-bar>
+        <nav-bar id="navbar">
           <button @click=${this.ocultarMenu} slot="icon">Ocultar</button>
           <h1 slot="title">Titulo</h1>
           <bootstrap-input label="Prueba" slot="search"></bootstrap-input>
