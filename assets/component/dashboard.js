@@ -14,20 +14,32 @@ const style = html`
       text-align: center;
       flex: 1;
     }
+
     #lateral {
-    }
-    .lateralFull {
-      display: block;
-      flex: 1 250px;
+      height: 100%;
+      width: 0px;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      overflow-x: hidden; /* Disable horizontal scroll */
+      transition: 0.5s;
     }
 
-    .lateralMin {
-      display: none;
-      flex: 0;
+    #lateral[open] {
+      width: 250px;
     }
+
     #content {
       display: flex;
       flex-direction: column;
+      transition: margin-left 0.5s;
+      margin-left: 250px;
+      width: 100%;
+    }
+
+    #content[expand] {
+      margin-left: 0px;
     }
 
     .contentMin {
@@ -80,19 +92,14 @@ export class MyDashboard extends HTMLElement {
   ocultarMenu(e) {
     let content = this.root.getElementById("content");
     let lateral = this.root.getElementById("lateral");
-
-    //Ocultar o mostrar menu
-    content.classList.toggle("contentMin");
-    lateral.classList.toggle("lateralMin");
-
-    content.classList.toggle("contentFull");
-    lateral.classList.toggle("lateralFull");
+    lateral.toggleAttribute("open");
+    content.toggleAttribute("expand");
   }
 
   _template() {
     return html`
       ${style}
-      <lateral-menu id="lateral" class="lateralFull"></lateral-menu>
+      <lateral-menu id="lateral" class="lateralFull" open></lateral-menu>
       <div id="content" class="contentMin">
         <nav-bar>
           <button @click=${this.ocultarMenu} slot="icon">Ocultar</button>
