@@ -1,6 +1,7 @@
 import { html, render } from "https://unpkg.com/lit-html?module";
 
 import "../bootstrap-input.js";
+import "../arte-button.js";
 class MyForm extends HTMLElement {
   constructor() {
     super();
@@ -52,7 +53,12 @@ class MyForm extends HTMLElement {
         <div class="form-group">
           ${this.inputs.map((i) => this._input(i.label, i.type, i.name))}
         </div>
-        <button type="submit" class="btn btn-primary" @click=${this._submit}>
+        <button
+          is="arte-button"
+          type="submit"
+          class="btn btn-primary"
+          @click=${this._submit}
+        >
           Crear
         </button>
       </form>

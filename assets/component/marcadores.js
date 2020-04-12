@@ -3,7 +3,6 @@ import { html, render } from "https://unpkg.com/lit-html?module";
 const style = html`
   <style>
     :host {
-      background: #fafdfb;
       min-height: 224px;
       height: auto;
       display: flex;
@@ -13,7 +12,7 @@ const style = html`
       margin-left: 16px;
       width: 448px;
       border: none !important;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       background: white;
     }
   </style>

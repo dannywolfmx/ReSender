@@ -38,12 +38,6 @@ export class BootstrapInput extends HTMLElement {
   get type() {
     return this.getAttribute("type") || "";
   }
-  set for(newValue) {
-    this.setAttribute("for", newValue);
-  }
-  get for() {
-    return this.getAttribute("for") || "";
-  }
   set name(newValue) {
     this.setAttribute("name", newValue);
   }
@@ -53,7 +47,7 @@ export class BootstrapInput extends HTMLElement {
   _template() {
     return html`
       ${style}
-      <label for=${this.for}>${this.label}</label>
+      <label>${this.label}</label>
       <input type=${this.type} name=${this.name} />
     `;
   }

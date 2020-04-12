@@ -87,16 +87,15 @@ export class MyDashboard extends HTMLElement {
 
   connectedCallback() {
     this._update();
+    this.content = this.root.getElementById("content");
+    this.lateral = this.root.getElementById("lateral");
+    this.navbar = this.root.getElementById("navbar");
   }
 
-  ocultarMenu(e) {
-    let content = this.root.getElementById("content");
-    let lateral = this.root.getElementById("lateral");
-    let navbar = this.root.getElementById("navbar");
-
-    lateral.toggleAttribute("open");
-    navbar.toggleAttribute("expand");
-    content.toggleAttribute("expand");
+  ocultarMenu() {
+    this.content.toggleAttribute("expand");
+    this.lateral.toggleAttribute("open");
+    this.navbar.toggleAttribute("expand");
   }
 
   _template() {
