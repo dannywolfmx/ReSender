@@ -1,3 +1,6 @@
+//Entry point api
+//IMPLEMENTACION DE LA API
+
 package v1
 
 import (
