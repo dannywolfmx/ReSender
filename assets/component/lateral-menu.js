@@ -5,7 +5,6 @@ const style = html`
     :host {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
     }
-
     #menu {
     }
     #title > h1 {

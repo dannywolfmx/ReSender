@@ -11,7 +11,6 @@ import (
 )
 
 func Apply(server *gin.Engine, ctn *registry.Container) {
-
 	restClient(server, ctn)
 	restOrder(server, ctn)
 }

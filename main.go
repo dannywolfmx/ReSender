@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/dannywolfmx/ReSender/app/interface/api"
+	"github.com/dannywolfmx/ReSender/app/interface/application"
 	"github.com/dannywolfmx/ReSender/app/registry"
 	"github.com/gin-gonic/gin"
 )
@@ -16,11 +16,6 @@ func main() {
 		panic(err)
 	}
 	server := gin.Default()
-	renderIndexPage(server)
-	api.Apply(server, ctn)
+	application.Apply(server, ctn)
 	server.Run()
-}
-
-func renderIndexPage(server *gin.Engine) {
-	server.Static("/assets", "./assets")
 }
