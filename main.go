@@ -1,9 +1,13 @@
 package main
 
 import (
-	"github.com/dannywolfmx/ReSender/app/interface/application"
+	"log"
+	"net/http"
+	"time"
+
+	"github.com/dannywolfmx/ReSender/app/interface/api"
 	"github.com/dannywolfmx/ReSender/app/registry"
-	"github.com/gin-gonic/gin"
+	"github.com/gorilla/mux"
 )
 
 //path sqlite
@@ -15,7 +19,18 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	server := gin.Default()
-	application.Run(server, ctn)
-	server.Run()
+
+	route := mux.NewRouter()
+
+	api.Apply(route, ctn)
+
+	server := &http.Server{
+		Addr:         "0.0.0.0:8080",
+		WriteTimeout: time.Second * 15,
+		ReadTimeout:  time.Second * 15,
+		IdleTimeout:  time.Second * 60,
+		Handler:      route,
+	}
+	log.Fatal(server.ListenAndServe())
+
 }
