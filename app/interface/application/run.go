@@ -6,6 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Apply(server *gin.Engine, ctn *registry.Container) {
+func Run(server *gin.Engine, ctn *registry.Container) {
 	routes.Apply(server, ctn)
 }

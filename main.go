@@ -16,6 +16,6 @@ func main() {
 		panic(err)
 	}
 	server := gin.Default()
-	application.Apply(server, ctn)
+	application.Run(server, ctn)
 	server.Run()
 }

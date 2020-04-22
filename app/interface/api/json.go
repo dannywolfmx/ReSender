@@ -8,5 +8,4 @@ import (
 
 func Apply(server *gin.Engine, ctn *registry.Container) {
 	v1.Apply(server, ctn)
-
 }
