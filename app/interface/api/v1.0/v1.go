@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/dannywolfmx/ReSender/app/domain/model"
 	"github.com/dannywolfmx/ReSender/app/registry"
 	"github.com/dannywolfmx/ReSender/app/usecase"
 	"github.com/gorilla/mux"
@@ -36,38 +37,26 @@ func orders(route *mux.Router, ctn *registry.Container) {
 		json.NewEncoder(w).Encode(j)
 	}
 
+	create := func(w http.ResponseWriter, r *http.Request) {
+
+		order := &model.Order{}
+		err := orderUseCase.RegisterOrder(order.Number, order.Invoice, order.ClientID)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusCreated)
+	}
+
+	//Routes
 	route.HandleFunc("/orders", list)
+	route.HandleFunc("/order", create)
 
-	//List of orders
-
-	//	s.POST("/order", func(c *gin.Context) {
-	//		order := &model.Order{}
-	//		c.BindJSON(order)
-	//		err := orderUseCase.RegisterOrder(order.Number, order.Invoice, order.ClientID)
-	//		if err != nil {
-	//			panic(err)
-	//		}
-	//		c.JSON(200, gin.H{
-	//			"order": order,
-	//		})
-	//	})
 }
 
 func restClient(route *mux.Router, ctn *registry.Container) {
 	clienteUseCase := NewClientService(ctn.Resolve("client-usecase").(usecase.ClientUseCase))
-
-	//Crear cliente
-	//s.POST("/client", func(c *gin.Context) {
-	//	client := &model.Client{}
-	//	c.BindJSON(client)
-	//	err := clienteUseCase.RegisterClient(client.Name, client.Orders)
-	//	if err != nil {
-	//		panic(err)
-	//	}
-	//	c.JSON(200, gin.H{
-	//		"client": client,
-	//	})
-	//})
 
 	list := func(w http.ResponseWriter, r *http.Request) {
 
@@ -82,5 +71,17 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 		json.NewEncoder(w).Encode(j)
 	}
 
-	route.HandleFunc("/clients", list)
+	create := func(w http.ResponseWriter, r *http.Request) {
+		client := &model.Client{}
+		err := clienteUseCase.RegisterClient(client.Name, client.Orders)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusCreated)
+	}
+
+	//Routes
+	route.HandleFunc("/clients", create)
+	route.HandleFunc("/client", list)
 }
