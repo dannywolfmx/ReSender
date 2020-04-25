@@ -14,7 +14,8 @@ type Order struct {
 	Orm      `json:"orm"`
 	Number   string `json:"number"`
 	Invoice  string `json:"invoice"`
-	ClientID uint
+	ClientID uint   `json:"client_id"`
+
 	//	Mails   []MailDirection
 	//	Files   []File
 }

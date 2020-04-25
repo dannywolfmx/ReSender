@@ -54,6 +54,7 @@ func orders(route *mux.Router, ctn *registry.Container) {
 			return
 		}
 		w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(order)
 	}
 	//Delete a element
 	remove := func(w http.ResponseWriter, r *http.Request) {
@@ -85,7 +86,8 @@ func orders(route *mux.Router, ctn *registry.Container) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		w.WriteHeader(http.StatusCreated)
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(order)
 	}
 
 	//Routes
@@ -113,12 +115,15 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 
 	create := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
+
 		client := &model.Client{}
+		_ = json.NewDecoder(r.Body).Decode(client)
 		err := clienteUseCase.RegisterClient(client.Name, client.Orders)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 		w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(client)
 	}
 
 	//TODO: UPDATE ORDERS
@@ -130,6 +135,7 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 		w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(client)
 	}
 
 	//Delete a element
