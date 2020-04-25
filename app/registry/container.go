@@ -16,6 +16,7 @@ type Container struct {
 }
 
 func NewContainer() (*Container, error) {
+	dataBaseFile := "./db/data/data.db"
 	build, err := di.NewBuilder()
 
 	if err != nil {
@@ -25,7 +26,7 @@ func NewContainer() (*Container, error) {
 	err = build.Add([]di.Def{{
 		Name: "sqlite",
 		Build: func(ctn di.Container) (interface{}, error) {
-			pathDB := "./db/data/data.db"
+			pathDB := dataBaseFile
 			//TODO: Cambiar db.DB a una variable local
 			return db.NewDBSqliteConnection(pathDB).InitDB()
 		},
@@ -33,7 +34,7 @@ func NewContainer() (*Container, error) {
 		Name: "gormSqlite",
 		Build: func(ctn di.Container) (interface{}, error) {
 			//Fijar ruta de la db y el tipo de db
-			db, err := gorm.Open("sqlite3", "./db/data/data.db")
+			db, err := gorm.Open("sqlite3", dataBaseFile)
 			if err != nil {
 				return nil, err
 			}

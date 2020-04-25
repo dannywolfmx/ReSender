@@ -27,31 +27,68 @@ func orders(route *mux.Router, ctn *registry.Container) {
 
 	list := func(w http.ResponseWriter, r *http.Request) {
 
+		w.Header().Set("Content-Type", "application/json")
 		j, err := orderUseCase.ListOrder()
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println(err)
 			return
 		}
-		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(j)
 	}
 
 	create := func(w http.ResponseWriter, r *http.Request) {
 
+		w.Header().Set("Content-Type", "application/json")
 		order := &model.Order{}
+
+		_ = json.NewDecoder(r.Body).Decode(order)
+
 		err := orderUseCase.RegisterOrder(order.Number, order.Invoice, order.ClientID)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+		w.WriteHeader(http.StatusCreated)
+	}
+	//Delete a element
+	remove := func(w http.ResponseWriter, r *http.Request) {
+		params := mux.Vars(r)
+
 		w.Header().Set("Content-Type", "application/json")
+
+		invoice, ok := params["invoice"]
+		if !ok {
+			w.WriteHeader(http.StatusBadRequest)
+		}
+
+		err := orderUseCase.DeleteOrder(invoice)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	}
+
+	update := func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		order := &model.Order{}
+
+		_ = json.NewDecoder(r.Body).Decode(order)
+
+		err := orderUseCase.UpdateOrder(order.ClientID, order.Number, order.Invoice)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 		w.WriteHeader(http.StatusCreated)
 	}
 
 	//Routes
-	route.HandleFunc("/orders", list)
-	route.HandleFunc("/order", create)
+	route.HandleFunc("/orders", list).Methods("GET")
+	route.HandleFunc("/order", create).Methods("POST")
+	route.HandleFunc("/order/{invoice}", remove).Methods("DELETE")
+	route.HandleFunc("/order", update).Methods("PUT")
 
 }
 
@@ -60,28 +97,59 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 
 	list := func(w http.ResponseWriter, r *http.Request) {
 
+		w.Header().Set("Content-Type", "application/json")
 		j, err := clienteUseCase.ListClient()
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println(err)
 			return
 		}
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(j)
 	}
 
 	create := func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
 		client := &model.Client{}
 		err := clienteUseCase.RegisterClient(client.Name, client.Orders)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
 	}
 
+	//TODO: UPDATE ORDERS
+	update := func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		client := &model.Client{}
+		err := clienteUseCase.UpdateClient(client.ID, client.Name)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		w.WriteHeader(http.StatusCreated)
+	}
+
+	//Delete a element
+	remove := func(w http.ResponseWriter, r *http.Request) {
+		params := mux.Vars(r)
+
+		w.Header().Set("Content-Type", "application/json")
+
+		name, ok := params["name"]
+		if !ok {
+			w.WriteHeader(http.StatusBadRequest)
+		}
+
+		err := clienteUseCase.DeleteClient(name)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	}
 	//Routes
-	route.HandleFunc("/clients", create)
-	route.HandleFunc("/client", list)
+	route.HandleFunc("/clients", list).Methods("GET")
+	route.HandleFunc("/client", create).Methods("POST")
+	route.HandleFunc("/client/{name}", remove).Methods("DELETE")
+	route.HandleFunc("/client", update).Methods("PUT")
 }
