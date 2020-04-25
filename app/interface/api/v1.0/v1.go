@@ -5,6 +5,7 @@ package v1
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -19,6 +20,9 @@ func Apply(route *mux.Router, ctn *registry.Container) {
 	restClient(route, ctn)
 	//REST orders
 	orders(route, ctn)
+
+	//Print all the avaibles routes
+	printRoutes(route)
 }
 
 func orders(route *mux.Router, ctn *registry.Container) {
@@ -89,7 +93,6 @@ func orders(route *mux.Router, ctn *registry.Container) {
 	route.HandleFunc("/order", create).Methods("POST")
 	route.HandleFunc("/order/{invoice}", remove).Methods("DELETE")
 	route.HandleFunc("/order", update).Methods("PUT")
-
 }
 
 func restClient(route *mux.Router, ctn *registry.Container) {
@@ -152,4 +155,16 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 	route.HandleFunc("/client", create).Methods("POST")
 	route.HandleFunc("/client/{name}", remove).Methods("DELETE")
 	route.HandleFunc("/client", update).Methods("PUT")
+}
+
+func printRoutes(appRoutes *mux.Router) {
+	appRoutes.Walk(func(route *mux.Route, router *mux.Router, ancestor []*mux.Route) error {
+		t, err := route.GetPathTemplate()
+		b, err := route.GetMethods()
+		if err != nil {
+			return err
+		}
+		fmt.Printf("%-6.6s    %s \n", b, t)
+		return nil
+	})
 }
