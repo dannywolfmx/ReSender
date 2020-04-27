@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dannywolfmx/ReSender/app/interface/api"
+	"github.com/dannywolfmx/ReSender/app/interface/application"
 	"github.com/dannywolfmx/ReSender/app/registry"
 	"github.com/gorilla/mux"
 )
@@ -22,8 +22,9 @@ func main() {
 
 	route := mux.NewRouter()
 
-	api.Apply(route, ctn)
+	//	api.Apply(route, ctn)
 
+	application.Run(route, ctn)
 	server := &http.Server{
 		Addr:         "0.0.0.0:8080",
 		WriteTimeout: time.Second * 15,
