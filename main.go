@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -25,6 +26,7 @@ func main() {
 	//	api.Apply(route, ctn)
 
 	application.Run(route, ctn)
+
 	server := &http.Server{
 		Addr:         "0.0.0.0:8080",
 		WriteTimeout: time.Second * 15,
@@ -32,6 +34,10 @@ func main() {
 		IdleTimeout:  time.Second * 60,
 		Handler:      route,
 	}
+
+	//Run server
+	fmt.Println(server.Addr)
+
 	log.Fatal(server.ListenAndServe())
 
 }

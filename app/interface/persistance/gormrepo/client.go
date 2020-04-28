@@ -26,6 +26,12 @@ func (r clientRepository) FindByName(name string) (*model.Client, error) {
 	return client, nil
 }
 
+func (r clientRepository) GetById(id int64) model.Client {
+	client := model.Client{}
+	r.db.Where("id = ?", id).First(&client)
+	return client
+}
+
 //TODO: Convertir esta lista a una lista de apuntadores "[]*model.Client"
 func (r clientRepository) All() ([]model.Client, error) {
 	clients := []model.Client{}
@@ -37,8 +43,8 @@ func (r clientRepository) All() ([]model.Client, error) {
 //Find and Delete all the matches record
 //Note: Delete is a soft delete, this function just set a flag
 //You need to use r.db.Unscoped().Delete(&model.Order{}) to clear the Delete records permanently
-func (r clientRepository) Detele(name string) error {
-	r.db.Where("name = ?", name).Delete(&model.Client{})
+func (r clientRepository) Detele(id int64) error {
+	r.db.Where("id = ?", id).Delete(&model.Client{})
 	return nil
 }
 

@@ -1,0 +1,14 @@
+<html>
+	<body>
+		<h1>Crear cleinte</h1>
+		{{.Orm.ID}}
+		<form action="../update/{{.Orm.ID}}" method="post">
+			<label >Nombre</label>
+			<br/>
+			<input type="text" name="name" value="{{.Name}}">
+			<br/>
+			<input type="submit" value="Crear">
+		</form>
+
+	</body>
+</html>

@@ -15,8 +15,9 @@ type Order interface {
 type Client interface {
 	Save(*model.Client) error
 	FindByName(string) (*model.Client, error)
+	GetById(id int64) model.Client
 	//TODO: Convertir esta lista a una lista de apuntadores "[]*model.Client"
 	All() ([]model.Client, error)
-	Detele(name string) error
+	Detele(id int64) error
 	Update(*model.Client) error
 }

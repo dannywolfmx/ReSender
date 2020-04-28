@@ -2,8 +2,14 @@
 	<body>
         <ul>
             {{range .}}
-                <li>{{.Name}}</li>
+                <li>
+			{{.Name}} 
+			<a href="/order/remove/{{.ID}}">Eliminar</a>	
+			<a href="/order/edit/{{.ID}}">Edit</a>	
+		</li>
             {{end}}
         </ul>
+	<label >Crete new client</label>
+			<a href="./new">Create</a>	
 	</body>
 </html>

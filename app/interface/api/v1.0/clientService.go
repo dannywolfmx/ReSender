@@ -16,18 +16,22 @@ func NewClientService(clientUseCase usecase.ClientUseCase) *clientService {
 	}
 }
 
+func (c *clientService) GetClient(id int64) model.Client {
+	return c.clientUseCase.GetClient(id)
+}
+
 func (c *clientService) ListClient() ([]model.Client, error) {
 	return c.clientUseCase.ListClient()
 }
 
-func (c *clientService) RegisterClient(name string, orders interface{}) error {
-	return c.clientUseCase.RegisterClient(name, orders)
+func (c *clientService) RegisterClient(name string) error {
+	return c.clientUseCase.RegisterClient(name)
 }
 
-func (c *clientService) DeleteClient(name string) error {
-	return c.clientUseCase.DeleteClient(name)
+func (c *clientService) DeleteClient(id int64) error {
+	return c.clientUseCase.DeleteClient(id)
 }
 
-func (c *clientService) UpdateClient(id uint, name string) error {
-	return c.clientUseCase.UpdateClient(id, name)
+func (c *clientService) UpdateClient(id uint, name string, orders []model.Order) error {
+	return c.clientUseCase.UpdateClient(id, name, orders)
 }

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/dannywolfmx/ReSender/app/domain/model"
 	"github.com/dannywolfmx/ReSender/app/registry"
@@ -15,11 +16,22 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type REST interface {
+	List(w http.ResponseWriter, r *http.Request)
+	Get(w http.ResponseWriter, r *http.Request)
+	Remove(w http.ResponseWriter, r *http.Request)
+	Update(w http.ResponseWriter, r *http.Request)
+}
+
+type Rest struct {
+}
+
 func Apply(route *mux.Router, ctn *registry.Container) {
 	//Index
-	restClient(route, ctn)
+
 	//REST orders
 	orders(route, ctn)
+	restClient(route, ctn)
 
 	//Print all the avaibles routes
 	printRoutes(route)
@@ -118,7 +130,7 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 
 		client := &model.Client{}
 		_ = json.NewDecoder(r.Body).Decode(client)
-		err := clienteUseCase.RegisterClient(client.Name, client.Orders)
+		err := clienteUseCase.RegisterClient(client.Name)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
@@ -130,7 +142,7 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 	update := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		client := &model.Client{}
-		err := clienteUseCase.UpdateClient(client.ID, client.Name)
+		err := clienteUseCase.UpdateClient(client.ID, client.Name, client.Orders)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
@@ -144,12 +156,19 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 
 		w.Header().Set("Content-Type", "application/json")
 
-		name, ok := params["name"]
+		idClient, ok := params["id"]
 		if !ok {
 			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
 
-		err := clienteUseCase.DeleteClient(name)
+		id, err := strconv.Atoi(idClient)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err = clienteUseCase.DeleteClient(int64(id))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
@@ -159,7 +178,7 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 	//Routes
 	route.HandleFunc("/clients", list).Methods("GET")
 	route.HandleFunc("/client", create).Methods("POST")
-	route.HandleFunc("/client/{name}", remove).Methods("DELETE")
+	route.HandleFunc("/client/{id}", remove).Methods("DELETE")
 	route.HandleFunc("/client", update).Methods("PUT")
 }
 
