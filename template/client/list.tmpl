@@ -4,8 +4,9 @@
             {{range .}}
                 <li>
 			{{.Name}} 
-			<a href="/order/remove/{{.ID}}">Eliminar</a>	
-			<a href="/order/edit/{{.ID}}">Edit</a>	
+			<a href="/client/remove/{{.ID}}">Eliminar</a>	
+			<a href="/client/edit/{{.ID}}">Edit</a>	
+			<a href="/client/{{.ID}}/orders">Orders</a>	
 		</li>
             {{end}}
         </ul>
