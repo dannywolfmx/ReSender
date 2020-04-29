@@ -74,12 +74,19 @@ func orders(route *mux.Router, ctn *registry.Container) {
 
 		w.Header().Set("Content-Type", "application/json")
 
-		invoice, ok := params["invoice"]
+		idRemove, ok := params["id"]
 		if !ok {
 			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
 
-		err := orderUseCase.DeleteOrder(invoice)
+		id, err := strconv.Atoi(idRemove)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err = orderUseCase.DeleteOrder(uint(id))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
@@ -105,7 +112,7 @@ func orders(route *mux.Router, ctn *registry.Container) {
 	//Routes
 	route.HandleFunc("/orders", list).Methods("GET")
 	route.HandleFunc("/order", create).Methods("POST")
-	route.HandleFunc("/order/{invoice}", remove).Methods("DELETE")
+	route.HandleFunc("/order/{id}", remove).Methods("DELETE")
 	route.HandleFunc("/order", update).Methods("PUT")
 }
 
