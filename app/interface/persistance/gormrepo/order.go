@@ -26,6 +26,12 @@ func (r *orderRepository) FindByInvoice(invoice string) (*model.Order, error) {
 	return order, nil
 }
 
+func (r *orderRepository) GetById(id uint) model.Order {
+	order := model.Order{}
+	r.db.Where("id = ?", id).First(order)
+	return order
+}
+
 func (r *orderRepository) All() ([]model.Order, error) {
 	orders := []model.Order{}
 	r.db.Find(&orders)
@@ -36,8 +42,8 @@ func (r *orderRepository) All() ([]model.Order, error) {
 //Find and Delete all the matches record
 //Note: Delete is a soft delete, this function just set a flag
 //You need to use r.db.Unscoped().Delete(&model.Order{}) to clear the Delete records permanently
-func (r *orderRepository) Detele(invoice string) error {
-	r.db.Where("invoice = ?", invoice).Delete(&model.Order{})
+func (r *orderRepository) Detele(id uint) error {
+	r.db.Where("id = ?", id).Delete(&model.Order{})
 	return nil
 }
 

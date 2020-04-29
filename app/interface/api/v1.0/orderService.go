@@ -15,6 +15,9 @@ func NewOrderService(orderUseCase usecase.OrderUseCase) *orderService {
 		orderUseCase: orderUseCase,
 	}
 }
+func (s *orderService) GetOrder(id uint) model.Order {
+	return s.orderUseCase.GetOrder(id)
+}
 
 func (s *orderService) ListOrder() ([]model.Order, error) {
 	return s.orderUseCase.ListOrder()
@@ -24,8 +27,8 @@ func (s *orderService) RegisterOrder(number, invoice string, clientid uint) erro
 	return s.orderUseCase.RegisterOrder(number, invoice, clientid)
 }
 
-func (s *orderService) DeleteOrder(invoice string) error {
-	return s.orderUseCase.DeleteOrder(invoice)
+func (s *orderService) DeleteOrder(id uint) error {
+	return s.orderUseCase.DeleteOrder(id)
 }
 
 func (s *orderService) UpdateOrder(id uint, number, invoice string) error {

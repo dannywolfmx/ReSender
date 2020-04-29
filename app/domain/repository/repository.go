@@ -6,8 +6,9 @@ import "github.com/dannywolfmx/ReSender/app/domain/model"
 type Order interface {
 	Save(*model.Order) error
 	FindByInvoice(invoice string) (*model.Order, error)
+	GetById(id uint) model.Order
 	All() ([]model.Order, error)
-	Detele(invoice string) error
+	Detele(id uint) error
 	Update(*model.Order) error
 }
 

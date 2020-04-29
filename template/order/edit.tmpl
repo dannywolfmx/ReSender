@@ -1,0 +1,21 @@
+<html>
+	<body>
+		<h1>Editar orden</h1>
+		<form action="./update" method="post">
+			<label >Numero de factura</label>
+			<br/>
+			<input type="text" name="number" value="{{.Number}}">
+			<br/>
+			<label >Orden de compra</label>
+			<br/>
+			<input type="text" name="invoice" value="{{.Invoice}}">
+			<br/>
+			<label >Id cliente</label>
+			<br/>
+			<input type="text" name="id_client" value="{{.ClientID}}">
+			<br/>
+			<input type="submit" value="Crear">
+		</form>
+
+	</body>
+</html>

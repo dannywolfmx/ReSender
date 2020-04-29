@@ -14,17 +14,12 @@ import (
 //path sqlite
 
 func main() {
-	//Inicializar la base de datos
-
 	ctn, err := registry.NewContainer()
 	if err != nil {
 		panic(err)
 	}
-
 	route := mux.NewRouter()
-
 	//	api.Apply(route, ctn)
-
 	application.Run(route, ctn)
 
 	server := &http.Server{
@@ -34,10 +29,7 @@ func main() {
 		IdleTimeout:  time.Second * 60,
 		Handler:      route,
 	}
-
 	//Run server
 	fmt.Println(server.Addr)
-
 	log.Fatal(server.ListenAndServe())
-
 }
