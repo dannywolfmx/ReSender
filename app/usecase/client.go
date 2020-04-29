@@ -7,10 +7,10 @@ import (
 )
 
 type ClientUseCase interface {
-	GetClient(id int64) model.Client
+	GetClient(id uint) model.Client
 	ListClient() ([]model.Client, error)
 	RegisterClient(name string) error
-	DeleteClient(id int64) error
+	DeleteClient(id uint) error
 	UpdateClient(id uint, name string, orders []model.Order) error
 }
 
@@ -26,7 +26,7 @@ type clientUsecase struct {
 	service *service.ClientService
 }
 
-func (c *clientUsecase) GetClient(id int64) model.Client {
+func (c *clientUsecase) GetClient(id uint) model.Client {
 	return c.repo.GetById(id)
 }
 
@@ -38,7 +38,7 @@ func (c *clientUsecase) RegisterClient(name string) error {
 	return c.repo.Save(&model.Client{Name: name})
 }
 
-func (c *clientUsecase) DeleteClient(id int64) error {
+func (c *clientUsecase) DeleteClient(id uint) error {
 	return c.repo.Detele(id)
 }
 

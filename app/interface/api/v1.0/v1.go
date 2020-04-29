@@ -168,7 +168,7 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 			return
 		}
 
-		err = clienteUseCase.DeleteClient(int64(id))
+		err = clienteUseCase.DeleteClient(uint(id))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return

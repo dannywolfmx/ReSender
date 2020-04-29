@@ -16,7 +16,7 @@ func NewClientService(clientUseCase usecase.ClientUseCase) *clientService {
 	}
 }
 
-func (c *clientService) GetClient(id int64) model.Client {
+func (c *clientService) GetClient(id uint) model.Client {
 	return c.clientUseCase.GetClient(id)
 }
 
@@ -28,7 +28,7 @@ func (c *clientService) RegisterClient(name string) error {
 	return c.clientUseCase.RegisterClient(name)
 }
 
-func (c *clientService) DeleteClient(id int64) error {
+func (c *clientService) DeleteClient(id uint) error {
 	return c.clientUseCase.DeleteClient(id)
 }
 

@@ -15,65 +15,92 @@ import (
 func Apply(router *mux.Router, ctn *registry.Container) {
 	//server.LoadHTMLGlob("templates/**/*.tmpl")
 	clientRoutes(router, ctn)
+	orderRoutes(router, ctn)
 }
+func orderRoutes(router *mux.Router, ctn *registry.Container) {
+	orderUseCase := v1.NewOrderService(ctn.Resolve("order-usecase").(usecase.OrderUseCase))
+	s := router.PathPrefix("/order").Subrouter()
 
+	newData := func(w http.ResponseWriter, r *http.Request) {
+		tmpl, err := template.ParseFiles("template/order/new.tmpl")
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			log.Println("Template order/new error")
+			return
+		}
+		tmpl.Execute(w, nil)
+	}
+
+	create := func(w http.ResponseWriter, r *http.Request) {
+
+		number := r.FormValue("number")
+		invoice := r.FormValue("invoice")
+		idClient := r.FormValue("id_client")
+		id, ok := idStringToInt(idClient)
+		if !ok {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err := orderUseCase.RegisterOrder(number, invoice, uint(id))
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			log.Println(err)
+			return
+		}
+		ruta := "/client/" + idClient + "/orders"
+		http.Redirect(w, r, ruta, 302)
+	}
+
+	s.HandleFunc("/new", newData)
+	s.HandleFunc("/create", create)
+	//s.HandleFunc("/remove/{id}", remove)
+	//s.HandleFunc("/edit/{id}", edit)
+	//s.HandleFunc("/update/{id}", update)
+}
 func clientRoutes(router *mux.Router, ctn *registry.Container) {
 	clienteUseCase := v1.NewClientService(ctn.Resolve("client-usecase").(usecase.ClientUseCase))
 	s := router.PathPrefix("/client").Subrouter()
 
 	list := func(w http.ResponseWriter, r *http.Request) {
 		clients, err := clienteUseCase.ListClient()
-
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println(err)
 			return
 		}
-
 		tmpl, err := template.ParseFiles("template/client/list.tmpl")
-
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println("Template client/list error")
 			return
 		}
-
 		tmpl.Execute(w, clients)
-
 	}
 
 	newData := func(w http.ResponseWriter, r *http.Request) {
-
 		tmpl, err := template.ParseFiles("template/client/new.tmpl")
-
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println("Template client/new error")
 			return
 		}
-
 		tmpl.Execute(w, nil)
-
 	}
 
 	create := func(w http.ResponseWriter, r *http.Request) {
-
 		err := clienteUseCase.RegisterClient(r.FormValue("name"))
-
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println(err)
 			return
 		}
-
 		http.Redirect(w, r, "/client/list", 302)
 
 	}
 
 	edit := func(w http.ResponseWriter, r *http.Request) {
-		//GetId
 		idClient, ok := mux.Vars(r)["id"]
-
 		if !ok {
 			w.WriteHeader(http.StatusBadRequest)
 			return
@@ -84,18 +111,14 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-
 		tmpl, err := template.ParseFiles("template/client/edit.tmpl")
-
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println("Template client/edit error")
 			return
 		}
-		client := clienteUseCase.GetClient(int64(id))
-
+		client := clienteUseCase.GetClient(uint(id))
 		tmpl.Execute(w, client)
-
 	}
 
 	update := func(w http.ResponseWriter, r *http.Request) {
@@ -104,26 +127,15 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		//Get actual order from db
-
-		client := clienteUseCase.GetClient(int64(id))
-
-		//Set values
-
+		client := clienteUseCase.GetClient(uint(id))
 		client.Name = r.FormValue("name")
-
-		//Save values
-
 		err := clienteUseCase.UpdateClient(client.ID, client.Name, client.Orders)
-
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println(err)
 			return
 		}
-
 		http.Redirect(w, r, "/client/list", 302)
-
 	}
 
 	remove := func(w http.ResponseWriter, r *http.Request) {
@@ -132,31 +144,24 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		clienteUseCase.DeleteClient(int64(id))
-
+		clienteUseCase.DeleteClient(uint(id))
 		http.Redirect(w, r, "/client/list", 302)
-
 	}
 
 	orders := func(w http.ResponseWriter, r *http.Request) {
-
 		id, ok := getIdParramenter(r)
 		if !ok {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		client := clienteUseCase.GetClient(int64(id))
-
+		client := clienteUseCase.GetClient(uint(id))
 		tmpl, err := template.ParseFiles("template/client/orders.tmpl")
-
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			log.Println("Template client/list error")
+			log.Println("Template client/orders error")
 			return
 		}
-
 		tmpl.Execute(w, client)
-
 	}
 
 	s.HandleFunc("/list", list)
@@ -176,7 +181,11 @@ func getIdParramenter(r *http.Request) (int, bool) {
 		return 0, false
 	}
 
-	id, err := strconv.Atoi(idCliente)
+	return idStringToInt(idCliente)
+}
+
+func idStringToInt(idString string) (int, bool) {
+	id, err := strconv.Atoi(idString)
 	if err != nil {
 		return 0, false
 	}
