@@ -13,12 +13,14 @@ import (
 
 func orderRoutes(router *mux.Router, ctn *registry.Container) {
 	orderUseCase := v1.NewOrderService(ctn.Resolve("order-usecase").(usecase.OrderUseCase))
-	s := router.PathPrefix("/order").Subrouter()
+	s := router.PathPrefix("/orders").Subrouter()
+
 	newTemplate := template.Must(template.ParseFiles("template/order/new.tmpl"))
 	editTemplate := template.Must(template.ParseFiles("template/order/edit.tmpl"))
 
 	newData := func(w http.ResponseWriter, r *http.Request) {
-		newTemplate.Execute(w, nil)
+		id := r.FormValue("clientid")
+		newTemplate.Execute(w, id)
 	}
 
 	create := func(w http.ResponseWriter, r *http.Request) {
