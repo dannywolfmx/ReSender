@@ -30,6 +30,7 @@ func main() {
 		Handler:      route,
 	}
 	//Run server
+
 	fmt.Println(server.Addr)
 	log.Fatal(server.ListenAndServe())
 }

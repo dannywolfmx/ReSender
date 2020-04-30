@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"html/template"
 	"net/http"
 	"strconv"
 
@@ -11,6 +12,14 @@ import (
 func Apply(router *mux.Router, ctn *registry.Container) {
 	clientRoutes(router, ctn)
 	orderRoutes(router, ctn)
+	index(router, ctn)
+}
+
+func index(router *mux.Router, ctn *registry.Container) {
+	tmpl := template.Must(template.ParseFiles("template/index.tmpl"))
+	router.HandleFunc("/", func(w http.ResponseWriter, h *http.Request) {
+		tmpl.Execute(w, nil)
+	})
 }
 
 func getIdParramenter(r *http.Request) (int, bool) {
