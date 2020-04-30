@@ -1,5 +1,4 @@
-<html>
-	<body>
+<html> <body>
 	<h1>
 		{{.Name}} 
 	</h1>
@@ -8,9 +7,8 @@
                 <li>
 			Numero: {{.Number}} |
 			Invoice: {{.Invoice}}
-			<a href="/client/remove/{{.ID}}">Eliminar</a>	
-			<a href="/client/edit/{{.ID}}">Edit</a>	
-			<a href="/client/{{.ID}}/orders">Orders</a>	
+			<a href="/orders/remove/{{.ID}}?clientid={{.ClientID}}">Eliminar</a>	
+			<a href="/orders/edit/{{.ID}}">Edit</a>	
 		</li>
             {{end}}
         </ul>

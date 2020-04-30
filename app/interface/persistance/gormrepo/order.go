@@ -28,7 +28,7 @@ func (r *orderRepository) FindByInvoice(invoice string) (*model.Order, error) {
 
 func (r *orderRepository) GetById(id uint) model.Order {
 	order := model.Order{}
-	r.db.Where("id = ?", id).First(order)
+	r.db.Where("id = ?", id).First(&order)
 	return order
 }
 
@@ -49,6 +49,6 @@ func (r *orderRepository) Detele(id uint) error {
 
 func (r *orderRepository) Update(order *model.Order) error {
 	//Save will update all the fields, even it is not changed
-	r.db.Save(order)
+	r.db.Model(order).Update(order)
 	return nil
 }

@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -46,6 +47,7 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 
 	remove := func(w http.ResponseWriter, r *http.Request) {
 		id, ok := getIdParramenter(r)
+		idClient := r.FormValue("clientid")
 		if !ok {
 			w.WriteHeader(http.StatusBadRequest)
 			return
@@ -55,7 +57,7 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		ruta := "/client/" + string(id) + "/orders"
+		ruta := fmt.Sprintf("/client/%s/orders", idClient)
 		http.Redirect(w, r, ruta, 302)
 	}
 
@@ -71,7 +73,29 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 	}
 	//Guardar cambios
 	update := func(w http.ResponseWriter, r *http.Request) {
+		id, ok := getIdParramenter(r)
+		if !ok {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
 
+		number := r.FormValue("number")
+		invoice := r.FormValue("invoice")
+		idClient := r.FormValue("id_client")
+
+		if !ok {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err := orderUseCase.UpdateOrder(uint(id), number, invoice)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		ruta := fmt.Sprintf("/client/%s/orders", idClient)
+		http.Redirect(w, r, ruta, 302)
 	}
 
 	s.HandleFunc("/new", newData)

@@ -1,7 +1,7 @@
 <html>
 	<body>
 		<h1>Editar orden</h1>
-		<form action="./update" method="post">
+		<form action="/orders/update/{{.Orm.ID}}" method="post">
 			<label >Numero de factura</label>
 			<br/>
 			<input type="text" name="number" value="{{.Number}}">
@@ -14,7 +14,7 @@
 			<br/>
 			<input type="text" name="id_client" value="{{.ClientID}}">
 			<br/>
-			<input type="submit" value="Crear">
+			<input type="submit" value="Guardar">
 		</form>
 
 	</body>
