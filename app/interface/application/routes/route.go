@@ -13,6 +13,13 @@ func Apply(router *mux.Router, ctn *registry.Container) {
 	clientRoutes(router, ctn)
 	orderRoutes(router, ctn)
 	index(router, ctn)
+	assets(router, ctn)
+}
+
+func assets(router *mux.Router, ctn *registry.Container) {
+	staticDir := "/assets"
+	path := router.PathPrefix(staticDir)
+	path.Handler(http.StripPrefix(staticDir, http.FileServer(http.Dir("."+staticDir))))
 }
 
 func index(router *mux.Router, ctn *registry.Container) {
