@@ -29,8 +29,21 @@ func main() {
 		IdleTimeout:  time.Second * 60,
 		Handler:      route,
 	}
-	//Run server
 
+	//Run server
 	fmt.Println(server.Addr)
+	printRoutes(route)
 	log.Fatal(server.ListenAndServe())
+}
+
+func printRoutes(appRoutes *mux.Router) {
+	appRoutes.Walk(func(route *mux.Route, router *mux.Router, ancestor []*mux.Route) error {
+		t, err := route.GetPathTemplate()
+		b, err := route.GetMethods()
+		if err != nil {
+			return err
+		}
+		fmt.Printf("%-6.6s    %s \n", b, t)
+		return nil
+	})
 }

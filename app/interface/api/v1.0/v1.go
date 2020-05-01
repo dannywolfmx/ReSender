@@ -5,7 +5,6 @@ package v1
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -187,16 +186,4 @@ func restClient(route *mux.Router, ctn *registry.Container) {
 	route.HandleFunc("/client", create).Methods("POST")
 	route.HandleFunc("/client/{id}", remove).Methods("DELETE")
 	route.HandleFunc("/client", update).Methods("PUT")
-}
-
-func printRoutes(appRoutes *mux.Router) {
-	appRoutes.Walk(func(route *mux.Route, router *mux.Router, ancestor []*mux.Route) error {
-		t, err := route.GetPathTemplate()
-		b, err := route.GetMethods()
-		if err != nil {
-			return err
-		}
-		fmt.Printf("%-6.6s    %s \n", b, t)
-		return nil
-	})
 }
