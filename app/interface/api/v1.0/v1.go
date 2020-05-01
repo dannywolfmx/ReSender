@@ -32,8 +32,6 @@ func Apply(route *mux.Router, ctn *registry.Container) {
 	orders(route, ctn)
 	restClient(route, ctn)
 
-	//Print all the avaibles routes
-	printRoutes(route)
 }
 
 func orders(route *mux.Router, ctn *registry.Container) {
