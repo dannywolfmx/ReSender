@@ -1,4 +1,6 @@
-<html> <body>
+{{define "orders"}}
+<html> 
+	<body>
 	<h1>
 		{{.Name}} 
 	</h1>
@@ -16,3 +18,4 @@
 			<a href="/orders/new?clientid={{.ID}}">Create</a>	
 	</body>
 </html>
+{{end}}

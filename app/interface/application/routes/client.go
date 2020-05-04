@@ -15,6 +15,12 @@ import (
 func clientRoutes(router *mux.Router, ctn *registry.Container) {
 	clienteUseCase := v1.NewClientService(ctn.Resolve("client-usecase").(usecase.ClientUseCase))
 	s := router.PathPrefix("/client").Subrouter()
+	tmpl, err := template.ParseFiles("template/client/list.tmpl", "template/client/orders.tmpl", "template/client/edit.tmpl", "template/client/new.tmpl", "template/assets/bootstrap.tmpl")
+
+	if err != nil {
+		log.Fatal("Fallo carga template client")
+		return
+	}
 
 	list := func(w http.ResponseWriter, r *http.Request) {
 		clients, err := clienteUseCase.ListClient()
@@ -23,23 +29,16 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 			log.Println(err)
 			return
 		}
-		tmpl, err := template.ParseFiles("template/client/list.tmpl")
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			log.Println("Template client/list error")
-			return
-		}
-		tmpl.Execute(w, clients)
+		tmpl.ExecuteTemplate(w, "list", clients)
 	}
 
 	newData := func(w http.ResponseWriter, r *http.Request) {
-		tmpl, err := template.ParseFiles("template/client/new.tmpl")
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println("Template client/new error")
 			return
 		}
-		tmpl.Execute(w, nil)
+		tmpl.ExecuteTemplate(w, "new", nil)
 	}
 
 	create := func(w http.ResponseWriter, r *http.Request) {
@@ -65,14 +64,8 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		tmpl, err := template.ParseFiles("template/client/edit.tmpl")
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			log.Println("Template client/edit error")
-			return
-		}
 		client := clienteUseCase.GetClient(uint(id))
-		tmpl.Execute(w, client)
+		tmpl.ExecuteTemplate(w, "edit", client)
 	}
 
 	update := func(w http.ResponseWriter, r *http.Request) {
@@ -109,13 +102,7 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 			return
 		}
 		client := clienteUseCase.GetClient(uint(id))
-		tmpl, err := template.ParseFiles("template/client/orders.tmpl")
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			log.Println("Template client/orders error")
-			return
-		}
-		tmpl.Execute(w, client)
+		tmpl.ExecuteTemplate(w, "orders", client)
 	}
 
 	s.HandleFunc("/list", list)
