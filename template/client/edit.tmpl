@@ -4,16 +4,18 @@
 		{{template "bootstrap"}}
 	</head>
 	<body>
-		<h1>Crear cleinte</h1>
-		{{.Orm.ID}}
-		<form action="../update/{{.Orm.ID}}" method="post">
-			<label >Nombre</label>
-			<br/>
-			<input type="text" name="name" value="{{.Name}}">
-			<br/>
-			<input type="submit" value="Crear">
-		</form>
-
+		<div class="card">
+			<div class="card-body">
+			<h5 class="card-title">Crear cliente |  ID {{.Orm.ID}}</h5>
+				<form action="../update/{{.Orm.ID}}" method="post">
+					<div class="form-group">
+						<label >Nombre</label>
+						<input type="text" class="form-control" name="name" value="{{.Name}}">
+					</div>
+					<input class="btn btn-primary" type="submit" value="Crear">
+				</form>
+			</div>
+		</div>
 	</body>
 </html>
 {{end}}
