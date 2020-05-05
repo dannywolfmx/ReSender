@@ -1,8 +1,10 @@
 {{define "show.tmpl}}
+	{{template "main"}}
 	<h1>Clientes</h1>
 	<ul>
 		{{range .Clientes}}
 			<li>{{.Name}}</li>
 		{{end}}
 	</ul>
+	{{template "footer"}}
 {{end}}

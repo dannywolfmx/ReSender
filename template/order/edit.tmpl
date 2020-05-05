@@ -1,21 +1,25 @@
-<html>
-	<body>
-		<h1>Editar orden</h1>
-		<form action="/orders/update/{{.Orm.ID}}" method="post">
-			<label >Numero de factura</label>
-			<br/>
-			<input type="text" name="number" value="{{.Number}}">
-			<br/>
-			<label >Orden de compra</label>
-			<br/>
-			<input type="text" name="invoice" value="{{.Invoice}}">
-			<br/>
-			<label >Id cliente</label>
-			<br/>
-			<input type="text" name="id_client" value="{{.ClientID}}">
-			<br/>
-			<input type="submit" value="Guardar">
-		</form>
+{{define "new"}}
+		{{template "main"}}
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Editar orden </h5>
+				<form action="/orders/update/{{.Orm.ID}}" method="post">
+					<label >Numero de factura</label>
+					<br/>
+					<input type="text" name="number" value="{{.Number}}">
+					<br/>
+					<label >Orden de compra</label>
+					<br/>
+					<input type="text" name="invoice" value="{{.Invoice}}">
+					<br/>
+					<label >Id cliente</label>
+					<br/>
+					<input type="text" name="id_client" value="{{.ClientID}}">
+					<br/>
+					<input type="submit" value="Guardar">
+				</form>
 
-	</body>
-</html>
+			</div>
+		</div>
+	{{template "footer"}}
+{{end}}

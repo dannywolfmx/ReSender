@@ -1,6 +1,5 @@
 {{define "orders"}}
-<html> 
-	<body>
+	{{template "main"}}
 	<h1>
 		{{.Name}} 
 	</h1>
@@ -14,8 +13,8 @@
 		</li>
             {{end}}
         </ul>
-	<label >Crete new order</label>
-			<a href="/orders/new?clientid={{.ID}}">Create</a>	
-	</body>
-</html>
+	<a href="/orders/new?clientid={{.ID}}">
+		<button class="btn btn-primary">Nueva orden</button>
+	</a>	
+	{{template "footer"}}
 {{end}}

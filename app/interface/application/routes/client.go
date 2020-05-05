@@ -14,8 +14,7 @@ import (
 
 func clientRoutes(router *mux.Router, ctn *registry.Container) {
 	clienteUseCase := v1.NewClientService(ctn.Resolve("client-usecase").(usecase.ClientUseCase))
-	s := router.PathPrefix("/client").Subrouter()
-	tmpl, err := template.ParseFiles("template/client/list.tmpl", "template/client/orders.tmpl", "template/client/edit.tmpl", "template/client/new.tmpl", "template/layout/footer.tmpl", "template/layout/main.tmpl")
+	tmpl, err := template.ParseFiles("template/client/list.tmpl", "template/client/orders.tmpl", "template/client/edit.tmpl", "template/client/new.tmpl", "template/layout/main.tmpl")
 
 	if err != nil {
 		log.Fatal("Fallo carga template client", err)
@@ -92,7 +91,7 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 			return
 		}
 		clienteUseCase.DeleteClient(uint(id))
-		http.Redirect(w, r, "/client/list", 302)
+		http.Redirect(w, r, "/clients", 302)
 	}
 
 	orders := func(w http.ResponseWriter, r *http.Request) {
@@ -105,7 +104,10 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 		tmpl.ExecuteTemplate(w, "orders", client)
 	}
 
-	s.HandleFunc("/list", list)
+	router.HandleFunc("/clients", list)
+
+	//Subroutes de la ruta /clients
+	s := router.PathPrefix("/client").Subrouter()
 	s.HandleFunc("/new", newData)
 	s.HandleFunc("/create", create)
 	s.HandleFunc("/remove/{id}", remove)

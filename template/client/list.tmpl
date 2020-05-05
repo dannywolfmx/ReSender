@@ -1,19 +1,23 @@
-{{block "main" .}}
-{{end}}
 {{define "list"}}
-        <ul>
+	{{template "main"}}
+        <ul class="list-group">
             {{range .}}
-                <li>
+                <li class="list-group-item">
+			<a href="/client/{{.ID}}/orders">
+				<button  type="button" class="btn btn-secondary">Ordenes</button>
+			</a>
+			<a href="/client/edit/{{.ID}}">
+				<button href="" type="button" class="btn btn-secondary">Editar</button>
+			</a>
+			<a href="/client/remove/{{.ID}}">
+				<button type="button" class="btn btn-danger" href="">Eliminar</button>
+			</a>
 			{{.Name}} 
-			<a href="/client/remove/{{.ID}}">Eliminar</a>	
-			<a href="/client/edit/{{.ID}}">Edit</a>	
-			<a href="/client/{{.ID}}/orders">Orders</a>	
 		</li>
             {{end}}
         </ul>
-	<label >Crete new client</label>
-	<a href="./new">Create</a>	
-{{end}}
-
-{{block "footer" .}}
+	<a href="/client/new">
+		<button  type="button" class="btn btn-primary">Nuevo cliente</button>
+	</a>
+	{{template "footer"}}
 {{end}}

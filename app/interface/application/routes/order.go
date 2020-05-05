@@ -16,12 +16,11 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 	orderUseCase := v1.NewOrderService(ctn.Resolve("order-usecase").(usecase.OrderUseCase))
 	s := router.PathPrefix("/orders").Subrouter()
 
-	newTemplate := template.Must(template.ParseFiles("template/order/new.tmpl"))
-	editTemplate := template.Must(template.ParseFiles("template/order/edit.tmpl"))
+	tmpl := template.Must(template.ParseFiles("template/layout/main.tmpl", "template/order/edit.tmpl", "template/order/new.tmpl"))
 
 	newData := func(w http.ResponseWriter, r *http.Request) {
 		id := r.FormValue("clientid")
-		newTemplate.Execute(w, id)
+		tmpl.ExecuteTemplate(w, "new", id)
 	}
 
 	create := func(w http.ResponseWriter, r *http.Request) {
@@ -69,7 +68,7 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 			return
 		}
 		order := orderUseCase.GetOrder(uint(id))
-		editTemplate.Execute(w, order)
+		tmpl.ExecuteTemplate(w, "edit", order)
 	}
 	//Guardar cambios
 	update := func(w http.ResponseWriter, r *http.Request) {

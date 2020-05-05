@@ -1,9 +1,5 @@
 {{define "edit"}}
-<html>
-	<head>
-		{{template "bootstrap"}}
-	</head>
-	<body>
+		{{template "main"}}
 		<div class="card">
 			<div class="card-body">
 			<h5 class="card-title">Crear cliente |  ID {{.Orm.ID}}</h5>
@@ -12,10 +8,9 @@
 						<label >Nombre</label>
 						<input type="text" class="form-control" name="name" value="{{.Name}}">
 					</div>
-					<input class="btn btn-primary" type="submit" value="Crear">
+					<input class="btn btn-primary" type="submit" value="Guardar">
 				</form>
 			</div>
 		</div>
-	</body>
-</html>
+		{{template "footer"}}
 {{end}}

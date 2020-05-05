@@ -1,15 +1,12 @@
 {{define "new"}}
-<html>
-	<body>
-		<h1>Crear cliente</h1>
-		<form action="./create" method="post">
-			<label >Nombre</label>
-			<br/>
-			<input type="text" name="name">
-			<br/>
-			<input type="submit" value="Crear">
-		</form>
-
-	</body>
-</html>
+	{{template "main"}}
+	<h1>Crear cliente</h1>
+	<form action="./create" method="post">
+		<label >Nombre</label>
+		<br/>
+		<input type="text" name="name">
+		<br/>
+		<input type="submit" value="Crear">
+	</form>
+	{{template "footer"}}
 {{end}}
