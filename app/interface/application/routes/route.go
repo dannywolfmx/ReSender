@@ -23,9 +23,9 @@ func assets(router *mux.Router, ctn *registry.Container) {
 }
 
 func index(router *mux.Router, ctn *registry.Container) {
-	tmpl := template.Must(template.ParseFiles("template/index.tmpl", "template/assets/bootstrap.tmpl"))
+	tmpl := template.Must(template.ParseFiles("template/index/index.tmpl", "template/layout/main.tmpl"))
 	router.HandleFunc("/", func(w http.ResponseWriter, h *http.Request) {
-		tmpl.Execute(w, nil)
+		tmpl.ExecuteTemplate(w, "index", nil)
 	})
 }
 

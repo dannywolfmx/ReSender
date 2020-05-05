@@ -1,6 +1,6 @@
+{{block "main" .}}
+{{end}}
 {{define "list"}}
-<html>
-	<body>
         <ul>
             {{range .}}
                 <li>
@@ -12,7 +12,8 @@
             {{end}}
         </ul>
 	<label >Crete new client</label>
-			<a href="./new">Create</a>	
-	</body>
-</html>
+	<a href="./new">Create</a>	
+{{end}}
+
+{{block "footer" .}}
 {{end}}
