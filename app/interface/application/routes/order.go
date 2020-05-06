@@ -14,7 +14,6 @@ import (
 
 func orderRoutes(router *mux.Router, ctn *registry.Container) {
 	orderUseCase := v1.NewOrderService(ctn.Resolve("order-usecase").(usecase.OrderUseCase))
-	s := router.PathPrefix("/orders").Subrouter()
 
 	tmpl := template.Must(template.ParseFiles("template/layout/main.tmpl", "template/order/edit.tmpl", "template/order/new.tmpl"))
 
@@ -97,6 +96,7 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 		http.Redirect(w, r, ruta, 302)
 	}
 
+	s := router.PathPrefix("/orders").Subrouter()
 	s.HandleFunc("/new", newData)
 	s.HandleFunc("/create", create)
 	s.HandleFunc("/remove/{id}", remove)

@@ -1,23 +1,65 @@
 {{define "list"}}
 	{{template "main"}}
+	<div class="d-flex bd-highlight">
+		<div class="p-2 bd-highlight">
+			<a href="/client/new">
+				<button  type="button" class="btn btn-primary">Nuevo cliente</button>
+			</a>
+		</div>
+	</div>
+
+        {{range .}}
+		<div class="card " >
+		  <div class="card-header">
+        	        <div class="d-flex bd-highlight">
+				<div class="p-2 flex-grow-1 bd-highlight">
+					{{.Name}} 
+				</div>
+				<div class="p-2 bd-highlight">
+				<a href="/client/remove/{{.ID}}">
+					<button type="button" class="btn btn-danger" href="">Eliminar</button>
+				</a>
+				</div>
+			</div>
+			  <ul class="nav nav-tabs card-header-tabs">
+    			  <li class="nav-item">
+    			    <a class="nav-link active" href="#">Ordenes</a>
+    			  </li>
+    			  <li class="nav-item">
+    			    <a class="nav-link" href="/client/edit/{{.ID}}">Editar</a>
+    			  </li>
+    			</ul>
+		  </div>
+		  <div class="card-body">
+		  	{{template "orders" .}}
+		  </div>
+		</div>
+        {{end}}
+
+	{{template "footer"}}
+{{end}}
+
+{{define "orders"}}
+
+	<div class="d-flex bd-highlight">
+		<div class="p-2 bd-highlight">
+			<a href="/orders/new?clientid={{.ID}}">
+				<button class="btn btn-primary">Nueva orden</button>
+			</a>	
+		</div>
+	</div>
         <ul class="list-group">
-            {{range .}}
-                <li class="list-group-item">
-			<a href="/client/{{.ID}}/orders">
-				<button  type="button" class="btn btn-secondary">Ordenes</button>
-			</a>
-			<a href="/client/edit/{{.ID}}">
-				<button href="" type="button" class="btn btn-secondary">Editar</button>
-			</a>
-			<a href="/client/remove/{{.ID}}">
-				<button type="button" class="btn btn-danger" href="">Eliminar</button>
-			</a>
-			{{.Name}} 
+            {{range .Orders}}
+                <li class="d-flex bd-highlight list-group-item">
+			<div class="p-2 flex-grow-1 bd-highlight">
+				Numero: {{.Number}} |
+				Invoice: {{.Invoice}}
+			</div>
+			<div class="p-2 bd-highlight">
+				<a href="/orders/remove/{{.ID}}?clientid={{.ClientID}}">Eliminar</a>	
+				<a href="/orders/edit/{{.ID}}">Edit</a>	
+			</div>
 		</li>
             {{end}}
         </ul>
-	<a href="/client/new">
-		<button  type="button" class="btn btn-primary">Nuevo cliente</button>
-	</a>
-	{{template "footer"}}
 {{end}}

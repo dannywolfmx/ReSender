@@ -81,7 +81,7 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 			log.Println(err)
 			return
 		}
-		http.Redirect(w, r, "/client/list", 302)
+		http.Redirect(w, r, "/clients", 302)
 	}
 
 	remove := func(w http.ResponseWriter, r *http.Request) {
