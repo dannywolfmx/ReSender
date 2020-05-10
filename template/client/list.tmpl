@@ -46,12 +46,12 @@
 	<script>
 		let selectedClient = -1; //Nil
 
-		function eliminarOrden(id, clientId){
+		function eliminarOrden(id, clientId, indexList){
 			let url = `/orders/remove/${id}?clientid=${clientId}` 
 			fetch(url, {
 				method: "DELETE"
 			}).then(r =>{
-				r.ok?console.log("agregado el cliente"):
+				r.ok?deleteOrderDom(indexList):
 					console.log("Error al agregar")
 			}).catch(error =>{
 				console.log("No hay internet")
@@ -122,10 +122,18 @@
 		//TODO Esto puede tronar si no hay elemento que clonar
 		function agregarOrderDom(form){
 			let text = `Numero: ${form.get("number")} | Invoice: ${form.get("invoice")}`
-			let ordenes = getDOMClient(selectedClient).getElementsByTagName("ul")[1]
-			let clone = ordenes.firstElementChild.cloneNode(true);
+			let clone = getOrdersDOM().lastElementChild.cloneNode(true);
+			clone.order = parseInt(clone.order) + 1 
 			clone.firstElementChild.innerText = text		
-			ordenes.appendChild(clone)
+			getOrdersDOM().appendChild(clone)
+		}
+
+		function deleteOrderDom(index){
+			getOrdersDOM().querySelector(`[order="${index}"]`).remove()
+		}
+
+		function getOrdersDOM(){
+			return getDOMClient(selectedClient).getElementsByTagName("ul")[1]
 		}
 	</script>
 {{end}}
@@ -147,14 +155,14 @@
 		  </div>
 		</div>
         <ul class="list-group">
-            {{range .Orders}}
-                <li class="d-flex bd-highlight list-group-item">
+            {{range $index, $order := .Orders}}
+                <li class="d-flex bd-highlight list-group-item" order="{{$index}}">
 			<div class="p-2 flex-grow-1 bd-highlight">
 				Numero: {{.Number}} |
 				Invoice: {{.Invoice}}
 			</div>
 			<div class="p-2 bd-highlight">
-				<button class="btn btn-primary" type="button" onclick="eliminarOrden({{.ID}}, {{.ClientID}})">
+				<button class="btn btn-primary" type="button" onclick="eliminarOrden({{.ID}}, {{.ClientID}}, {{$index}})">
 					Eliminar
 				</button>
 				<a href="/orders/edit/{{.ID}}">Edit</a>	
