@@ -105,7 +105,7 @@
 		function createOrder(e){
 			e.preventDefault()
 
-			let formOrder = document.getElementById("createOrder")	
+			let formOrder = getDOMClient(selectedClient).querySelector("#createOrder")	
 			let form = new FormData(formOrder)
 			
 			fetch("/orders/create", {
