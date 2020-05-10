@@ -46,6 +46,18 @@
 	<script>
 		let selectedClient = -1; //Nil
 
+		function eliminarOrden(id, clientId){
+			let url = `/orders/remove/${id}?clientid=${clientId}` 
+			fetch(url, {
+				method: "DELETE"
+			}).then(r =>{
+				r.ok?console.log("agregado el cliente"):
+					console.log("Error al agregar")
+			}).catch(error =>{
+				console.log("No hay internet")
+			})
+			
+		}
 		function ejecuta(index){
 			//Verificar si no estoy ocultando el cliente que voy a mostrar
 			if(selectedClient !== index){
@@ -136,7 +148,9 @@
 				Invoice: {{.Invoice}}
 			</div>
 			<div class="p-2 bd-highlight">
-				<a href="/orders/remove/{{.ID}}?clientid={{.ClientID}}">Eliminar</a>	
+				<button onclick="eliminarOrden({{.ID}}, {{.ClientID}})">
+					Eliminar
+				</button>
 				<a href="/orders/edit/{{.ID}}">Edit</a>	
 			</div>
 		</li>
