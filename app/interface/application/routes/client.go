@@ -14,7 +14,7 @@ import (
 
 func clientRoutes(router *mux.Router, ctn *registry.Container) {
 	clienteUseCase := v1.NewClientService(ctn.Resolve("client-usecase").(usecase.ClientUseCase))
-	tmpl, err := template.ParseFiles("template/client/list.tmpl", "template/client/orders.tmpl", "template/client/edit.tmpl", "template/client/new.tmpl", "template/layout/main.tmpl")
+	tmpl, err := template.ParseFiles("template/client/list.tmpl", "template/client/orders.tmpl", "template/client/edit.tmpl", "template/client/new.tmpl", "template/layout/main.tmpl", "template/client/newOrder.tmpl")
 
 	if err != nil {
 		log.Fatal("Fallo carga template client", err)

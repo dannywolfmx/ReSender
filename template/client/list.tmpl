@@ -71,25 +71,44 @@
 			let query = `div.card[cliente="${index}"]`
 			return document.querySelector(query)	
 		}
-			function toggleClientTabs(index){
-				let tabEditar = getDOMClient(index).querySelector('div>.nav .nav-item>a:not(.active)')
-				let tabOrders = getDOMClient(index).querySelector('div>.nav .nav-item>a.active')
+		function toggleClientTabs(index){
+			let tabEditar = getDOMClient(index).querySelector('div>.nav .nav-item>a:not(.active)')
+			let tabOrders = getDOMClient(index).querySelector('div>.nav .nav-item>a.active')
 
-				tabEditar.classList.toggle("active")
-				tabOrders.classList.toggle("active")
+			tabEditar.classList.toggle("active")
+			tabOrders.classList.toggle("active")
 
-				let cardActive = getDOMClient(index).querySelector('div>.card-body:not([hidden])')
-				let cardHidden = getDOMClient(index).querySelector('div>.card-body[hidden]')
-				cardActive.hidden = true
-				cardHidden.hidden = false
-			}
-			function showEdit(index){
-				toggleClientTabs(index)
-			}
-			function showOrders(index){
-				toggleClientTabs(index)
+			let cardActive = getDOMClient(index).querySelector('div>.card-body:not([hidden])')
+			let cardHidden = getDOMClient(index).querySelector('div>.card-body[hidden]')
+			cardActive.hidden = true
+			cardHidden.hidden = false
+		}
+		function showEdit(index){
+			toggleClientTabs(index)
+		}
+		function showOrders(index){
+			toggleClientTabs(index)
+		}
 
-			}
+		function createOrder(e){
+			e.preventDefault()
+
+			let formOrder = document.getElementById("createOrder")	
+			let form = new FormData(formOrder)
+			
+			fetch("/orders/create", {
+				method: "POST",
+				body:form
+			}).then(r =>{
+				r.ok?console.log("agregado el cliente"):
+					console.log("Error al agregar")
+			}).catch(error =>{
+				console.log("No hay internet")
+			})
+		}
+		function agregarOrderDom(form){
+			
+		}
 	</script>
 {{end}}
 
@@ -106,7 +125,7 @@
 		  	<h1>Nueva orden</h1>
 		  </div>
 		  <div class="card-body" >
-		  	{{template "crearOrder" .}}
+		  	{{template "newOrder" .Orm.ID}}
 		  </div>
 		</div>
         <ul class="list-group">
