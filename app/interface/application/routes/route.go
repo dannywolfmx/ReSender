@@ -12,7 +12,7 @@ import (
 func Apply(router *mux.Router, ctn *registry.Container) {
 	clientRoutes(router, ctn)
 	orderRoutes(router, ctn)
-	index(router, ctn)
+	////	index(router, ctn)
 	assets(router, ctn)
 }
 

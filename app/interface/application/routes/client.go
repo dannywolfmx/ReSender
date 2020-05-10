@@ -47,7 +47,7 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 			log.Println(err)
 			return
 		}
-		http.Redirect(w, r, "/client/list", 302)
+		http.Redirect(w, r, "/", 302)
 
 	}
 
@@ -81,7 +81,7 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 			log.Println(err)
 			return
 		}
-		http.Redirect(w, r, "/clients", 302)
+		http.Redirect(w, r, "/", 302)
 	}
 
 	remove := func(w http.ResponseWriter, r *http.Request) {
@@ -104,7 +104,7 @@ func clientRoutes(router *mux.Router, ctn *registry.Container) {
 		tmpl.ExecuteTemplate(w, "orders", client)
 	}
 
-	router.HandleFunc("/clients", list)
+	router.HandleFunc("/", list)
 
 	//Subroutes de la ruta /clients
 	s := router.PathPrefix("/client").Subrouter()

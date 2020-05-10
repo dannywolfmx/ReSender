@@ -1,16 +1,9 @@
 {{define "edit"}}
-		{{template "main"}}
-		<div class="card">
-			<div class="card-body">
-			<h5 class="card-title">Crear cliente |  ID {{.Orm.ID}}</h5>
-				<form action="../update/{{.Orm.ID}}" method="post">
-					<div class="form-group">
-						<label >Nombre</label>
-						<input type="text" class="form-control" name="name" value="{{.Name}}">
-					</div>
-					<input class="btn btn-primary" type="submit" value="Guardar">
-				</form>
-			</div>
+	<form action="client/update/{{.Orm.ID}}" method="post">
+		<div class="form-group">
+			<label >Nombre</label>
+			<input type="text" class="form-control" name="name" value="{{.Name}}">
 		</div>
-		{{template "footer"}}
+		<input class="btn btn-primary" type="submit" value="Guardar">
+	</form>
 {{end}}
