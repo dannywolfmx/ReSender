@@ -112,14 +112,20 @@
 				method: "POST",
 				body:form
 			}).then(r =>{
-				r.ok?console.log("agregado el cliente"):
+				r.ok?agregarOrderDom(form):
 					console.log("Error al agregar")
 			}).catch(error =>{
 				console.log("No hay internet")
 			})
 		}
+
+		//TODO Esto puede tronar si no hay elemento que clonar
 		function agregarOrderDom(form){
-			
+			let text = `Numero: ${form.get("number")} | Invoice: ${form.get("invoice")}`
+			let ordenes = getDOMClient(selectedClient).getElementsByTagName("ul")[1]
+			let clone = ordenes.firstElementChild.cloneNode(true);
+			clone.firstElementChild.innerText = text		
+			ordenes.appendChild(clone)
 		}
 	</script>
 {{end}}
@@ -148,7 +154,7 @@
 				Invoice: {{.Invoice}}
 			</div>
 			<div class="p-2 bd-highlight">
-				<button onclick="eliminarOrden({{.ID}}, {{.ClientID}})">
+				<button class="btn btn-primary" type="button" onclick="eliminarOrden({{.ID}}, {{.ClientID}})">
 					Eliminar
 				</button>
 				<a href="/orders/edit/{{.ID}}">Edit</a>	
