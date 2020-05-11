@@ -159,7 +159,10 @@
                 <li class="d-flex bd-highlight list-group-item" order="{{$index}}">
 			<div class="p-2 flex-grow-1 bd-highlight">
 				Numero: {{.Number}} |
-				Invoice: {{.Invoice}}
+				Invoice: {{.Invoice}} |
+				{{range .Mails}}
+					{{.Direction}}
+				{{end}}
 			</div>
 			<div class="p-2 bd-highlight">
 				<button class="btn btn-primary" type="button" onclick="eliminarOrden({{.ID}}, {{.ClientID}}, {{$index}})">

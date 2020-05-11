@@ -57,7 +57,7 @@ func orders(route *mux.Router, ctn *registry.Container) {
 
 		_ = json.NewDecoder(r.Body).Decode(order)
 
-		err := orderUseCase.RegisterOrder(order.Number, order.Invoice, order.ClientID)
+		err := orderUseCase.RegisterOrder(order.Number, order.Invoice, order.Mails, order.ClientID)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return

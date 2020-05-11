@@ -28,7 +28,7 @@ func (r clientRepository) FindByName(name string) (*model.Client, error) {
 
 func (r clientRepository) GetById(id uint) model.Client {
 	client := model.Client{}
-	r.db.Preload("Orders").Where("id = ?", id).First(&client)
+	r.db.Preload("Orders.Mails").Where("id = ?", id).First(&client)
 	return client
 }
 
@@ -36,7 +36,8 @@ func (r clientRepository) GetById(id uint) model.Client {
 func (r clientRepository) All() ([]model.Client, error) {
 	clients := []model.Client{}
 	//Pedir a GORM que agregue las ordenes del usuario
-	r.db.Preload("Orders").Find(&clients)
+	//r.db.Set("gorm:auto_preload", true).Find(&clients)
+	r.db.Preload("Orders.Mails").Find(&clients)
 	return clients, nil
 }
 

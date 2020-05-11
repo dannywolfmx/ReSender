@@ -12,11 +12,10 @@ type Orm struct {
 
 type Order struct {
 	Orm      `json:"orm"`
-	Number   string `json:"number"`
-	Invoice  string `json:"invoice"`
-	ClientID uint   `json:"client_id"`
-
-	//	Mails   []MailDirection
+	Number   string          `json:"number"`
+	Invoice  string          `json:"invoice"`
+	ClientID uint            `json:"client_id"`
+	Mails    []MailDirection `json:"mails" gorm:"many2many:senders"`
 	//	Files   []File
 }
 
@@ -28,12 +27,12 @@ type Client struct {
 
 //TODO: Estructuras
 type MailDirection struct {
-	Orm
-	Direction string
+	Orm       `json:"orm"`
+	Direction string `json:"direction"`
 }
 
 type File struct {
-	Orm
-	Path  string
-	Title string
+	Orm   `json:"orm"`
+	Path  string `json:"path"`
+	Title string `json:"title"`
 }

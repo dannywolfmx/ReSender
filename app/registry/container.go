@@ -77,7 +77,7 @@ func NewContainer() (*Container, error) {
 //migrarDBGorm se encarga de realizar el proceso de migracion de las tablas del modelo
 func migrarDBGorm(db *gorm.DB) {
 	//Migrar estructuras
-	db.AutoMigrate(&model.Order{}, &model.Client{})
+	db.AutoMigrate(&model.Order{}, &model.Client{}, &model.MailDirection{})
 }
 
 func (c *Container) Resolve(name string) interface{} {

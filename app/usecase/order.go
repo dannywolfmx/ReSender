@@ -9,7 +9,7 @@ import (
 type OrderUseCase interface {
 	GetOrder(id uint) model.Order
 	ListOrder() ([]model.Order, error)
-	RegisterOrder(number, invoice string, clientid uint) error
+	RegisterOrder(number, invoice string, mails []model.MailDirection, clientid uint) error
 	DeleteOrder(id uint) error
 	UpdateOrder(id uint, number, invoice string) error
 }
@@ -34,8 +34,9 @@ func (o *orderUsecase) ListOrder() ([]model.Order, error) {
 	return o.repo.All()
 }
 
-func (o *orderUsecase) RegisterOrder(number, invoice string, clientid uint) error {
-	return o.repo.Save(&model.Order{Number: number, Invoice: invoice, ClientID: clientid})
+func (o *orderUsecase) RegisterOrder(number, invoice string, mails []model.MailDirection, clientid uint) error {
+
+	return o.repo.Save(&model.Order{Number: number, Invoice: invoice, Mails: mails, ClientID: clientid})
 }
 func (o *orderUsecase) DeleteOrder(id uint) error {
 	return o.repo.Detele(id)

@@ -1,4 +1,4 @@
-package persistance
+package sqlite
 
 import (
 	"github.com/dannywolfmx/ReSender/app/domain/model"

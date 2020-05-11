@@ -5,7 +5,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 
+	"github.com/dannywolfmx/ReSender/app/domain/model"
 	"github.com/dannywolfmx/ReSender/app/interface/api/v1.0"
 	"github.com/dannywolfmx/ReSender/app/registry"
 	"github.com/dannywolfmx/ReSender/app/usecase"
@@ -26,21 +28,27 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 
 		number := r.FormValue("number")
 		invoice := r.FormValue("invoice")
+		mails := strings.Split(r.FormValue("mails"), ",")
 		idClient := r.FormValue("id_client")
 		id, ok := idStringToInt(idClient)
 		if !ok {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		m := []model.MailDirection{}
+		for _, direccion := range mails {
+			m = append(m, model.MailDirection{
+				Direction: direccion,
+			})
+		}
 
-		err := orderUseCase.RegisterOrder(number, invoice, uint(id))
+		err := orderUseCase.RegisterOrder(number, invoice, m, uint(id))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println(err)
 			return
 		}
-		ruta := "/client/" + idClient + "/orders"
-		http.Redirect(w, r, ruta, 302)
+		w.WriteHeader(http.StatusCreated)
 	}
 
 	remove := func(w http.ResponseWriter, r *http.Request) {

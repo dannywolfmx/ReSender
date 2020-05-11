@@ -35,7 +35,6 @@ func (r *orderRepository) GetById(id uint) model.Order {
 func (r *orderRepository) All() ([]model.Order, error) {
 	orders := []model.Order{}
 	r.db.Find(&orders)
-
 	return orders, nil
 }
 

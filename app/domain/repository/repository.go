@@ -22,3 +22,9 @@ type Client interface {
 	Detele(id uint) error
 	Update(*model.Client) error
 }
+
+type Mail interface {
+	Find(string) (*model.MailDirection, error)
+	Detele(id uint) error
+	Update(*model.MailDirection) error
+}
