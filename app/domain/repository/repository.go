@@ -23,8 +23,15 @@ type Client interface {
 	Update(*model.Client) error
 }
 
+//Solo puedo crear un mail por medio de una orden de compra
 type Mail interface {
 	Find(string) (*model.MailDirection, error)
 	Detele(id uint) error
 	Update(*model.MailDirection) error
+}
+
+type File interface {
+	Get(id uint) (*model.File, error)
+	Detele(id uint) error
+	Update(*model.File) error
 }
