@@ -16,7 +16,7 @@ type Order struct {
 	Invoice  string          `json:"invoice"`
 	ClientID uint            `json:"client_id"`
 	Mails    []MailDirection `json:"mails" gorm:"many2many:senders"`
-	//	Files   []File
+	Files    []File          `json:"files"`
 }
 
 type Client struct {
@@ -32,7 +32,8 @@ type MailDirection struct {
 }
 
 type File struct {
-	Orm   `json:"orm"`
-	Path  string `json:"path"`
-	Title string `json:"title"`
+	Orm     `json:"orm"`
+	Path    string `json:"path"`
+	Title   string `json:"title"`
+	OrderID uint   `json:"order_id"`
 }
