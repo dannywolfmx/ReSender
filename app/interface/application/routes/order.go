@@ -3,8 +3,10 @@ package routes
 import (
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/dannywolfmx/ReSender/app/domain/model"
@@ -31,10 +33,12 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 		mails := strings.Split(r.FormValue("mails"), ",")
 		idClient := r.FormValue("id_client")
 		id, ok := idStringToInt(idClient)
+
 		if !ok {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+
 		m := []model.MailDirection{}
 		for _, direccion := range mails {
 			m = append(m, model.MailDirection{
@@ -42,7 +46,39 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 			})
 		}
 
-		err := orderUseCase.RegisterOrder(number, invoice, m, uint(id))
+		err := r.ParseMultipartForm(32 << 20)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		//Save uploaded files
+		files := r.MultipartForm.File["archivos"]
+		for _, file := range files {
+
+			f, err := file.Open()
+			defer f.Close()
+			if err != nil {
+				w.WriteHeader(http.StatusBadRequest)
+				return
+			}
+			//Crear un archivo vacio con el nombre
+			destino, err := os.Create("./assets/upload/" + file.Filename)
+			defer destino.Close()
+
+			if err != nil {
+				w.WriteHeader(http.StatusBadRequest)
+				return
+			}
+
+			_, err = io.Copy(destino, f)
+			if err != nil {
+				w.WriteHeader(http.StatusBadRequest)
+				return
+			}
+		}
+
+		err = orderUseCase.RegisterOrder(number, invoice, m, uint(id))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println(err)
