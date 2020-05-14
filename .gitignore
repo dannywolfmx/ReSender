@@ -3,4 +3,5 @@ db/data/
 go.sum
 assets/node_modules/
 assets/css/bootstrap.min.css
+assets/upload/
 assets/yarn.lock
