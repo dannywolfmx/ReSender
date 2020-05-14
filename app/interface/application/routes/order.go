@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"io"
 	"log"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"strings"
@@ -53,32 +54,8 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 		}
 
 		//Save uploaded files
-		files := r.MultipartForm.File["archivos"]
-		for _, file := range files {
-
-			f, err := file.Open()
-			defer f.Close()
-			if err != nil {
-				w.WriteHeader(http.StatusBadRequest)
-				return
-			}
-			//Crear un archivo vacio con el nombre
-			destino, err := os.Create("./assets/upload/" + file.Filename)
-			defer destino.Close()
-
-			if err != nil {
-				w.WriteHeader(http.StatusBadRequest)
-				return
-			}
-
-			_, err = io.Copy(destino, f)
-			if err != nil {
-				w.WriteHeader(http.StatusBadRequest)
-				return
-			}
-		}
-
-		err = orderUseCase.RegisterOrder(number, invoice, m, uint(id))
+		files := saveFile(r.MultipartForm.File["archivos"])
+		err = orderUseCase.RegisterOrder(number, invoice, m, files, uint(id))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println(err)
@@ -146,4 +123,37 @@ func orderRoutes(router *mux.Router, ctn *registry.Container) {
 	s.HandleFunc("/remove/{id}", remove)
 	s.HandleFunc("/edit/{id}", edit)
 	s.HandleFunc("/update/{id}", update)
+}
+
+func saveFile(files []*multipart.FileHeader) []model.File {
+	dataFiles := []model.File{}
+	for _, file := range files {
+
+		f, err := file.Open()
+		defer f.Close()
+		if err != nil {
+			panic("Error al abrir el archivo")
+		}
+		//data info
+		data := model.File{
+			Title: file.Filename,
+			Path:  "./assets/upload/" + file.Filename,
+		}
+
+		//Crear un archivo vacio con el nombre
+		destino, err := os.Create(data.Path)
+		defer destino.Close()
+
+		if err != nil {
+			panic("Error al crear contenedor para el archivo")
+		}
+
+		_, err = io.Copy(destino, f)
+		if err != nil {
+			panic("Error al copiar los datos al archivo")
+		}
+		dataFiles = append(dataFiles, data)
+	}
+	return dataFiles
+
 }

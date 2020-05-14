@@ -52,18 +52,18 @@ func orders(route *mux.Router, ctn *registry.Container) {
 
 	create := func(w http.ResponseWriter, r *http.Request) {
 
-		w.Header().Set("Content-Type", "application/json")
-		order := &model.Order{}
-
-		_ = json.NewDecoder(r.Body).Decode(order)
-
-		err := orderUseCase.RegisterOrder(order.Number, order.Invoice, order.Mails, order.ClientID)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(order)
+		//		w.Header().Set("Content-Type", "application/json")
+		//		order := &model.Order{}
+		//
+		//		_ = json.NewDecoder(r.Body).Decode(order)
+		//
+		//		err := orderUseCase.RegisterOrder(order.Number, order.Invoice, order.Mails, order.ClientID)
+		//		if err != nil {
+		//			w.WriteHeader(http.StatusInternalServerError)
+		//			return
+		//		}
+		//		w.WriteHeader(http.StatusCreated)
+		//		json.NewEncoder(w).Encode(order)
 	}
 	//Delete a element
 	remove := func(w http.ResponseWriter, r *http.Request) {

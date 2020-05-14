@@ -37,7 +37,7 @@ func (r clientRepository) All() ([]model.Client, error) {
 	clients := []model.Client{}
 	//Pedir a GORM que agregue las ordenes del usuario
 	//r.db.Set("gorm:auto_preload", true).Find(&clients)
-	r.db.Preload("Orders.Mails").Find(&clients)
+	r.db.Preload("Orders.Files").Preload("Orders.Mails").Find(&clients)
 	return clients, nil
 }
 

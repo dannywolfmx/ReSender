@@ -162,6 +162,9 @@
 				Invoice: {{.Invoice}} |
 				{{range .Mails}}
 					{{.Direction}}
+				{{end}} |
+				{{range .Files}}
+					{{.Title}}
 				{{end}}
 			</div>
 			<div class="p-2 bd-highlight">
