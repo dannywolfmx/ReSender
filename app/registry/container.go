@@ -63,6 +63,15 @@ func NewContainer() (*Container, error) {
 			service := service.NewClientService(repo)
 			return usecase.NewClientUsecase(repo, service), nil
 		},
+	}, {
+		Name: "account-usecase",
+		Build: func(ctn di.Container) (interface{}, error) {
+			connDB := ctn.Get("gormSqlite").(*gorm.DB)
+			//TODO: Revisar por que no devuelvo un puntero en el repositorio
+			repo := gormrepo.NewAccountRepository(connDB)
+			service := service.NewAccountService(repo)
+			return usecase.NewAccountUseCase(repo, service), nil
+		},
 	}}...)
 
 	if err != nil {
@@ -77,7 +86,14 @@ func NewContainer() (*Container, error) {
 //migrarDBGorm se encarga de realizar el proceso de migracion de las tablas del modelo
 func migrarDBGorm(db *gorm.DB) {
 	//Migrar estructuras
-	db.AutoMigrate(&model.Order{}, &model.Client{}, &model.MailDirection{}, &model.File{})
+	db.AutoMigrate(
+		&model.Order{},
+		&model.Client{},
+		&model.MailDirection{},
+		&model.File{},
+		&model.Account{},
+		&model.MailServer{},
+	)
 }
 
 func (c *Container) Resolve(name string) interface{} {

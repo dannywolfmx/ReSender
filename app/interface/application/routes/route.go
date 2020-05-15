@@ -2,9 +2,7 @@ package routes
 
 import (
 	"html/template"
-	"log"
 	"net/http"
-	"net/smtp"
 	"strconv"
 
 	"github.com/dannywolfmx/ReSender/app/registry"
@@ -32,12 +30,6 @@ func index(router *mux.Router, ctn *registry.Container) {
 	})
 }
 
-func sendMail(router *mux.Router, ctn *registry.Container) {
-	router.HandleFunc("/send", func(w http.ResponseWriter, h *http.Request) {
-		send("Hola mundo")
-	})
-}
-
 func getIdParramenter(r *http.Request) (int, bool) {
 	idCliente, ok := mux.Vars(r)["id"]
 	if !ok {
@@ -52,19 +44,4 @@ func idStringToInt(idString string) (int, bool) {
 		return 0, false
 	}
 	return id, true
-}
-
-func send(body string) {
-	from := ""
-	pass := ""
-	to := ""
-
-	msg := "From:" + from + "\n" + "To:" + to + "\n" + "Subject: Hola\n\n" + body
-
-	err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", from, pass, "smtp.gmail.com"), from, []string{to}, []byte(msg))
-	if err != nil {
-		log.Println("Smtp error: ", err)
-		return
-	}
-	log.Print("Enviado ")
 }

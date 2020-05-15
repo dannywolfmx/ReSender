@@ -35,3 +35,11 @@ type File interface {
 	Detele(id uint) error
 	Update(*model.File) error
 }
+
+type Account interface {
+	Save(*model.Account) error
+	GetById(id uint) model.Account
+	All() ([]model.Account, error)
+	Detele(id uint) error
+	Update(*model.Account) error
+}
