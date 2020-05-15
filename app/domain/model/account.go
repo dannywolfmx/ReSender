@@ -2,6 +2,7 @@ package model
 
 type Account struct {
 	Orm                 `json:"orm"`
+	Name                string
 	MailConfig          []MailServer `json:"mail_config"`
 	DefaultMailConfigID uint         `json:"default_mail_config_id"`
 }

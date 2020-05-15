@@ -15,22 +15,29 @@ func NewAccountRepository(db *gorm.DB) *accountRepository {
 	}
 }
 
-func (a *accountRepository) Save(_ *model.Account) error {
-	panic("not implemented") // TODO: Implement
+func (a *accountRepository) Save(m *model.Account) error {
+	a.db.Save(m)
+	return nil
 }
 
 func (a *accountRepository) GetById(id uint) model.Account {
-	panic("not implemented") // TODO: Implement
+	account := model.Account{}
+	a.db.Where("id = ?", id).First(account)
+	return account
 }
 
 func (a *accountRepository) All() ([]model.Account, error) {
-	panic("not implemented") // TODO: Implement
+	accounts := []model.Account{}
+	a.db.Preload("MailConfig").Find(&accounts)
+	return accounts, nil
 }
 
 func (a *accountRepository) Detele(id uint) error {
-	panic("not implemented") // TODO: Implement
+	a.db.Where("id = ? ", id).Delete(&model.Account{})
+	return nil
 }
 
-func (a *accountRepository) Update(_ *model.Account) error {
-	panic("not implemented") // TODO: Implement
+func (a *accountRepository) Update(u *model.Account) error {
+	a.db.Model(u).Update(u)
+	return nil
 }
