@@ -2,7 +2,9 @@ package routes
 
 import (
 	"html/template"
+	"log"
 	"net/http"
+	"net/smtp"
 	"strconv"
 
 	"github.com/dannywolfmx/ReSender/app/registry"
@@ -14,6 +16,7 @@ func Apply(router *mux.Router, ctn *registry.Container) {
 	orderRoutes(router, ctn)
 	////	index(router, ctn)
 	assets(router, ctn)
+	sendMail(router, ctn)
 }
 
 func assets(router *mux.Router, ctn *registry.Container) {
@@ -26,6 +29,12 @@ func index(router *mux.Router, ctn *registry.Container) {
 	tmpl := template.Must(template.ParseFiles("template/index/index.tmpl", "template/layout/main.tmpl"))
 	router.HandleFunc("/", func(w http.ResponseWriter, h *http.Request) {
 		tmpl.ExecuteTemplate(w, "index", nil)
+	})
+}
+
+func sendMail(router *mux.Router, ctn *registry.Container) {
+	router.HandleFunc("/send", func(w http.ResponseWriter, h *http.Request) {
+		send("Hola mundo")
 	})
 }
 
@@ -43,4 +52,19 @@ func idStringToInt(idString string) (int, bool) {
 		return 0, false
 	}
 	return id, true
+}
+
+func send(body string) {
+	from := ""
+	pass := ""
+	to := ""
+
+	msg := "From:" + from + "\n" + "To:" + to + "\n" + "Subject: Hola\n\n" + body
+
+	err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", from, pass, "smtp.gmail.com"), from, []string{to}, []byte(msg))
+	if err != nil {
+		log.Println("Smtp error: ", err)
+		return
+	}
+	log.Print("Enviado ")
 }
