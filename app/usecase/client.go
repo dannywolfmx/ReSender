@@ -6,6 +6,9 @@ import (
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
+//Un caso de uso de un cliente representa todas las operaciones utiles para un endpoint.
+//Una estructura de tipo cliente retornara todas sus estructuras relacionadas
+
 type ClientUsecase interface {
 	Clients() ([]*model.Client, error)
 	Register(client *model.Client) error
