@@ -4,10 +4,6 @@ import "github.com/dannywolfmx/ReSender/app/domain/model"
 
 //Order is a repository available methods to implement manipulation on a Order
 type Order interface {
-	Save(*model.Order) error
-	FindByInvoice(invoice string) (*model.Order, error)
-	GetById(id uint) model.Order
-	All() ([]model.Order, error)
 	Detele(id uint) error
 	Update(*model.Order) error
 }
@@ -18,7 +14,7 @@ type Client interface {
 	FindByName(string) (*model.Client, error)
 	GetById(id uint) model.Client
 	//TODO: Convertir esta lista a una lista de apuntadores "[]*model.Client"
-	All() ([]model.Client, error)
+	All() ([]*model.Client, error)
 	Detele(id uint) error
 	Update(*model.Client) error
 }
@@ -38,8 +34,7 @@ type File interface {
 
 type Account interface {
 	Save(*model.Account) error
-	GetById(id uint) model.Account
-	All() ([]model.Account, error)
+	All() ([]*model.Account, error)
 	Detele(id uint) error
 	Update(*model.Account) error
 }

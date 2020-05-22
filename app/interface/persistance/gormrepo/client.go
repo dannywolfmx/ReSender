@@ -33,8 +33,8 @@ func (r clientRepository) GetById(id uint) model.Client {
 }
 
 //TODO: Convertir esta lista a una lista de apuntadores "[]*model.Client"
-func (r clientRepository) All() ([]model.Client, error) {
-	clients := []model.Client{}
+func (r clientRepository) All() ([]*model.Client, error) {
+	clients := []*model.Client{}
 	//Pedir a GORM que agregue las ordenes del usuario
 	//r.db.Set("gorm:auto_preload", true).Find(&clients)
 	r.db.Preload("Orders.Files").Preload("Orders.Mails").Find(&clients)
