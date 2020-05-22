@@ -6,12 +6,11 @@ import (
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
-type ClientUseCase interface {
-	GetClient(id uint) model.Client
-	ListClient() ([]model.Client, error)
-	RegisterClient(name string) error
-	DeleteClient(id uint) error
-	UpdateClient(id uint, name string, orders []model.Order) error
+type ClientUsecase interface {
+	Clients() ([]*model.Client, error)
+	Register(client *model.Client) error
+	Delete(id uint) error
+	Update(client *model.Client) error
 }
 
 func NewClientUsecase(repo repository.Client, service *service.ClientService) *clientUsecase {
@@ -26,27 +25,18 @@ type clientUsecase struct {
 	service *service.ClientService
 }
 
-func (c *clientUsecase) GetClient(id uint) model.Client {
-	return c.repo.GetById(id)
-}
-
-func (c *clientUsecase) ListClient() ([]model.Client, error) {
+func (c *clientUsecase) Clients() ([]*model.Client, error) {
 	return c.repo.All()
 }
 
-func (c *clientUsecase) RegisterClient(name string) error {
-	return c.repo.Save(&model.Client{Name: name})
+func (c *clientUsecase) Register(client *model.Client) error {
+	return c.repo.Save(client)
 }
 
-func (c *clientUsecase) DeleteClient(id uint) error {
+func (c *clientUsecase) Detele(id uint) error {
 	return c.repo.Detele(id)
 }
 
-func (c *clientUsecase) UpdateClient(id uint, name string, orders []model.Order) error {
-	client := &model.Client{
-		Name:   name,
-		Orders: orders,
-	}
-	client.ID = id
+func (c *clientUsecase) Update(client *model.Client) error {
 	return c.repo.Update(client)
 }
