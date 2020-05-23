@@ -6,12 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dannywolfmx/ReSender/app/interface/application"
+	"github.com/dannywolfmx/ReSender/app/interface/api"
 	"github.com/dannywolfmx/ReSender/app/registry"
 	"github.com/gorilla/mux"
 )
-
-//path sqlite
 
 func main() {
 	ctn, err := registry.NewContainer()
@@ -19,8 +17,8 @@ func main() {
 		panic(err)
 	}
 	route := mux.NewRouter()
-	//	api.Apply(route, ctn)
-	application.Run(route, ctn)
+	api.Apply(route, ctn)
+	//application.Run(route, ctn)
 
 	server := &http.Server{
 		Addr:         "0.0.0.0:8080",
