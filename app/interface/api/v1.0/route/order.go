@@ -18,7 +18,7 @@ func Order(r *mux.Router, ctn *registry.Container) {
 	//Get a usecase from the container
 	containerUsecase := ctn.Resolve("order-usecase").(usecase.OrderUseCase)
 	//Crear el caso de uso
-	orderUsecase := service.NewOrderService(containerUsecase)
+	orderServiceApp := service.NewOrderService(containerUsecase)
 
 	//Delete a element
 	remove := func(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +38,7 @@ func Order(r *mux.Router, ctn *registry.Container) {
 			return
 		}
 
-		err = orderUsecase.DeleteOrder(uint(id))
+		err = orderServiceApp.DeleteOrder(uint(id))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
@@ -52,7 +52,7 @@ func Order(r *mux.Router, ctn *registry.Container) {
 
 		_ = json.NewDecoder(r.Body).Decode(order)
 
-		err := orderUsecase.UpdateOrder(order.ClientID, order.Number, order.Invoice)
+		err := orderServiceApp.UpdateOrder(order.ClientID, order.Number, order.Invoice)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return

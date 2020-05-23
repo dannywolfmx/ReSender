@@ -15,12 +15,12 @@ import (
 
 func Client(route *mux.Router, ctn *registry.Container) {
 	u := ctn.Resolve("client-usecase").(usecase.ClientUsecase)
-	clienteUseCase := service.NewClientService(u)
+	clientServiceApp := service.NewClientService(u)
 
 	list := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		j, err := clienteUseCase.ListClient()
+		j, err := clientServiceApp.ListClient()
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println(err)
@@ -39,7 +39,7 @@ func Client(route *mux.Router, ctn *registry.Container) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		err = clienteUseCase.RegisterClient(client)
+		err = clientServiceApp.RegisterClient(client)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
@@ -52,7 +52,7 @@ func Client(route *mux.Router, ctn *registry.Container) {
 		w.Header().Set("Content-Type", "application/json")
 
 		client := &model.Client{}
-		err := clienteUseCase.UpdateClient(client)
+		err := clientServiceApp.UpdateClient(client)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
@@ -77,7 +77,7 @@ func Client(route *mux.Router, ctn *registry.Container) {
 			return
 		}
 
-		if clienteUseCase.DeleteClient(uint(id)) != nil {
+		if clientServiceApp.DeleteClient(uint(id)) != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
