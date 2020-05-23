@@ -36,7 +36,7 @@ func (c *clientUsecase) Register(client *model.Client) error {
 	return c.repo.Save(client)
 }
 
-func (c *clientUsecase) Detele(id uint) error {
+func (c *clientUsecase) Delete(id uint) error {
 	return c.repo.Detele(id)
 }
 
