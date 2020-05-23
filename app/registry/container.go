@@ -16,7 +16,9 @@ type Container struct {
 }
 
 func NewContainer() (*Container, error) {
-	dataBaseFile := "./db/data/data.db"
+	dataBaseFile := "/home/daniel/Programacion/ReSender/db/data/data.db"
+
+	//dataBaseFile := "/tmp/data.db"
 	build, err := di.NewBuilder()
 
 	if err != nil {
