@@ -7,8 +7,8 @@ import (
 )
 
 type OrderUseCase interface {
-	DeleteOrder(id uint) error
-	UpdateOrder(id uint, number, invoice string) error
+	Delete(id uint) error
+	Update(id uint, number, invoice string) error
 }
 
 type orderUsecase struct {
@@ -23,10 +23,10 @@ func NewOrderUsecase(repo repository.Order, service *service.OrderService) *orde
 	}
 }
 
-func (o *orderUsecase) DeleteOrder(id uint) error {
+func (o *orderUsecase) Delete(id uint) error {
 	return o.repo.Detele(id)
 }
-func (o *orderUsecase) UpdateOrder(id uint, number, invoice string) error {
+func (o *orderUsecase) Update(id uint, number, invoice string) error {
 	order := &model.Order{
 		Number:  number,
 		Invoice: invoice,
