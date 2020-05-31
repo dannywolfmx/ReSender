@@ -1,7 +1,6 @@
 package route
 
 import (
-	"encoding/json"
 	"net/http"
 	"strconv"
 
@@ -9,11 +8,11 @@ import (
 	"github.com/dannywolfmx/ReSender/app/interface/api/v1.0/service"
 	"github.com/dannywolfmx/ReSender/app/registry"
 	"github.com/dannywolfmx/ReSender/app/usecase"
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 //ORDERS REST
-func Order(r *mux.Router, ctn *registry.Container) {
+func Order(r *gin.Engine, ctn *registry.Container) {
 
 	//Get a usecase from the container
 	containerUsecase := ctn.Resolve("order-usecase").(usecase.OrderUseCase)
@@ -21,47 +20,76 @@ func Order(r *mux.Router, ctn *registry.Container) {
 	orderServiceApp := service.NewOrderService(containerUsecase)
 
 	//Delete a element
-	remove := func(w http.ResponseWriter, r *http.Request) {
-		params := mux.Vars(r)
+	remove := func(c *gin.Context) {
+		idRemove := c.Param("id")
 
-		w.Header().Set("Content-Type", "application/json")
-
-		idRemove, ok := params["id"]
-		if !ok {
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-
+		//ID no numerico
 		id, err := strconv.Atoi(idRemove)
 		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
+			c.JSON(
+				http.StatusBadRequest,
+				gin.H{
+					"code":  http.StatusBadRequest,
+					"error": "Id no numerico",
+				},
+			)
 			return
 		}
 
+		//Orden no encontrada
 		err = orderServiceApp.DeleteOrder(uint(id))
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+			c.JSON(
+				http.StatusBadRequest,
+				gin.H{
+					"code":  http.StatusBadRequest,
+					"error": "Id no encontrado",
+				},
+			)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
+		//Enviar un mensaje de que se elimino de forma correcta
+		c.JSON(
+			http.StatusAccepted,
+			gin.H{
+				"code": http.StatusAccepted,
+			},
+		)
 	}
 
-	update := func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		order := &model.Order{}
+	update := func(c *gin.Context) {
+		var order model.Order
+		if err := c.ShouldBind(&order); err != nil {
+			c.JSON(
+				http.StatusBadRequest,
+				gin.H{
+					"code":  http.StatusBadRequest,
+					"error": "JSON invalido",
+				},
+			)
+			return
 
-		_ = json.NewDecoder(r.Body).Decode(order)
+		}
 
 		err := orderServiceApp.UpdateOrder(order.ClientID, order.Number, order.Invoice)
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+			c.JSON(
+				http.StatusBadRequest,
+				gin.H{
+					"code":  http.StatusBadRequest,
+					"error": "Error al actualizar",
+				},
+			)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(order)
+		//Enviar respuesta de actualizacion exitoza
+		c.JSON(
+			http.StatusOK,
+			order,
+		)
 	}
 
 	//Routes
-	r.HandleFunc("/order/{id}", remove).Methods("DELETE")
-	r.HandleFunc("/order", update).Methods("PUT")
+	r.PUT("/order", update)
+	r.DELETE("/order/:id", remove)
 }

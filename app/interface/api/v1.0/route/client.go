@@ -1,8 +1,6 @@
 package route
 
 import (
-	"encoding/json"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -10,83 +8,136 @@ import (
 	"github.com/dannywolfmx/ReSender/app/interface/api/v1.0/service"
 	"github.com/dannywolfmx/ReSender/app/registry"
 	"github.com/dannywolfmx/ReSender/app/usecase"
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func Client(route *mux.Router, ctn *registry.Container) {
+func Client(r *gin.Engine, ctn *registry.Container) {
+
 	u := ctn.Resolve("client-usecase").(usecase.ClientUsecase)
 	clientServiceApp := service.NewClientService(u)
 
-	list := func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-
-		j, err := clientServiceApp.ListClient()
+	list := func(c *gin.Context) {
+		clients, err := clientServiceApp.ListClient()
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			log.Println(err)
+			c.JSON(
+				http.StatusInternalServerError,
+				gin.H{
+					"code":  http.StatusInternalServerError,
+					"error": "Error al buscar lista",
+				},
+			)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(j)
+		c.JSON(
+			http.StatusOK,
+			clients,
+		)
 	}
 
-	create := func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
+	create := func(c *gin.Context) {
 
 		client := &model.Client{}
-		err := json.NewDecoder(r.Body).Decode(client)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+		if err := c.ShouldBind(client); err != nil {
+			c.JSON(
+				http.StatusBadRequest,
+				gin.H{
+					"code":  http.StatusBadRequest,
+					"error": "JSON invalido",
+				},
+			)
+			return
+
+		}
+
+		if err := clientServiceApp.RegisterClient(client); err != nil {
+			c.JSON(
+				http.StatusBadRequest,
+				gin.H{
+					"code":  http.StatusBadRequest,
+					"error": "Error al crear",
+				},
+			)
 			return
 		}
-		err = clientServiceApp.RegisterClient(client)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(client)
+		//Enviar respuesta de actualizacion exitoza
+		c.JSON(
+			http.StatusCreated,
+			client,
+		)
 	}
 
-	update := func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
+	update := func(c *gin.Context) {
 
 		client := &model.Client{}
-		err := clientServiceApp.UpdateClient(client)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+		if err := c.ShouldBind(client); err != nil {
+			c.JSON(
+				http.StatusBadRequest,
+				gin.H{
+					"code":  http.StatusBadRequest,
+					"error": "JSON invalido",
+				},
+			)
+			return
+
+		}
+
+		if err := clientServiceApp.UpdateClient(client); err != nil {
+			c.JSON(
+				http.StatusBadRequest,
+				gin.H{
+					"code":  http.StatusBadRequest,
+					"error": "Error al actualizar",
+				},
+			)
 			return
 		}
-		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(client)
+		//Enviar respuesta de actualizacion exitoza
+		c.JSON(
+			http.StatusCreated,
+			client,
+		)
 	}
 
 	//Delete a element
-	remove := func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
+	remove := func(c *gin.Context) {
+		idRemove := c.Param("id")
 
-		idClient, ok := mux.Vars(r)["id"]
-		if !ok {
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-
-		id, err := strconv.Atoi(idClient)
+		//ID no numerico
+		id, err := strconv.Atoi(idRemove)
 		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
+			c.JSON(
+				http.StatusBadRequest,
+				gin.H{
+					"code":  http.StatusBadRequest,
+					"error": "Id no numerico",
+				},
+			)
 			return
 		}
 
-		if clientServiceApp.DeleteClient(uint(id)) != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+		//Cliente no encontrado
+		if err := clientServiceApp.DeleteClient(uint(id)); err != nil {
+			c.JSON(
+				http.StatusBadRequest,
+				gin.H{
+					"code":  http.StatusBadRequest,
+					"error": "Id no encontrado",
+				},
+			)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
+		//Enviar un mensaje de que se elimino de forma correcta
+		c.JSON(
+			http.StatusAccepted,
+			gin.H{
+				"code": http.StatusAccepted,
+			},
+		)
 	}
 
 	//Routes
-	route.HandleFunc("/client", create).Methods("POST")
-	route.HandleFunc("/clients", list).Methods("GET")
-	route.HandleFunc("/client/{id}", remove).Methods("DELETE")
-	route.HandleFunc("/client", update).Methods("PUT")
+	r.POST("/client", create)
+	r.GET("/clients", list)
+	r.DELETE("/client/:id", remove)
+	r.PUT("/client", update)
 }

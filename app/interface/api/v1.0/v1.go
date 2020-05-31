@@ -6,10 +6,10 @@ package v1
 import (
 	"github.com/dannywolfmx/ReSender/app/interface/api/v1.0/route"
 	"github.com/dannywolfmx/ReSender/app/registry"
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func Apply(r *mux.Router, ctn *registry.Container) {
+func Apply(r *gin.Engine, ctn *registry.Container) {
 	//REST orders
 	route.Order(r, ctn)
 	route.Client(r, ctn)
