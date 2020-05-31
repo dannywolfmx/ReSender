@@ -1,9 +1,0 @@
-{{define "edit"}}
-	<form action="client/update/{{.Orm.ID}}" method="post">
-		<div class="form-group">
-			<label >Nombre</label>
-			<input type="text" class="form-control" name="name" value="{{.Name}}">
-		</div>
-		<input class="btn btn-primary" type="submit" value="Guardar">
-	</form>
-{{end}}
