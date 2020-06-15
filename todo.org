@@ -1,0 +1,16 @@
+* Tareas pendientes en ReSender
+**  Sistema de autentificación y autorisacion de usuarios
+*** Estructura de usuarios
+*** Almacenar configuración del usuario (servidor de correo electrónico, password etc)
+*** Enviar un tocken de sesión. 
+** Sistema de correo electrónico
+*** Generar html en base a una orden de compra
+*** enviar correo electrónico a una lista de correos
+** Programar GUI en ReactJS
+*** Crear un panel de control
+*** Sistema de captura de errores de relacionados a la autentificación
+*** sistema de loggin 
+** Sistema de orden de compra
+*** CRUD orden de compra
+*** Sistema de archivos
+*** 
