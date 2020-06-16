@@ -13,12 +13,12 @@ type Client interface {
 	Save(*model.Client) error
 	FindByName(string) (*model.Client, error)
 	GetById(id uint) model.Client
-	//TODO: Convertir esta lista a una lista de apuntadores "[]*model.Client"
 	All() ([]*model.Client, error)
 	Detele(id uint) error
 	Update(*model.Client) error
 }
 
+//Mail repositorio para brindar funciones de busqueda, eliminacion, y actualizacion de un correo
 //Solo puedo crear un mail por medio de una orden de compra
 type Mail interface {
 	Find(string) (*model.MailDirection, error)
@@ -26,15 +26,18 @@ type Mail interface {
 	Update(*model.MailDirection) error
 }
 
+//File repositorio para brindar funciones de busqueda, eliminacion y actualziacion de un los metadatos de un archivo
 type File interface {
 	Get(id uint) (*model.File, error)
 	Detele(id uint) error
 	Update(*model.File) error
 }
 
+//Account repositorio para interactuar con las funcionalidades de una cuenta de usuario
 type Account interface {
-	Save(*model.Account) error
-	All() ([]*model.Account, error)
+	Get(id uint) (*model.Profile, error)
+	Save(*model.Profile) error
+	All() ([]*model.Profile, error)
 	Detele(id uint) error
-	Update(*model.Account) error
+	Update(*model.Profile) error
 }

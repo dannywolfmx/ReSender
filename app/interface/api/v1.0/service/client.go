@@ -40,6 +40,7 @@ func (s *clientService) List(c *gin.Context) {
 func (s *clientService) Create(c *gin.Context) {
 
 	client := &model.Client{}
+
 	if err := c.ShouldBind(client); err != nil {
 		c.JSON(
 			http.StatusBadRequest,

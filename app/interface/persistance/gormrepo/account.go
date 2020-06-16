@@ -15,29 +15,29 @@ func NewAccountRepository(db *gorm.DB) *accountRepository {
 	}
 }
 
-func (a *accountRepository) Save(m *model.Account) error {
+func (a *accountRepository) Save(m *model.Profile) error {
 	a.db.Save(m)
 	return nil
 }
 
-func (a *accountRepository) GetById(id uint) model.Account {
-	account := model.Account{}
+func (a *accountRepository) Get(id uint) (*model.Profile, error) {
+	account := &model.Profile{}
 	a.db.Where("id = ?", id).First(account)
-	return account
+	return account, nil
 }
 
-func (a *accountRepository) All() ([]model.Account, error) {
-	accounts := []model.Account{}
+func (a *accountRepository) All() ([]*model.Profile, error) {
+	accounts := []*model.Profile{}
 	a.db.Preload("MailConfig").Find(&accounts)
 	return accounts, nil
 }
 
 func (a *accountRepository) Detele(id uint) error {
-	a.db.Where("id = ? ", id).Delete(&model.Account{})
+	a.db.Where("id = ? ", id).Delete(&model.Profile{})
 	return nil
 }
 
-func (a *accountRepository) Update(u *model.Account) error {
+func (a *accountRepository) Update(u *model.Profile) error {
 	a.db.Model(u).Update(u)
 	return nil
 }

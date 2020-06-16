@@ -12,6 +12,7 @@ func main() {
 		panic(err)
 	}
 	route := gin.Default()
+
 	api.Apply(route, ctn)
 
 	//Run the server

@@ -93,7 +93,7 @@ func migrarDBGorm(db *gorm.DB) {
 		&model.Client{},
 		&model.MailDirection{},
 		&model.File{},
-		&model.Account{},
+		&model.Profile{},
 		&model.MailServer{},
 	)
 }

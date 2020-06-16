@@ -1,16 +1,24 @@
+* Objetivos de ReSender
+** Macro objetivos 
+*** Crear una plataforma para el registro y envio de facturas de clientes
+** Micro objetivos
+*** Sistema de autentificación y autorizacion de usuarios
+*** Api Rest para interactuar con la logica del programa
+*** Aplicacion web para realizar las operaciones, asi como PWA de esta misma
+*** Codigo bien probado. 
+*** Codigo confiable.
 * Tareas pendientes en ReSender
-**  Sistema de autentificación y autorisacion de usuarios
-*** Estructura de usuarios
-*** Almacenar configuración del usuario (servidor de correo electrónico, password etc)
-*** Enviar un tocken de sesión. 
+**  Sistema de autentificación y autorizacion de usuarios
+*** TODO Estructura de usuarios
+*** TODO Almacenar configuración del usuario (servidor de correo electrónico, password etc)
+*** TODO Enviar un tocken de sesión. 
 ** Sistema de correo electrónico
-*** Generar html en base a una orden de compra
-*** enviar correo electrónico a una lista de correos
+*** TODO Generar html en base a una orden de compra
+*** TODO enviar correo electrónico a una lista de correos
 ** Programar GUI en ReactJS
-*** Crear un panel de control
-*** Sistema de captura de errores de relacionados a la autentificación
-*** sistema de loggin 
+*** TODO Crear un panel de control
+*** TODO Sistema de captura de errores de relacionados a la autentificación
+*** TODO sistema de loggin 
 ** Sistema de orden de compra
-*** CRUD orden de compra
-*** Sistema de archivos
-*** 
+*** TODO CRUD orden de compra
+*** TODO Sistema de archivos

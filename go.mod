@@ -15,6 +15,7 @@ require (
 	github.com/ogier/pflag v0.0.1 // indirect
 	github.com/rs/xid v1.2.1
 	github.com/sarulabs/di v2.0.0+incompatible
+	github.com/stamblerre/gocode v1.0.0 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.29.1 // indirect
 )

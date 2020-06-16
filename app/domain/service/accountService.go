@@ -14,3 +14,8 @@ func NewAccountService(repo repository.Account) *AccountService {
 		repo: repo,
 	}
 }
+
+//Hash password
+func (a *AccountService) hashPassword(pass string) string {
+	panic("implementar ")
+}
