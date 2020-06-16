@@ -7,21 +7,37 @@ import "time"
 /***
 Representación ideal de una estructura ideal en JSON
 
-Account{
-   Order{
-      Number: "ABS123",
-      Invoice: "Fac123",
-      Mails{
-         Direction: "prueba@gmail.com"
-      },
-      Files{
-         Path: "/home/daniel/archivo/1.pdf",
-         Title: "Archivo de prueba",
-      }
+Profiles:[
+   {
+    DefailtMailConfigId:1,
+    MailConfig:[
+     Adress: "????",
+     Alias: "correo de google",
+     From:"prueba@gmail.com",
+     Password:"123abc",
+     Sever: "?????"
+    ],
+    Name:"Cuenta principal",
+    ImageAvatarPath:"/home/daniel/imagen.png",
+    Clients: [
+       Client{
+          Orders: [
+              Order{
+                Number: "ABS123",
+                Invoice: "Fac123",
+                 Mails{
+                    Direction: "prueba@gmail.com"
+                 },
+                 Files{
+                    Path: "/home/daniel/archivo/1.pdf",
+                    Title: "Archivo de prueba",
+                 }
+           }
+         ]
+       }
+    ]
    }
-
-}
-
+]
 
 ***/
 //Orm almacena los metadatos de una estructura.
@@ -83,12 +99,13 @@ type Profile struct {
 type MailServer struct {
 	Orm `json:"orm"`
 	//Struct fields
-	Address  string `json:"address"`
+	Address string `json:"address"`
+	//Alias de este perfil del servidor
+	Alias string `json:"alias"`
+	//From describe el correo electronico del remitente
 	From     string `json:"from"`
-	Name     string `json:"name"`
-	Pass     string `json:"pass"`
 	Password string `json:"password"`
 	Server   string `json:"server"`
 	//Relationship
-	AccountID uint `json:"account_id"`
+	ProfiletID uint `json:"profilet_id"`
 }
