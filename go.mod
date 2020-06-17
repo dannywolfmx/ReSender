@@ -16,6 +16,7 @@ require (
 	github.com/rs/xid v1.2.1
 	github.com/sarulabs/di v2.0.0+incompatible
 	github.com/stamblerre/gocode v1.0.0 // indirect
+	golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.29.1 // indirect
 )

@@ -16,10 +16,10 @@ type AccountUsecase interface {
 
 type accountUsecase struct {
 	repo    repository.Account
-	service *service.AccountService
+	service *service.ProfileService
 }
 
-func NewAccountUseCase(repo repository.Account, service *service.AccountService) *accountUsecase {
+func NewAccountUseCase(repo repository.Account, service *service.ProfileService) *accountUsecase {
 	return &accountUsecase{
 		repo:    repo,
 		service: service,

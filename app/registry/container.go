@@ -71,7 +71,7 @@ func NewContainer() (*Container, error) {
 			connDB := ctn.Get("gormSqlite").(*gorm.DB)
 			//TODO: Revisar por que no devuelvo un puntero en el repositorio
 			repo := gormrepo.NewAccountRepository(connDB)
-			service := service.NewAccountService(repo)
+			service := service.NewProfileService(repo)
 			return usecase.NewAccountUseCase(repo, service), nil
 		},
 	}}...)
