@@ -1,11 +1,13 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/dannywolfmx/ReSender/app/domain/repository"
 	"golang.org/x/crypto/bcrypt"
 )
 
-//Coloca aqui toda la logca de negocio, recuerda que este tipo de logica no debe tener persistencia, asi que las llamadas a una base de datos, no van aqui.
+//Coloca aqui toda la logca de negocio, recuerda que este tipo de logica no debe tener persistencia.
 
 //Nota ClientService debe ser publico, dado que el usecase hace uso de este tipo
 type ProfileService struct {
@@ -19,9 +21,23 @@ func NewProfileService(repo repository.Profile) *ProfileService {
 	}
 }
 
+//Duplicated check if the name is already registred
+func (p *ProfileService) Duplicated(name string) error {
+	//If the profile dont exist you will get a nil pointer
+	profile, err := p.repo.GetByName(name)
+	if err != nil {
+		return err
+	}
+
+	if profile != nil {
+		return fmt.Errorf("El nombre ya esta registrado %s", profile.Name)
+	}
+	return nil
+}
+
 //HashAndSaltPassword get a hashed and salted password
 //Example taked from: https://medium.com/@jcox250/password-hash-salt-using-golang-b041dc94cb72
-func HashAndSaltPassword(pass []byte) (string, error) {
+func (p *ProfileService) HashAndSaltPassword(pass []byte) (string, error) {
 	// TODO Change the bcrypt.MinCost constant
 	hash, err := bcrypt.GenerateFromPassword(pass, bcrypt.MinCost)
 	if err != nil {
