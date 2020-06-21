@@ -25,14 +25,6 @@ type Client interface {
 	//FindByName find a client by name
 	FindByName(name string) (*model.Client, error)
 
-	//Get a client by id
-	//If the client dont exists the struct is 0 default attributes
-	Get(id uint) model.Client
-
-	//Get a client by name
-	//If the client dont exists the struct is 0 default attributes
-	GetByName(name string) model.Client
-
 	//Save a client
 	Save(client *model.Client) error
 
