@@ -13,7 +13,7 @@ type ProfileUsecase interface {
 	Create(profile *model.Profile) error
 
 	//Create password to the profile and return an error if the transaction doesnt work
-	SetPassword(password string) error
+	SetPassword(profileID uint, password string) error
 
 	//Add a new client to the profile client list
 	//Search a profile by ID
@@ -21,10 +21,10 @@ type ProfileUsecase interface {
 	AddClient(profileID uint, client *model.Client) error
 
 	//Delete profile account
-	Delete(profileID uint) (*model.Profile, error)
+	Delete(profileID uint) error
 
 	//Update a profile, return the new profile and error
-	Update(profile *model.Profile) (*model.Profile, error)
+	Update(profile *model.Profile) error
 }
 
 type profileUsecase struct {
@@ -59,23 +59,55 @@ func (u *profileUsecase) Create(profile *model.Profile) error {
 }
 
 //Create password to the profile and return an error if the transaction doesnt work
-func (u *profileUsecase) SetPassword(password string) error {
-	panic("not implemented") // TODO: Implement
+func (u *profileUsecase) SetPassword(profileID uint, password string) error {
+	//Get the profile by id
+	profile, err := u.repo.Get(profileID)
+	if err != nil {
+		return err
+	}
+
+	//Hash the password
+	hash, err := u.service.HashAndSaltPassword(password)
+	if err != nil {
+		return err
+	}
+
+	profile.Password = hash
+
+	//Update password
+	err = u.repo.Update(profile)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 //Add a new client to the profile client list
 //Search a profile by ID
 //Set a relationship beetween the new client
 func (u *profileUsecase) AddClient(profileID uint, client *model.Client) error {
-	panic("not implemented") // TODO: Implement
+	//Get the profile by id
+	profile, err := u.repo.Get(profileID)
+	if err != nil {
+		return err
+	}
+
+	//Append the profile
+	profile.Clients = append(profile.Clients, client)
+
+	//try to update and return a error if exist
+	return u.repo.Update(profile)
+
 }
 
 //Delete profile account
-func (u *profileUsecase) Delete(profileID uint) (*model.Profile, error) {
-	panic("not implemented") // TODO: Implement
+func (u *profileUsecase) Delete(profileID uint) error {
+	return u.repo.Detele(profileID)
 }
 
 //Update a profile, return the new profile and error
-func (u *profileUsecase) Update(profile *model.Profile) (*model.Profile, error) {
-	panic("not implemented") // TODO: Implement
+func (u *profileUsecase) Update(profile *model.Profile) error {
+	return u.repo.Update(profile)
 }

@@ -37,9 +37,9 @@ func (p *ProfileService) Duplicated(name string) error {
 
 //HashAndSaltPassword get a hashed and salted password
 //Example taked from: https://medium.com/@jcox250/password-hash-salt-using-golang-b041dc94cb72
-func (p *ProfileService) HashAndSaltPassword(pass []byte) (string, error) {
+func (p *ProfileService) HashAndSaltPassword(pass string) (string, error) {
 	// TODO Change the bcrypt.MinCost constant
-	hash, err := bcrypt.GenerateFromPassword(pass, bcrypt.MinCost)
+	hash, err := bcrypt.GenerateFromPassword([]byte(pass), bcrypt.MinCost)
 	if err != nil {
 		return "", err
 	}

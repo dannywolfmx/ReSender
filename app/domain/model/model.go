@@ -114,7 +114,7 @@ type Profile struct {
 	Orm `json:"orm"`
 
 	//Clients lista de clientes que estan asociados con el perfil
-	Clients []Client `json:"clients"`
+	Clients []*Client `json:"clients"`
 
 	//DefailtMailConfigId la configuracion que esta marcada por defecto
 	//Nota: esto no esta relacionado con GORM
@@ -124,7 +124,7 @@ type Profile struct {
 	ImageAvatarPath string `json:"image_avatar_path"`
 
 	//MailConfig configuraciones asociadas al perfil del usuario
-	MailConfig []MailServer `json:"mail_config"`
+	MailConfig []*MailServer `json:"mail_config"`
 
 	//Name nombre del perfil
 	Name string `json:"name"`
