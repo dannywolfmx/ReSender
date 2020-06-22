@@ -128,6 +128,9 @@ type Profile struct {
 
 	//Name nombre del perfil
 	Name string `json:"name"`
+
+	//Password profile
+	Password string `json:"password"`
 }
 
 //MailServer almacena la informacion de configuracion de un servidor de correos
