@@ -13,6 +13,7 @@ type ProfileUsecase interface {
 	Create(profile *model.Profile) error
 
 	//Create password to the profile and return an error if the transaction doesnt work
+	//TODO change to UpdatePasword
 	SetPassword(profileID uint, password string) error
 
 	//Add a new client to the profile client list
