@@ -29,5 +29,10 @@ func Apply(r *gin.Engine, ctn *registry.Container) {
 
 	//REST Profile
 	//Create a json profile
-	r.POST("/client", profile.Create)
+	r.POST("/profile", profile.Create)
+	r.PUT("/profile", profile.Update)
+	r.POST("/profile/addclient", profile.AddClient)
+	r.PUT("/profile/updatePassword", profile.UpdatePassword)
+	r.DELETE("/profile", profile.Delete)
+
 }
