@@ -13,6 +13,7 @@ type clientService struct {
 	u usecase.ClientUsecase
 }
 
+//NewClientService genera un nuevo servicio de tipo client con un usecase
 func NewClientService(u usecase.ClientUsecase) *clientService {
 	return &clientService{
 		u: u,

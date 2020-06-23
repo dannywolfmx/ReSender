@@ -2,6 +2,7 @@ package service
 
 import "github.com/gin-gonic/gin"
 
+//CRUDGin es una interface para tomar la estrucutra de un crud realizado en Gin
 type CRUDGin interface {
 	Create(c *gin.Context)
 	List(c *gin.Context)

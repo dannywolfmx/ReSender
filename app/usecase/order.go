@@ -6,7 +6,8 @@ import (
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
-type OrderUseCase interface {
+//OrderUsecase define un usecase para el modelo Order
+type OrderUsecase interface {
 	Delete(id uint) error
 	Update(id uint, number, invoice string) error
 }
@@ -16,6 +17,7 @@ type orderUsecase struct {
 	service *service.OrderService
 }
 
+//NewOrderUsecase construlle una orderUsecase bien definido
 func NewOrderUsecase(repo repository.Order, service *service.OrderService) *orderUsecase {
 	return &orderUsecase{
 		repo:    repo,

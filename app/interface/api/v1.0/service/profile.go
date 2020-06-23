@@ -12,7 +12,8 @@ type profileService struct {
 	u usecase.ProfileUsecase
 }
 
-func NewProficeService(u usecase.ProfileUsecase) *profileService {
+//NewProfileService devuelve un nuevo profileService con un usecase
+func NewProfileService(u usecase.ProfileUsecase) *profileService {
 	return &profileService{
 		u: u,
 	}

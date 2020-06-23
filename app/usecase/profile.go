@@ -6,7 +6,7 @@ import (
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
-//ProfileUseCase represent all the activities a 'profile' can do
+//ProfileUsecase represent all the activities a 'profile' can do
 type ProfileUsecase interface {
 
 	//Create a new profile and return a nil error if the transactions workds.
@@ -32,7 +32,7 @@ type profileUsecase struct {
 	service *service.ProfileService
 }
 
-//NewPrileUsecase create a new profile structure with the repository and the service
+//NewProfileUsecase create a new profile structure with the repository and the service
 func NewProfileUsecase(repo repository.Profile, service *service.ProfileService) *profileUsecase {
 	return &profileUsecase{
 		repo:    repo,

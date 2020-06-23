@@ -6,9 +6,8 @@ import (
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
-//Un caso de uso de un cliente representa todas las operaciones utiles para un endpoint.
+//ClientUsecase Un caso de uso de un cliente representa todas las operaciones utiles para un endpoint.
 //Una estructura de tipo cliente retornara todas sus estructuras relacionadas
-
 type ClientUsecase interface {
 	Clients() ([]*model.Client, error)
 	Register(client *model.Client) error
@@ -16,16 +15,17 @@ type ClientUsecase interface {
 	Update(client *model.Client) error
 }
 
+type clientUsecase struct {
+	repo    repository.Client
+	service *service.ClientService
+}
+
+//NewClientUsecase retorna una estructura clientUsecase definida por un repositorio y un servidor
 func NewClientUsecase(repo repository.Client, service *service.ClientService) *clientUsecase {
 	return &clientUsecase{
 		repo:    repo,
 		service: service,
 	}
-}
-
-type clientUsecase struct {
-	repo    repository.Client
-	service *service.ClientService
 }
 
 func (c *clientUsecase) Clients() ([]*model.Client, error) {

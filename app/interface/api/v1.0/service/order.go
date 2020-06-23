@@ -10,10 +10,11 @@ import (
 )
 
 type orderService struct {
-	u usecase.OrderUseCase
+	u usecase.OrderUsecase
 }
 
-func NewOrderService(u usecase.OrderUseCase) *orderService {
+//NewOrderService construlle un servicio con un usecase
+func NewOrderService(u usecase.OrderUsecase) *orderService {
 	return &orderService{
 		u: u,
 	}
