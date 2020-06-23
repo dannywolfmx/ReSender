@@ -13,7 +13,8 @@ import (
 func Apply(r *gin.Engine, ctn *registry.Container) {
 	//Generate service with the use case
 	client := service.NewClientService(ctn.Resolve("client-usecase").(usecase.ClientUsecase))
-	order := service.NewOrderService(ctn.Resolve("order-usecase").(usecase.OrderUseCase))
+	order := service.NewOrderService(ctn.Resolve("order-usecase").(usecase.OrderUsecase))
+	profile := service.NewProfileService(ctn.Resolve("profile-usecase").(usecase.ProfileUsecase))
 
 	//REST SECTION
 	//REST client
@@ -25,4 +26,8 @@ func Apply(r *gin.Engine, ctn *registry.Container) {
 	//REST orders
 	r.PUT("/order", order.Update)
 	r.DELETE("/order/:id", order.Delete)
+
+	//REST Profile
+	//Create a json profile
+	r.POST("/client", profile.Create)
 }

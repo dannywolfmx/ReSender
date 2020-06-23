@@ -19,6 +19,7 @@ func NewProfileService(u usecase.ProfileUsecase) *profileService {
 	}
 }
 
+//Create a new profile
 func (s *profileService) Create(c *gin.Context) {
 	//Create a profile data container
 	profile := &model.Profile{}
@@ -48,6 +49,156 @@ func (s *profileService) Create(c *gin.Context) {
 	}
 	c.JSON(
 		http.StatusCreated,
+		profile,
+	)
+}
+
+//UpdatePassword
+func (s *profileService) UpdatePassword(c *gin.Context) {
+	//Estuctura anonima para almacenar solo lo necesario del json que nos envia el cliente
+	profile := &struct {
+		ProfileID uint   `json:"profile_id"`
+		Password  string `json:"password"`
+	}{}
+
+	//Bind the json information to the struct, and check if exist a error
+	if err := c.ShouldBind(profile); err != nil {
+		//Send a mmessege to the client with the error
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"code":  http.StatusBadRequest,
+				"error": "JSON invalid",
+			},
+		)
+		//Exit to the function
+		return
+	}
+
+	if err := s.u.UpdatePassword(profile.ProfileID, profile.Password); err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"code":  http.StatusBadRequest,
+				"error": "error in the create funciton",
+			},
+		)
+		return
+	}
+	c.JSON(
+		http.StatusOK,
+		gin.H{
+			"code": http.StatusOK,
+		},
+	)
+}
+
+//AddClient
+func (s *profileService) AddClient(c *gin.Context) {
+	//Estuctura anonima para almacenar solo lo necesario del json que nos envia el cliente
+	profile := &struct {
+		ProfileID uint          `json:"profile_id"`
+		Client    *model.Client `json:"client"`
+	}{}
+
+	//Bind the json information to the struct, and check if exist a error
+	if err := c.ShouldBind(profile); err != nil {
+		//Send a mmessege to the client with the error
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"code":  http.StatusBadRequest,
+				"error": "JSON invalid",
+			},
+		)
+		//Exit to the function
+		return
+	}
+
+	if err := s.u.AddClient(profile.ProfileID, profile.Client); err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"code":  http.StatusBadRequest,
+				"error": "error in the create funciton",
+			},
+		)
+		return
+	}
+	//Se agrego de forma correcta el cliente
+	c.JSON(
+		http.StatusOK,
+		gin.H{
+			"code": http.StatusOK,
+		},
+	)
+}
+
+//Delete a new profile
+//TODO PROGRAMAR SISTEA DE AUTENTIFICACION
+func (s *profileService) Delete(c *gin.Context) {
+	//Create a profile data container
+	profile := &model.Profile{}
+
+	//Bind the json information to the struct, and check if exist a error
+	if err := c.ShouldBind(profile); err != nil {
+		//Send a mmessege to the client with the error
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"code":  http.StatusBadRequest,
+				"error": "JSON invalid",
+			},
+		)
+		//Exit to the function
+		return
+	}
+	if err := s.u.Delete(profile.ID); err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"code":  http.StatusBadRequest,
+				"error": "error in the create funciton",
+			},
+		)
+		return
+	}
+	c.JSON(
+		http.StatusOK,
+		profile,
+	)
+}
+
+//Update
+func (s *profileService) Update(c *gin.Context) {
+	//Create a profile data container
+	profile := &model.Profile{}
+
+	//Bind the json information to the struct, and check if exist a error
+	if err := c.ShouldBind(profile); err != nil {
+		//Send a mmessege to the client with the error
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"code":  http.StatusBadRequest,
+				"error": "JSON invalid",
+			},
+		)
+		//Exit to the function
+		return
+	}
+	if err := s.u.Update(profile); err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"code":  http.StatusBadRequest,
+				"error": "error in the create funciton",
+			},
+		)
+		return
+	}
+	c.JSON(
+		http.StatusOK,
 		profile,
 	)
 }
