@@ -13,8 +13,7 @@ type ProfileUsecase interface {
 	Create(profile *model.Profile) error
 
 	//Create password to the profile and return an error if the transaction doesnt work
-	//TODO change to UpdatePasword
-	SetPassword(profileID uint, password string) error
+	UpdatePassword(profileID uint, password string) error
 
 	//Add a new client to the profile client list
 	//Search a profile by ID
@@ -33,6 +32,7 @@ type profileUsecase struct {
 	service *service.ProfileService
 }
 
+//NewPrileUsecase create a new profile structure with the repository and the service
 func NewProfileUsecase(repo repository.Profile, service *service.ProfileService) *profileUsecase {
 	return &profileUsecase{
 		repo:    repo,
@@ -50,6 +50,14 @@ func (u *profileUsecase) Create(profile *model.Profile) error {
 		return err
 	}
 
+	//Hash the password
+	hash, err := u.service.HashAndSaltPassword(profile.Password)
+	if err != nil {
+		return err
+	}
+
+	profile.Password = hash
+
 	//Save the profile an check errors
 	err = u.repo.Save(profile)
 	if err != nil {
@@ -60,7 +68,7 @@ func (u *profileUsecase) Create(profile *model.Profile) error {
 }
 
 //Create password to the profile and return an error if the transaction doesnt work
-func (u *profileUsecase) SetPassword(profileID uint, password string) error {
+func (u *profileUsecase) UpdatePassword(profileID uint, password string) error {
 	//Get the profile by id
 	profile, err := u.repo.Get(profileID)
 	if err != nil {
