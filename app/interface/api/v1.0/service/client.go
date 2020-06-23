@@ -46,7 +46,7 @@ func (s *clientService) Create(c *gin.Context) {
 			http.StatusBadRequest,
 			gin.H{
 				"code":  http.StatusBadRequest,
-				"error": "JSON invalido",
+				"error": "JSON invalid",
 			},
 		)
 		return
