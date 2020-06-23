@@ -66,15 +66,26 @@ func NewContainer() (*Container, error) {
 			return usecase.NewClientUsecase(repo, service), nil
 		},
 	}, {
-		Name: "account-usecase",
+		// CONTENEDOR PARA PROFILE
+		//Nombre del contenedor
+		Name: "profile-usecase",
+		//Forma en que se va a construir el contenedor
 		Build: func(ctn di.Container) (interface{}, error) {
+
+			//Base de datos seleccionada
 			connDB := ctn.Get("gormSqlite").(*gorm.DB)
+
 			//TODO: Revisar por que no devuelvo un puntero en el repositorio
-			repo := gormrepo.NewProfileRepository(connDB)
-			service := service.NewProfileService(repo)
-			return usecase.NewAccountUseCase(repo, service), nil
+			//Repositorio del profile
+			repository := gormrepo.NewProfileRepository(connDB)
+
+			//Servicio del profile
+			service := service.NewProfileService(repository)
+
+			return usecase.NewProfileUsecase(repository, service), nil
 		},
-	}}...)
+	},
+	}...)
 
 	if err != nil {
 		return nil, err
