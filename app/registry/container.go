@@ -80,8 +80,11 @@ func NewContainer() (*Container, error) {
 			repository := gormrepo.NewProfileRepository(connDB)
 
 			//Servicio del profile
+			//El servicio requiere hacer operaciones con el repositorio por lo que se envia uno funcional
+			//Dependiedo de la funcionalidad puede compartir el mismo repo que el usecase
 			service := service.NewProfileService(repository)
 
+			//Cramos un usecase con un repositorio y un repositorio
 			return usecase.NewProfileUsecase(repository, service), nil
 		},
 	},
