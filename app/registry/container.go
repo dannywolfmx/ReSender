@@ -5,7 +5,6 @@ import (
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 	"github.com/dannywolfmx/ReSender/app/interface/persistance/gormrepo"
 	"github.com/dannywolfmx/ReSender/app/usecase"
-	"github.com/dannywolfmx/ReSender/db"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/sarulabs/di"
@@ -26,13 +25,6 @@ func NewContainer() (*Container, error) {
 	}
 
 	err = build.Add([]di.Def{{
-		Name: "sqlite",
-		Build: func(ctn di.Container) (interface{}, error) {
-			pathDB := dataBaseFile
-			//TODO: Cambiar db.DB a una variable local
-			return db.NewDBSqliteConnection(pathDB).InitDB()
-		},
-	}, {
 		Name: "gormSqlite",
 		Build: func(ctn di.Container) (interface{}, error) {
 			//Fijar ruta de la db y el tipo de db

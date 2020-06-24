@@ -52,6 +52,10 @@ func (p *profileRepository) Update(u *model.Profile) error {
 //GetByName
 func (p *profileRepository) GetByName(name string) (*model.Profile, error) {
 	profile := &model.Profile{}
-	p.db.Where("name = ?", name).First(profile)
-	return profile, nil
+	err := p.db.Where("name = ?", name).First(profile).Error
+	if gorm.IsRecordNotFoundError(err) {
+		//No record and no error
+		return nil, nil
+	}
+	return profile, err
 }

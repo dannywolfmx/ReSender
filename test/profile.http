@@ -1,0 +1,12 @@
+
+#GET all profiles
+GET http://localhost:8080/profiles
+
+#GET all profiles
+GET http://localhost:8080/profiles/1
+
+#POST all profiles
+
+POST http://localhost:8080/profile
+Content-Type: application/json
+{ "name": "djd"}

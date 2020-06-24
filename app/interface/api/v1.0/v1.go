@@ -28,6 +28,8 @@ func Apply(r *gin.Engine, ctn *registry.Container) {
 	r.DELETE("/order/:id", order.Delete)
 
 	//REST Profile
+	r.GET("/profiles", profile.GetAll)
+	r.GET("/profile/:profileID", profile.GetAll)
 	//Create a json profile
 	r.POST("/profile", profile.Create)
 	r.PUT("/profile", profile.Update)

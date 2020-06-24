@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/dannywolfmx/ReSender/app/domain/repository"
 	"golang.org/x/crypto/bcrypt"
@@ -29,9 +30,12 @@ func (p *ProfileService) Duplicated(name string) error {
 		return err
 	}
 
+	log.Println(name)
+
 	if profile != nil {
 		return fmt.Errorf("El nombre ya esta registrado %s", profile.Name)
 	}
+
 	return nil
 }
 

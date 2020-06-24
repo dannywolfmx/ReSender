@@ -2,6 +2,7 @@ package service
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/dannywolfmx/ReSender/app/domain/model"
 	"github.com/dannywolfmx/ReSender/app/usecase"
@@ -17,6 +18,56 @@ func NewProfileService(u usecase.ProfileUsecase) *profileService {
 	return &profileService{
 		u: u,
 	}
+}
+
+func (s *profileService) GetAll(c *gin.Context) {
+	profiles, err := s.u.GetAll()
+	if err != nil {
+		c.JSON(
+			http.StatusInternalServerError,
+			gin.H{
+				"code": http.StatusInternalServerError,
+				"erro": err,
+			},
+		)
+		return
+	}
+
+	c.JSON(
+		http.StatusOK,
+		profiles,
+	)
+}
+
+func (s *profileService) GetByID(c *gin.Context) {
+	profileID, err := strconv.Atoi(c.Param("profileID"))
+	if err != nil {
+		c.JSON(
+			http.StatusInternalServerError,
+			gin.H{
+				"code": http.StatusInternalServerError,
+				"erro": err,
+			},
+		)
+		return
+	}
+
+	profile, err := s.u.GetByID(uint(profileID))
+	if err != nil {
+		c.JSON(
+			http.StatusInternalServerError,
+			gin.H{
+				"code": http.StatusInternalServerError,
+				"erro": err,
+			},
+		)
+		return
+	}
+
+	c.JSON(
+		http.StatusOK,
+		profile,
+	)
 }
 
 //Create a new profile
@@ -42,7 +93,7 @@ func (s *profileService) Create(c *gin.Context) {
 			http.StatusBadRequest,
 			gin.H{
 				"code":  http.StatusBadRequest,
-				"error": "error in the create funciton",
+				"error": err.Error(),
 			},
 		)
 		return

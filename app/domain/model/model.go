@@ -44,32 +44,33 @@ Profiles:[
 //Orm almacena los metadatos de una estructura.
 //Es una estructura que emula der la de GORM con el motivo de no depender de la api del framework
 type Orm struct {
-	ID        uint `gorm:"primary_key"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time
+	ID uint `gorm:"primary_key" json:"id"`
+	//No necesitamos enviar esto en formato json, por lo que se omiten
+	CreatedAt time.Time  `json:"-"`
+	UpdatedAt time.Time  `json:"-"`
+	DeletedAt *time.Time `json:"-"`
 }
 
 //Order estructura que almacena la informacion de una orden de compra
 type Order struct {
 	Orm      `json:"orm"`
-	ClientID uint `json:"client_id"`
+	ClientID uint `json:"client_id" validate:"required"`
 
 	//Estado representa el estatus en el que se encuentra esta orden
 	// 0 - No enviada {ESTADO DEFAULT}
 	// 1 - Enviada
 	// TODO - Algunos clientes no tienen la necesidad de este estado, pendiente de encontrar una mejor solución
 	// 2 - Pendiente de orden de entrada a almacen
-	Estado uint `json:"estado"`
+	Estado uint `json:"estado" validate:"required"`
 
 	//Files archivos relacionados con esta orden de compra
-	Files []File `json:"files"`
+	Files []*File `json:"files"`
 
 	//Invoice representa al numero de la factura
 	Invoice string `json:"invoice"`
 
 	//Mails lista de direcciones de correo
-	Mails []MailDirection `json:"mails" gorm:"many2many:senders"`
+	Mails []*MailDirection `json:"mails" gorm:"many2many:senders"`
 
 	//Number representa al numero de la orden de compra
 	Number string `json:"number"`
@@ -80,13 +81,13 @@ type Client struct {
 	Orm `json:"orm"`
 
 	//ProfiletID Id del perfil al que pertenece este cliente
-	ProfiletID uint `json:"profilet_id"`
+	ProfiletID uint `json:"profilet_id" validate:"required"`
 
 	//Name nombre del cliente
-	Name string `json:"name"`
+	Name string `json:"name" validate:"required"`
 
 	//Order ordenes relacionadas con este cliente
-	Orders []Order
+	Orders []*Order `json:"orders"`
 }
 
 //MailDirection es una estructura que almacena la informacion que un correo electrónico pueda tener
@@ -94,7 +95,7 @@ type MailDirection struct {
 	Orm `json:"orm"`
 
 	//Direction direccion de correo electronico. Ej "prueba@gmail.com"
-	Direction string `json:"direction"`
+	Direction string `json:"direction" validate:"required,email"`
 }
 
 //File es una estructura que almacena la metadata y localización de un archivo
@@ -103,7 +104,7 @@ type File struct {
 	OrderID uint `json:"order_id"`
 
 	//Path direccion en la que se encuentra almacenado el archivo
-	Path string `json:"path"`
+	Path string `json:"path" validate:"required"`
 
 	//Title titulo del archivo
 	Title string `json:"title"`
@@ -144,7 +145,7 @@ type MailServer struct {
 	Address string `json:"address"`
 
 	//Alias de este perfil del servidor
-	Alias string `json:"alias"`
+	Alias string `json:"alias" validate:"required"`
 
 	//From describe el correo electronico del remitente
 	From string `json:"from"`

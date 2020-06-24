@@ -8,6 +8,11 @@ import (
 
 //ProfileUsecase represent all the activities a 'profile' can do
 type ProfileUsecase interface {
+	//Create a new profile and return a nil error if the transactions workds.
+	GetAll() ([]*model.Profile, error)
+
+	//Create a new profile and return a nil error if the transactions workds.
+	GetByID(profileID uint) (*model.Profile, error)
 
 	//Create a new profile and return a nil error if the transactions workds.
 	Create(profile *model.Profile) error
@@ -38,6 +43,16 @@ func NewProfileUsecase(repo repository.Profile, service *service.ProfileService)
 		repo:    repo,
 		service: service,
 	}
+}
+
+//Create a new profile and return a nil error if the transactions workds.
+func (u *profileUsecase) GetAll() ([]*model.Profile, error) {
+	return u.repo.All()
+}
+
+//Create a new profile and return a nil error if the transactions workds.
+func (u *profileUsecase) GetByID(profileID uint) (*model.Profile, error) {
+	return u.repo.Get(profileID)
 }
 
 //TODO implment ProfileUsecase de profileUsecase
