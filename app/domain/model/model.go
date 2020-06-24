@@ -1,6 +1,8 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 //Orm es una estrucura para ser embebida no esta planeada para instanciarla sola
 
@@ -132,6 +134,14 @@ type Profile struct {
 
 	//Password profile
 	Password string `json:"password"`
+}
+
+//Clear the password field when marshal the json
+//https://stackoverflow.com/a/47256509
+type password string
+
+func (password) MarshalJSON() ([]byte, error) {
+	return []byte(`""`), nil
 }
 
 //MailServer almacena la informacion de configuracion de un servidor de correos
