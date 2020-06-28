@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/dannywolfmx/ReSender/app/interface/api"
 	"github.com/dannywolfmx/ReSender/app/registry"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,10 +12,16 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	route := gin.Default()
+	router := gin.Default()
 
-	api.Apply(route, ctn)
+	//Add cors for testing with localhost
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"}
+
+	router.Use(cors.New(config))
+
+	api.Apply(router, ctn)
 
 	//Run the server
-	route.Run(":8080")
+	router.Run(":8080")
 }

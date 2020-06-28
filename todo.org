@@ -10,8 +10,10 @@
 * Tareas pendientes en ReSender
 **  Sistema de autentificación y autorizacion de usuarios
 *** TODO Estructura de usuarios
+*** TODO Implementar JWT en servidor
+*** DONE Enviar un correo al usuario cuando alguien se loggea con su cuenta
+    CLOSED: [2020-06-27 sáb 09:32]
 *** TODO Almacenar configuración del usuario (servidor de correo electrónico, password etc)
-*** TODO Enviar un tocken de sesión. 
 *** TODO Crear archivo de configuración, en el cual se le pueda indicar la salt del hash de las password
 ** Sistema de correo electrónico
 *** TODO Generar html en base a una orden de compra
