@@ -151,7 +151,8 @@ type MailServer struct {
 	//Relationship
 	ProfiletID uint `json:"profilet_id"`
 
-	//Struct fields
+	//Address represent the server direction including the port.
+	//Ej "mail.example.com:25"
 	Address string `json:"address"`
 
 	//Alias de este perfil del servidor
@@ -164,6 +165,6 @@ type MailServer struct {
 	//TODO  verificar si se realiza algun tipo de encriptacion
 	Password string `json:"password"`
 
-	//Server ???
+	//Server ??? //Creo que es server name
 	Server string `json:"server"`
 }
