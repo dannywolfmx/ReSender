@@ -102,69 +102,61 @@ type MailDirection struct {
 
 //File es una estructura que almacena la metadata y localización de un archivo
 type File struct {
-	Orm     `json:"orm"`
-	OrderID uint `json:"order_id"`
+	Orm
+	OrderID uint
 
 	//Path direccion en la que se encuentra almacenado el archivo
-	Path string `json:"path" validate:"required"`
+	Path string
 
 	//Title titulo del archivo
-	Title string `json:"title"`
+	Title string
 }
 
 //Profile es una estructura que almacena la informacion de un usuario
 type Profile struct {
-	Orm `json:"orm"`
+	Orm
 
 	//Clients lista de clientes que estan asociados con el perfil
-	Clients []*Client `json:"clients"`
+	Clients []*Client
 
 	//DefailtMailConfigId la configuracion que esta marcada por defecto
 	//Nota: esto no esta relacionado con GORM
-	DefaultMailConfigID uint `json:"default_mail_config_id"`
+	DefaultMailConfigID uint
 
 	//ImageAvatarPath Imagen del perfil
-	ImageAvatarPath string `json:"image_avatar_path"`
+	ImageAvatarPath string
 
 	//MailConfig configuraciones asociadas al perfil del usuario
-	MailConfig []*MailServer `json:"mail_config"`
+	MailConfig []*MailServer
 
 	//Name nombre del perfil
-	Name string `json:"name"`
+	Name string
 
 	//Password profile
-	Password string `json:"password"`
-}
-
-//Clear the password field when marshal the json
-//https://stackoverflow.com/a/47256509
-type password string
-
-func (password) MarshalJSON() ([]byte, error) {
-	return []byte(`""`), nil
+	Password string
 }
 
 //MailServer almacena la informacion de configuracion de un servidor de correos
 type MailServer struct {
-	Orm `json:"orm"`
+	Orm
 
 	//Relationship
-	ProfiletID uint `json:"profilet_id"`
+	ProfiletID uint
 
 	//Address represent the server direction including the port.
 	//Ej "mail.example.com:25"
-	Address string `json:"address"`
+	Address string
 
 	//Alias de este perfil del servidor
-	Alias string `json:"alias" validate:"required"`
+	Alias string
 
 	//From describe el correo electronico del remitente
-	From string `json:"from"`
+	From string
 
 	//Password password del servidor de mail
 	//TODO  verificar si se realiza algun tipo de encriptacion
-	Password string `json:"password"`
+	Password string
 
 	//Server ??? //Creo que es server name
-	Server string `json:"server"`
+	Server string
 }
