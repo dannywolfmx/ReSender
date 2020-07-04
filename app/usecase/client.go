@@ -6,12 +6,6 @@ import (
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
-//Client
-type Client struct {
-	ID   uint   `json:"id"`
-	Name string `json:"name"`
-}
-
 type clientUsecase struct {
 	repo    app.ClientRepository
 	service *service.ClientService
@@ -26,35 +20,19 @@ func NewClientUsecase(repo app.ClientRepository, service *service.ClientService)
 }
 
 //Clients return a client and error if exist
-func (c *clientUsecase) Clients() ([]*Client, error) {
-	clientsDomain, err := c.repo.All()
-
-	if err != nil {
-		//Return the error
-		return nil, err
-	}
-
-	clients := make([]*Client, len(clientsDomain))
-
-	//Fill the client with the application model
-	for index, client := range clientsDomain {
-		clients[index] = &Client{
-			ID:   client.ID,
-			Name: client.Name,
-		}
-	}
-
-	return clients, nil
-
+func (c *clientUsecase) Clients() ([]*model.Client, error) {
+	return c.repo.All()
 }
 
 //Register add a new client and set the new profile
-func (c *clientUsecase) Register(client *Client) error {
+func (c *clientUsecase) Register(profileID uint, name string) error {
 	//I don't need the get the ID
-	clientDomain := &model.Client{
-		Name: client.Name,
+	//Conver the data to model.Client struct
+	client := &model.Client{
+		ProfiletID: profileID,
+		Name:       name,
 	}
-	return c.repo.Save(clientDomain)
+	return c.repo.Save(client)
 }
 
 //Delete by id
@@ -62,12 +40,14 @@ func (c *clientUsecase) Delete(id uint) error {
 	return c.repo.Detele(id)
 }
 
-func (c *clientUsecase) Update(client *Client) error {
-	domainClient := &model.Client{
+//Update the client name
+func (c *clientUsecase) Update(id uint, name string) error {
+	//Conver the data to model.Client struct
+	client := &model.Client{
 		Orm: model.Orm{
-			ID: client.ID,
+			ID: id,
 		},
-		Name: client.Name,
+		Name: name,
 	}
-	return c.repo.Update(domainClient)
+	return c.repo.Update(client)
 }

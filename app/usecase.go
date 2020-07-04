@@ -11,13 +11,13 @@ type ClientUsecase interface {
 	Clients() ([]*model.Client, error)
 
 	//Register add a new client and set the new profile
-	Register(profileID uint, client *model.Client) error
+	Register(profileID uint, name string) error
 
 	//Delete a client by id
 	Delete(id uint) error
 
 	//Update a client
-	Update(client *model.Client) error
+	Update(id uint, name string) error
 }
 
 //ProfileUsecase represent all the activities a 'profile' can do
@@ -29,17 +29,20 @@ type ProfileUsecase interface {
 	GetByID(profileID uint) (*model.Profile, error)
 
 	//Create a new profile and return a nil error if the transactions workds.
-	Create(profile *model.Profile) error
-
-	//Create password to the profile and return an error if the transaction doesnt work
-	UpdatePassword(profileID uint, password string) error
+	Create(imageAvatarPath, name, password string) error
 
 	//Delete profile account
 	Delete(profileID uint) error
 
 	//Update a profile, return the new profile and error
-	Update(profile *model.Profile) error
+	Update(profileID uint, imageAvatarPath, name string) error
 
-	//UpdateWithPassword get the profile plus the password
-	UpdateWithPassword(profile *model.Profile) error
+	//Create password to the profile and return an error if the transaction doesnt work
+	UpdatePassword(profileID uint, password string) error
+}
+
+//OrderUsecase define un usecase para el modelo Order
+type OrderUsecase interface {
+	Delete(id uint) error
+	Update(id uint, number, invoice string) error
 }

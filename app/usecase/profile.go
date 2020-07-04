@@ -6,25 +6,6 @@ import (
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
-//Profile
-type Profile struct {
-	//ImageAvatarPath Imagen del perfil
-	ImageAvatarPath string `json:"image_avatar_path"`
-
-	//Name nombre del perfil
-	Name string `json:"name"`
-}
-
-//ProfileWithPassowrd use this structure to unmarshal the profile with the password
-type ProfileWithPassowrd struct {
-	//ImageAvatarPath Imagen del perfil
-	ImageAvatarPath string `json:"image_avatar_path"`
-
-	//Name nombre del perfil
-	Name     string `json:"name"`
-	Password string `json:"password"`
-}
-
 type profileUsecase struct {
 	repo    app.ProfileRepository
 	service *service.ProfileService
@@ -39,50 +20,40 @@ func NewProfileUsecase(repo app.ProfileRepository, service *service.ProfileServi
 }
 
 //Create a new profile and return a nil error if the transactions workds.
-func (u *profileUsecase) GetAll() ([]*Profile, error) {
-	profilesDomain, err := u.repo.All()
-
-	profiles := make([]*Profile, len(profilesDomain))
-
-	for index, profile := range profilesDomain {
-		profiles[index] = &Profile{
-			ImageAvatarPath: profile.ImageAvatarPath,
-			Name:            profile.Name,
-		}
-	}
-
-	return profiles, err
+func (u *profileUsecase) GetAll() ([]*model.Profile, error) {
+	//Return all the profiles
+	return u.repo.All()
 }
 
 //Create a new profile and return a nil error if the transactions workds.
-func (u *profileUsecase) GetByID(profileID uint) (*Profile, error) {
-	profileDomain, err := u.repo.Get(profileID)
+func (u *profileUsecase) GetByID(profileID uint) (*model.Profile, error) {
+	//Get just one result
+	return u.repo.Get(profileID)
 
-	profile := &Profile{
-		ImageAvatarPath: profileDomain.ImageAvatarPath,
-		Name:            profileDomain.Name,
-	}
-
-	return profile, err
 }
 
 //TODO implment ProfileUsecase de profileUsecase
 //Create a new profile and return a nil error if the transactions workds.
-func (u *profileUsecase) Create(profile *model.Profile) error {
+func (u *profileUsecase) Create(imageAvatarPath, name, password string) error {
 
 	//Check if the name is already in the data base
-	err := u.service.Duplicated(profile.Name)
+	err := u.service.Duplicated(name)
 	if err != nil {
 		return err
 	}
 
 	//Hash the password
-	hash, err := u.service.HashAndSaltPassword(profile.Password)
+	hash, err := u.service.HashAndSaltPassword(password)
 	if err != nil {
 		return err
 	}
 
-	profile.Password = hash
+	profile := &model.Profile{
+		ImageAvatarPath: imageAvatarPath,
+		Name:            name,
+		//Important hash the password first
+		Password: hash,
+	}
 
 	//Save the profile an check errors
 	err = u.repo.Save(profile)
@@ -119,50 +90,20 @@ func (u *profileUsecase) UpdatePassword(profileID uint, password string) error {
 	return nil
 }
 
-//Add a new client to the profile client list
-//Search a profile by ID
-//Set a relationship beetween the new client
-func (u *profileUsecase) AddClient(profileID uint, client *model.Client) error {
-	//Get the profile by id
-	profile, err := u.repo.Get(profileID)
-	if err != nil {
-		return err
-	}
-
-	//Append the profile
-	profile.Clients = append(profile.Clients, client)
-
-	//try to update and return a error if exist
-	return u.repo.Update(profile)
-}
-
 //Delete profile account
 func (u *profileUsecase) Delete(profileID uint) error {
 	return u.repo.Detele(profileID)
 }
 
 //Update a profile, return the new profile and error
-func (u *profileUsecase) Update(profile *Profile) error {
+func (u *profileUsecase) Update(profileID uint, imageAvatarPath, name string) error {
 
 	//Transform the data to domain entity
-	profileDomain := &model.Profile{
-		ImageAvatarPath: profile.ImageAvatarPath,
-		Name:            profile.Name,
+	profile := &model.Profile{
+		ImageAvatarPath: imageAvatarPath,
+		Name:            name,
 	}
 
 	//Send the update value
-	return u.repo.Update(profileDomain)
-}
-
-//Update a profile, return the new profile and error
-func (u *profileUsecase) UpdateWithPassword(profile *ProfileWithPassowrd) error {
-	//Transform the data to domain entity
-	profileDomain := &model.Profile{
-		ImageAvatarPath: profile.ImageAvatarPath,
-		Name:            profile.Name,
-		Password:        profile.Password,
-	}
-
-	//Send the update value
-	return u.repo.Update(profileDomain)
+	return u.repo.Update(profile)
 }

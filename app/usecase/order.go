@@ -6,12 +6,6 @@ import (
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
-//OrderUsecase define un usecase para el modelo Order
-type OrderUsecase interface {
-	Delete(id uint) error
-	Update(id uint, number, invoice string) error
-}
-
 type orderUsecase struct {
 	repo    app.OrderRepository
 	service *service.OrderService
@@ -25,9 +19,12 @@ func NewOrderUsecase(repo app.OrderRepository, service *service.OrderService) *o
 	}
 }
 
+//Delet e a order
 func (o *orderUsecase) Delete(id uint) error {
 	return o.repo.Detele(id)
 }
+
+//Update a order with a valid id
 func (o *orderUsecase) Update(id uint, number, invoice string) error {
 	order := &model.Order{
 		Number:  number,
