@@ -33,8 +33,7 @@ func Apply(r *gin.Engine, ctn *registry.Container) {
 	//Create a json profile
 	r.POST("/profile", profile.Create)
 	r.PUT("/profile", profile.Update)
-	r.POST("/profile/addclient", profile.AddClient)
-	r.PUT("/profile/updatePassword", profile.UpdatePassword)
-	r.DELETE("/profile", profile.Delete)
+	//	r.PUT("/profile/updatePassword", profile.UpdatePassword)
+	//r.DELETE("/profile", profile.Delete)
 
 }

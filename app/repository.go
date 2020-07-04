@@ -1,9 +1,11 @@
-package repository
+package app
+
+//Repository represent all the inteface to implement the persistance of the app
 
 import "github.com/dannywolfmx/ReSender/app/domain/model"
 
 //Order is a repository available methods to implement manipulation on a Order
-type Order interface {
+type OrderRepository interface {
 	//Delete an order by id
 	Detele(id uint) error
 
@@ -12,7 +14,7 @@ type Order interface {
 }
 
 //Client is a repository available methods to implement manipulation on Client model
-type Client interface {
+type ClientRepository interface {
 	//All get all the clients
 	All() ([]*model.Client, error)
 
@@ -34,7 +36,7 @@ type Client interface {
 
 //Mail repositorio para brindar funciones de busqueda, eliminacion, y actualizacion de un correo
 //Solo puedo crear un mail por medio de una orden de compra
-type Mail interface {
+type MailRepository interface {
 
 	//Find a mail direction, ej. "test@linux.com"
 	Find(direction string) (*model.MailDirection, error)
@@ -50,7 +52,7 @@ type Mail interface {
 }
 
 //File repositorio para brindar funciones de busqueda, eliminacion y actualziacion de un los metadatos de un archivo
-type File interface {
+type FileRepository interface {
 	//Get a file by id
 	Get(id uint) (*model.File, error)
 
@@ -62,7 +64,7 @@ type File interface {
 }
 
 //Profile repositorio para interactuar con las funcionalidades de una cuenta de usuario
-type Profile interface {
+type ProfileRepository interface {
 	//Get a user account by id
 	Get(id uint) (*model.Profile, error)
 	//GetByName
