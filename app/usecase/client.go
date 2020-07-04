@@ -1,45 +1,73 @@
 package usecase
 
 import (
+	"github.com/dannywolfmx/ReSender/app"
 	"github.com/dannywolfmx/ReSender/app/domain/model"
-	"github.com/dannywolfmx/ReSender/app/domain/repository"
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
-//ClientUsecase Un caso de uso de un cliente representa todas las operaciones utiles para un endpoint.
-//Una estructura de tipo cliente retornara todas sus estructuras relacionadas
-type ClientUsecase interface {
-	Clients() ([]*model.Client, error)
-	Register(client *model.Client) error
-	Delete(id uint) error
-	Update(client *model.Client) error
+//Client
+type Client struct {
+	ID   uint   `json:"id"`
+	Name string `json:"name"`
 }
 
 type clientUsecase struct {
-	repo    repository.Client
+	repo    app.ClientRepository
 	service *service.ClientService
 }
 
 //NewClientUsecase retorna una estructura clientUsecase definida por un repositorio y un servidor
-func NewClientUsecase(repo repository.Client, service *service.ClientService) *clientUsecase {
+func NewClientUsecase(repo app.ClientRepository, service *service.ClientService) *clientUsecase {
 	return &clientUsecase{
 		repo:    repo,
 		service: service,
 	}
 }
 
-func (c *clientUsecase) Clients() ([]*model.Client, error) {
-	return c.repo.All()
+//Clients return a client and error if exist
+func (c *clientUsecase) Clients() ([]*Client, error) {
+	clientsDomain, err := c.repo.All()
+
+	if err != nil {
+		//Return the error
+		return nil, err
+	}
+
+	clients := make([]*Client, len(clientsDomain))
+
+	//Fill the client with the application model
+	for index, client := range clientsDomain {
+		clients[index] = &Client{
+			ID:   client.ID,
+			Name: client.Name,
+		}
+	}
+
+	return clients, nil
+
 }
 
-func (c *clientUsecase) Register(client *model.Client) error {
-	return c.repo.Save(client)
+//Register add a new client and set the new profile
+func (c *clientUsecase) Register(client *Client) error {
+	//I don't need the get the ID
+	clientDomain := &model.Client{
+		Name: client.Name,
+	}
+	return c.repo.Save(clientDomain)
 }
 
+//Delete by id
 func (c *clientUsecase) Delete(id uint) error {
 	return c.repo.Detele(id)
 }
 
-func (c *clientUsecase) Update(client *model.Client) error {
-	return c.repo.Update(client)
+func (c *clientUsecase) Update(client *Client) error {
+	domainClient := &model.Client{
+		Orm: model.Orm{
+			ID: client.ID,
+		},
+		Name: client.Name,
+	}
+	return c.repo.Update(domainClient)
 }

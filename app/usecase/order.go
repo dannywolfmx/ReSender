@@ -1,8 +1,8 @@
 package usecase
 
 import (
+	"github.com/dannywolfmx/ReSender/app"
 	"github.com/dannywolfmx/ReSender/app/domain/model"
-	"github.com/dannywolfmx/ReSender/app/domain/repository"
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
@@ -13,12 +13,12 @@ type OrderUsecase interface {
 }
 
 type orderUsecase struct {
-	repo    repository.Order
+	repo    app.OrderRepository
 	service *service.OrderService
 }
 
 //NewOrderUsecase construlle una orderUsecase bien definido
-func NewOrderUsecase(repo repository.Order, service *service.OrderService) *orderUsecase {
+func NewOrderUsecase(repo app.OrderRepository, service *service.OrderService) *orderUsecase {
 	return &orderUsecase{
 		repo:    repo,
 		service: service,

@@ -1,44 +1,37 @@
 package usecase
 
 import (
+	"github.com/dannywolfmx/ReSender/app"
 	"github.com/dannywolfmx/ReSender/app/domain/model"
-	"github.com/dannywolfmx/ReSender/app/domain/repository"
 	"github.com/dannywolfmx/ReSender/app/domain/service"
 )
 
-//ProfileUsecase represent all the activities a 'profile' can do
-type ProfileUsecase interface {
-	//Create a new profile and return a nil error if the transactions workds.
-	GetAll() ([]*model.Profile, error)
+//Profile
+type Profile struct {
+	//ImageAvatarPath Imagen del perfil
+	ImageAvatarPath string `json:"image_avatar_path"`
 
-	//Create a new profile and return a nil error if the transactions workds.
-	GetByID(profileID uint) (*model.Profile, error)
+	//Name nombre del perfil
+	Name string `json:"name"`
+}
 
-	//Create a new profile and return a nil error if the transactions workds.
-	Create(profile *model.Profile) error
+//ProfileWithPassowrd use this structure to unmarshal the profile with the password
+type ProfileWithPassowrd struct {
+	//ImageAvatarPath Imagen del perfil
+	ImageAvatarPath string `json:"image_avatar_path"`
 
-	//Create password to the profile and return an error if the transaction doesnt work
-	UpdatePassword(profileID uint, password string) error
-
-	//Add a new client to the profile client list
-	//Search a profile by ID
-	//Set a relationship beetween the new client
-	AddClient(profileID uint, client *model.Client) error
-
-	//Delete profile account
-	Delete(profileID uint) error
-
-	//Update a profile, return the new profile and error
-	Update(profile *model.Profile) error
+	//Name nombre del perfil
+	Name     string `json:"name"`
+	Password string `json:"password"`
 }
 
 type profileUsecase struct {
-	repo    repository.Profile
+	repo    app.ProfileRepository
 	service *service.ProfileService
 }
 
 //NewProfileUsecase create a new profile structure with the repository and the service
-func NewProfileUsecase(repo repository.Profile, service *service.ProfileService) *profileUsecase {
+func NewProfileUsecase(repo app.ProfileRepository, service *service.ProfileService) *profileUsecase {
 	return &profileUsecase{
 		repo:    repo,
 		service: service,
@@ -46,13 +39,31 @@ func NewProfileUsecase(repo repository.Profile, service *service.ProfileService)
 }
 
 //Create a new profile and return a nil error if the transactions workds.
-func (u *profileUsecase) GetAll() ([]*model.Profile, error) {
-	return u.repo.All()
+func (u *profileUsecase) GetAll() ([]*Profile, error) {
+	profilesDomain, err := u.repo.All()
+
+	profiles := make([]*Profile, len(profilesDomain))
+
+	for index, profile := range profilesDomain {
+		profiles[index] = &Profile{
+			ImageAvatarPath: profile.ImageAvatarPath,
+			Name:            profile.Name,
+		}
+	}
+
+	return profiles, err
 }
 
 //Create a new profile and return a nil error if the transactions workds.
-func (u *profileUsecase) GetByID(profileID uint) (*model.Profile, error) {
-	return u.repo.Get(profileID)
+func (u *profileUsecase) GetByID(profileID uint) (*Profile, error) {
+	profileDomain, err := u.repo.Get(profileID)
+
+	profile := &Profile{
+		ImageAvatarPath: profileDomain.ImageAvatarPath,
+		Name:            profileDomain.Name,
+	}
+
+	return profile, err
 }
 
 //TODO implment ProfileUsecase de profileUsecase
@@ -123,7 +134,6 @@ func (u *profileUsecase) AddClient(profileID uint, client *model.Client) error {
 
 	//try to update and return a error if exist
 	return u.repo.Update(profile)
-
 }
 
 //Delete profile account
@@ -132,6 +142,27 @@ func (u *profileUsecase) Delete(profileID uint) error {
 }
 
 //Update a profile, return the new profile and error
-func (u *profileUsecase) Update(profile *model.Profile) error {
-	return u.repo.Update(profile)
+func (u *profileUsecase) Update(profile *Profile) error {
+
+	//Transform the data to domain entity
+	profileDomain := &model.Profile{
+		ImageAvatarPath: profile.ImageAvatarPath,
+		Name:            profile.Name,
+	}
+
+	//Send the update value
+	return u.repo.Update(profileDomain)
+}
+
+//Update a profile, return the new profile and error
+func (u *profileUsecase) UpdateWithPassword(profile *ProfileWithPassowrd) error {
+	//Transform the data to domain entity
+	profileDomain := &model.Profile{
+		ImageAvatarPath: profile.ImageAvatarPath,
+		Name:            profile.Name,
+		Password:        profile.Password,
+	}
+
+	//Send the update value
+	return u.repo.Update(profileDomain)
 }
