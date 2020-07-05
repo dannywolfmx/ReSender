@@ -4,17 +4,16 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/dannywolfmx/ReSender/app/domain/model"
-	"github.com/dannywolfmx/ReSender/app/usecase"
+	"github.com/dannywolfmx/ReSender/app"
 	"github.com/gin-gonic/gin"
 )
 
 type orderService struct {
-	u usecase.OrderUsecase
+	u app.OrderUsecase
 }
 
 //NewOrderService construlle un servicio con un usecase
-func NewOrderService(u usecase.OrderUsecase) *orderService {
+func NewOrderService(u app.OrderUsecase) *orderService {
 	return &orderService{
 		u: u,
 	}
@@ -22,10 +21,8 @@ func NewOrderService(u usecase.OrderUsecase) *orderService {
 
 //Delete a element
 func (s *orderService) Delete(c *gin.Context) {
-	idRemove := c.Param("id")
-
-	//ID no numerico
-	id, err := strconv.Atoi(idRemove)
+	//Conver the id to numeric id
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(
 			http.StatusBadRequest,
@@ -37,7 +34,7 @@ func (s *orderService) Delete(c *gin.Context) {
 		return
 	}
 
-	//Orden no encontrada
+	//Conver int to uint
 	err = s.u.Delete(uint(id))
 	if err != nil {
 		c.JSON(
@@ -58,8 +55,14 @@ func (s *orderService) Delete(c *gin.Context) {
 	)
 }
 
+type updateOrder struct {
+	ID      uint   `json:"id"`
+	Number  string `json:"number"`
+	Invoice string `json:"invoice"`
+}
+
 func (s *orderService) Update(c *gin.Context) {
-	var order model.Order
+	order := &updateOrder{}
 	if err := c.ShouldBind(&order); err != nil {
 		c.JSON(
 			http.StatusBadRequest,
@@ -72,7 +75,7 @@ func (s *orderService) Update(c *gin.Context) {
 
 	}
 
-	err := s.u.Update(order.ClientID, order.Number, order.Invoice)
+	err := s.u.Update(order.ID, order.Number, order.Invoice)
 	if err != nil {
 		c.JSON(
 			http.StatusBadRequest,

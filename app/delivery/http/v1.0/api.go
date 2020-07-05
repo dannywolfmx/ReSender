@@ -4,19 +4,20 @@
 package v1
 
 import (
-	"github.com/dannywolfmx/ReSender/app/interface/api/v1.0/service"
+	"github.com/dannywolfmx/ReSender/app"
+	"github.com/dannywolfmx/ReSender/app/delivery/http/v1.0/service"
 	"github.com/dannywolfmx/ReSender/app/registry"
-	"github.com/dannywolfmx/ReSender/app/usecase"
 	"github.com/gin-gonic/gin"
 )
 
 func Apply(r *gin.Engine, ctn *registry.Container) {
 	//Generate service with the use case
-	client := service.NewClientService(ctn.Resolve("client-usecase").(usecase.ClientUsecase))
-	order := service.NewOrderService(ctn.Resolve("order-usecase").(usecase.OrderUsecase))
-	profile := service.NewProfileService(ctn.Resolve("profile-usecase").(usecase.ProfileUsecase))
+	client := service.NewClientService(ctn.Resolve("client-usecase").(app.ClientUsecase))
+	order := service.NewOrderService(ctn.Resolve("order-usecase").(app.OrderUsecase))
+	profile := service.NewProfileService(ctn.Resolve("profile-usecase").(app.ProfileUsecase))
 
 	//REST SECTION
+
 	//REST client
 	r.POST("/client", client.Create)
 	r.GET("/clients", client.List)
@@ -30,10 +31,9 @@ func Apply(r *gin.Engine, ctn *registry.Container) {
 	//REST Profile
 	r.GET("/profiles", profile.GetAll)
 	r.GET("/profile/:profileID", profile.GetAll)
-	//Create a json profile
 	r.POST("/profile", profile.Create)
 	r.PUT("/profile", profile.Update)
-	//	r.PUT("/profile/updatePassword", profile.UpdatePassword)
-	//r.DELETE("/profile", profile.Delete)
+	r.PUT("/profile/updatePassword", profile.UpdatePassword)
+	r.DELETE("/profile", profile.Delete)
 
 }

@@ -4,22 +4,22 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/dannywolfmx/ReSender/app/domain/model"
-	"github.com/dannywolfmx/ReSender/app/usecase"
+	"github.com/dannywolfmx/ReSender/app"
 	"github.com/gin-gonic/gin"
 )
 
 type clientService struct {
-	u usecase.ClientUsecase
+	u app.ClientUsecase
 }
 
 //NewClientService genera un nuevo servicio de tipo client con un usecase
-func NewClientService(u usecase.ClientUsecase) *clientService {
+func NewClientService(u app.ClientUsecase) *clientService {
 	return &clientService{
 		u: u,
 	}
 }
 
+//List of clients avaibles
 func (s *clientService) List(c *gin.Context) {
 	clients, err := s.u.Clients()
 	if err != nil {
@@ -38,9 +38,15 @@ func (s *clientService) List(c *gin.Context) {
 	)
 }
 
+type createClient struct {
+	//The profile owner of the client
+	ProfileID uint   `json:"profile_id"`
+	Name      string `json:"name"`
+}
+
 func (s *clientService) Create(c *gin.Context) {
 
-	client := &model.Client{}
+	client := &createClient{}
 
 	if err := c.ShouldBind(client); err != nil {
 		c.JSON(
@@ -54,7 +60,7 @@ func (s *clientService) Create(c *gin.Context) {
 
 	}
 
-	if err := s.u.Register(client); err != nil {
+	if err := s.u.Register(client.ProfileID, client.Name); err != nil {
 		c.JSON(
 			http.StatusBadRequest,
 			gin.H{
@@ -71,44 +77,11 @@ func (s *clientService) Create(c *gin.Context) {
 	)
 }
 
-func (s *clientService) Update(c *gin.Context) {
-
-	client := &model.Client{}
-	if err := c.ShouldBind(client); err != nil {
-		c.JSON(
-			http.StatusBadRequest,
-			gin.H{
-				"code":  http.StatusBadRequest,
-				"error": "JSON invalido",
-			},
-		)
-		return
-
-	}
-
-	if err := s.u.Update(client); err != nil {
-		c.JSON(
-			http.StatusBadRequest,
-			gin.H{
-				"code":  http.StatusBadRequest,
-				"error": "Error al actualizar",
-			},
-		)
-		return
-	}
-	//Enviar respuesta de actualizacion exitoza
-	c.JSON(
-		http.StatusCreated,
-		client,
-	)
-}
-
 //Delete a element
 func (s *clientService) Delete(c *gin.Context) {
-	idRemove := c.Param("id")
 
-	//ID no numerico
-	id, err := strconv.Atoi(idRemove)
+	//Convert the string id to int
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(
 			http.StatusBadRequest,
@@ -137,5 +110,43 @@ func (s *clientService) Delete(c *gin.Context) {
 		gin.H{
 			"code": http.StatusAccepted,
 		},
+	)
+}
+
+type updateClient struct {
+	//The profile owner of the client
+	ID   uint   `json:"id"`
+	Name string `json:"name"`
+}
+
+func (s *clientService) Update(c *gin.Context) {
+
+	client := &updateClient{}
+	if err := c.ShouldBind(client); err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"code":  http.StatusBadRequest,
+				"error": "JSON invalido",
+			},
+		)
+		return
+
+	}
+
+	if err := s.u.Update(client.ID, client.Name); err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"code":  http.StatusBadRequest,
+				"error": "Error al actualizar",
+			},
+		)
+		return
+	}
+	//Enviar respuesta de actualizacion exitoza
+	c.JSON(
+		http.StatusCreated,
+		client,
 	)
 }

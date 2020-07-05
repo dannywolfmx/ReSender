@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/dannywolfmx/ReSender/app/interface/api/v1.0"
+	"github.com/dannywolfmx/ReSender/app/delivery/http/v1.0"
 	"github.com/dannywolfmx/ReSender/app/registry"
 	"github.com/gin-gonic/gin"
 )
