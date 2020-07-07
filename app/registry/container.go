@@ -3,7 +3,7 @@ package registry
 import (
 	"github.com/dannywolfmx/ReSender/app/domain/model"
 	"github.com/dannywolfmx/ReSender/app/domain/service"
-	"github.com/dannywolfmx/ReSender/app/interface/persistance/gormrepo"
+	"github.com/dannywolfmx/ReSender/app/repository/gormrepo"
 	"github.com/dannywolfmx/ReSender/app/usecase"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
