@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterHTTPEndPoint(router *gin.Engine, u auth.AuthUsecase) {
-	handler := NewHandler(u)
+func RegisterHTTPEndPoint(router *gin.Engine, authHandler auth.AuthUsecase) {
+	handler := NewHandler(authHandler)
 	group := router.Group("/auth")
 	{
 		group.POST("/sign-up", handler.SignUp)

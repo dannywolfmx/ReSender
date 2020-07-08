@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/dannywolfmx/ReSender/app/interface/api"
+	api "github.com/dannywolfmx/ReSender/app/delivery/http"
 	"github.com/dannywolfmx/ReSender/app/registry"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	ctn, err := registry.NewContainer()
+	appContainer, err := registry.NewContainer()
 	if err != nil {
 		panic(err)
 	}
@@ -20,7 +20,7 @@ func main() {
 
 	router.Use(cors.New(config))
 
-	api.Apply(router, ctn)
+	api.Apply(router, appContainer)
 
 	//Run the server
 	router.Run(":8080")

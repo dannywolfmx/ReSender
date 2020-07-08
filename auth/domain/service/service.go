@@ -29,10 +29,8 @@ func (p *UserService) HashAndSaltPassword(pass string) (string, error) {
 //ComparePasswordHash check if the password is the same like the hash
 //Example taked from: https://gowebexamples.com/password-hashing/
 func (p *UserService) ComparePasswordHash(pass, hash string) bool {
-	// TODO Change the bcrypt.MinCost constant
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(pass))
 	//If err is nil, the password works with the hash
 	//if err is another value, the password is wrong
 	return err == nil
-
 }

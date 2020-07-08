@@ -1,4 +1,4 @@
-package api
+package http
 
 import (
 	"github.com/dannywolfmx/ReSender/app/delivery/http/v1.0"
