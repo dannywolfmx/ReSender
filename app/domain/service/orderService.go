@@ -1,14 +1,12 @@
 package service
 
-import (
-	"github.com/dannywolfmx/ReSender/app/domain/repository"
-)
+import "github.com/dannywolfmx/ReSender/app"
 
 type OrderService struct {
-	repo repository.Order
+	repo app.OrderRepository
 }
 
-func NewOrderService(repo repository.Order) *OrderService {
+func NewOrderService(repo app.OrderRepository) *OrderService {
 	return &OrderService{
 		repo: repo,
 	}

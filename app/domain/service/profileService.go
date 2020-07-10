@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/dannywolfmx/ReSender/app/domain/repository"
+	"github.com/dannywolfmx/ReSender/app"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -12,11 +12,11 @@ import (
 
 //Nota ClientService debe ser publico, dado que el usecase hace uso de este tipo
 type ProfileService struct {
-	repo repository.Profile
+	repo app.ProfileRepository
 }
 
 //NewProfileService is a contructor to get a good formed ProfileService
-func NewProfileService(repo repository.Profile) *ProfileService {
+func NewProfileService(repo app.ProfileRepository) *ProfileService {
 	return &ProfileService{
 		repo: repo,
 	}

@@ -1,25 +1,19 @@
 package main
 
 import (
-	api "github.com/dannywolfmx/ReSender/app/delivery/http"
-	appContainer "github.com/dannywolfmx/ReSender/app/registry"
-
-	auth "github.com/dannywolfmx/ReSender/auth/delivery"
-	authContainer "github.com/dannywolfmx/ReSender/auth/registry"
+	app "github.com/dannywolfmx/ReSender/app/config"
+	"github.com/dannywolfmx/ReSender/auth"
+	authConfig "github.com/dannywolfmx/ReSender/auth/config"
+	"github.com/dannywolfmx/ReSender/auth/delivery/http"
+	"github.com/dannywolfmx/ReSender/auth/registry"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	appCont, err := appContainer.NewContainer()
-	if err != nil {
-		panic(err)
-	}
+type Configuration struct {
+}
 
-	authCont, err := authContainer.NewContainer()
-	if err != nil {
-		panic(err)
-	}
+func main() {
 
 	router := gin.Default()
 
@@ -28,9 +22,17 @@ func main() {
 	config.AllowOrigins = []string{"http://localhost:3000"}
 
 	router.Use(cors.New(config))
+	authConfig.Init(router)
 
-	api.Apply(router, appCont)
-	auth.Apply(router, authCont)
+	authCont, err := registry.NewContainer()
+	if err != nil {
+		panic(err)
+	}
+
+	authUsecase := authCont.Resolve("usecase").(auth.AuthUsecase)
+
+	api := router.Group("/api", http.NewAuthMiddleware(authUsecase))
+	app.Init(api)
 
 	//Run the server
 	router.Run(":8080")

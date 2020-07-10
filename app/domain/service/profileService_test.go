@@ -3,12 +3,12 @@ package service
 import (
 	"testing"
 
-	"github.com/dannywolfmx/ReSender/app/domain/repository/mocks"
+	"github.com/dannywolfmx/ReSender/app/repository/mocks"
 	"github.com/golang/mock/gomock"
 )
 
 func TestHashAndSaltPassword(t *testing.T) {
-	password := []byte("123abc")
+	password := "123abc"
 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()

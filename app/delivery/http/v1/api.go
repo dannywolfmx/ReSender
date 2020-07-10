@@ -5,12 +5,12 @@ package v1
 
 import (
 	"github.com/dannywolfmx/ReSender/app"
-	"github.com/dannywolfmx/ReSender/app/delivery/http/v1.0/service"
+	"github.com/dannywolfmx/ReSender/app/delivery/http/v1/service"
 	"github.com/dannywolfmx/ReSender/app/registry"
 	"github.com/gin-gonic/gin"
 )
 
-func Apply(r *gin.Engine, ctn *registry.Container) {
+func Apply(r *gin.RouterGroup, ctn *registry.Container) {
 	//Generate service with the use case
 	client := service.NewClientService(ctn.Resolve("client-usecase").(app.ClientUsecase))
 	order := service.NewOrderService(ctn.Resolve("order-usecase").(app.OrderUsecase))

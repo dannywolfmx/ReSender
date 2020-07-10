@@ -3,15 +3,15 @@ package service
 import (
 	"fmt"
 
-	"github.com/dannywolfmx/ReSender/app/domain/repository"
+	"github.com/dannywolfmx/ReSender/app"
 )
 
 //Nota ClientService debe ser publico, dado que el usecase hace uso de este tipo
 type ClientService struct {
-	repo repository.Client
+	repo app.ClientRepository
 }
 
-func NewClientService(repo repository.Client) *ClientService {
+func NewClientService(repo app.ClientRepository) *ClientService {
 	return &ClientService{
 		repo: repo,
 	}
