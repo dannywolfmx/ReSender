@@ -22,6 +22,10 @@ func (r userRepository) Create(user *model.User) error {
 
 func (r userRepository) Get(username string) (*model.User, error) {
 	user := &model.User{}
-	r.db.Where("username = ?", username).Find(user)
-	return user, nil
+	err := r.db.Where("username = ?", username).Find(user).Error
+	if gorm.IsRecordNotFoundError(err) {
+		//No record and no error
+		return nil, nil
+	}
+	return user, err
 }

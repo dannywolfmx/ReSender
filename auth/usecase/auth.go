@@ -34,10 +34,15 @@ func (a *authUsecase) SignUp(username string, password string) error {
 		return err
 	}
 
+	if err := a.service.Duplicated(username); err != nil {
+		return err
+	}
+
 	user := &model.User{
 		Username: username,
 		Password: hashPassword,
 	}
+
 	return a.repo.Create(user)
 }
 
@@ -64,7 +69,7 @@ func (a *authUsecase) SignIn(username string, password string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwtClaim)
 
-	return token.SignedString("PRUEBA")
+	return token.SignedString([]byte("PRUEBA"))
 }
 
 func (a *authUsecase) ParseToken(tokenString string) (*model.User, error) {
@@ -75,7 +80,7 @@ func (a *authUsecase) ParseToken(tokenString string) (*model.User, error) {
 		}
 
 		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
-		return "PRUEBA", nil
+		return []byte("PRUEBA"), nil
 	})
 	if err != nil {
 		return nil, err
