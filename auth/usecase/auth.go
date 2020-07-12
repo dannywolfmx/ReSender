@@ -25,27 +25,28 @@ func NewAuthUsecase(repo auth.UserRepository, service *service.UserService) *aut
 	}
 }
 
-func (a *authUsecase) SignUp(username string, password string) error {
+func (a *authUsecase) SignUp(username string, password string) (string, error) {
 	hashPassword, err := a.service.HashAndSaltPassword(password)
 	if err != nil {
-		return err
+		return "", err
 	}
 
+	//The username already exist
 	if err := a.service.Duplicated(username); err != nil {
-		return err
+		return "", auth.ErrNameAlreayExist
 	}
 
 	user := &model.User{
 		Username: username,
 		Password: hashPassword,
 	}
+	err = a.repo.Create(user)
 
-	return a.repo.Create(user)
-}
+	if err != nil {
+		return "", err
+	}
 
-type UserClaims struct {
-	jwt.StandardClaims
-	User *model.User `json:"user"`
+	return a.service.GetJWTToken(user)
 }
 
 func (a *authUsecase) SignIn(username string, password string) (string, error) {
@@ -60,17 +61,11 @@ func (a *authUsecase) SignIn(username string, password string) (string, error) {
 		return "", auth.ErrInvalidPassword
 	}
 
-	jwtClaim := UserClaims{
-		User: user,
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwtClaim)
-
-	return token.SignedString([]byte("PRUEBA"))
+	return a.service.GetJWTToken(user)
 }
 
 func (a *authUsecase) ParseToken(tokenString string) (*model.User, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &UserClaims{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &model.UserClaims{}, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
@@ -83,7 +78,7 @@ func (a *authUsecase) ParseToken(tokenString string) (*model.User, error) {
 		return nil, err
 	}
 
-	if claims, ok := token.Claims.(*UserClaims); ok && token.Valid {
+	if claims, ok := token.Claims.(*model.UserClaims); ok && token.Valid {
 		return claims.User, nil
 	}
 

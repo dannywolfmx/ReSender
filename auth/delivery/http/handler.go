@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/dannywolfmx/ReSender/auth"
@@ -30,13 +29,25 @@ func (h *handler) SignUp(ctn *gin.Context) {
 		return
 	}
 
-	err := h.u.SignUp(input.Username, input.Password)
+	//Create user and get the JWT token
+	token, err := h.u.SignUp(input.Username, input.Password)
 
 	if err != nil {
+		if err == auth.ErrInvalidToken {
+			ctn.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+		if err == auth.ErrNameAlreayExist {
+			ctn.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"error": auth.ErrNameAlreayExist.Error(),
+			})
+			return
+		}
 		ctn.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
-	ctn.Status(http.StatusOK)
+
+	ctn.JSON(http.StatusCreated, signInResponseFields{Token: token})
 }
 
 type signInResponseFields struct {
@@ -56,7 +67,6 @@ func (h *handler) SignIn(ctn *gin.Context) {
 		if err == auth.ErrInvalidToken {
 			ctn.AbortWithStatus(http.StatusUnauthorized)
 		}
-		fmt.Println(err)
 		ctn.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}

@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"github.com/dannywolfmx/ReSender/auth"
+	"github.com/dannywolfmx/ReSender/auth/domain/model"
+	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -50,4 +52,14 @@ func (p *UserService) ComparePasswordHash(pass, hash string) bool {
 	//If err is nil, the password works with the hash
 	//if err is another value, the password is wrong
 	return err == nil
+}
+
+func (p *UserService) GetJWTToken(user *model.User) (string, error) {
+	jwtClaim := model.UserClaims{
+		User: user,
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwtClaim)
+
+	return token.SignedString([]byte("PRUEBA"))
 }
