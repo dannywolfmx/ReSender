@@ -6,5 +6,5 @@ import (
 
 func main() {
 	app := server.NewApp()
-	app.Run()
+	app.Run(":8080")
 }

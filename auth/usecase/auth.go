@@ -18,10 +18,7 @@ type authUsecase struct {
 	expireDuration time.Duration
 }
 
-func NewAuthUsecase(
-	repo auth.UserRepository,
-	service *service.UserService,
-) *authUsecase {
+func NewAuthUsecase(repo auth.UserRepository, service *service.UserService) *authUsecase {
 	return &authUsecase{
 		repo:    repo,
 		service: service,

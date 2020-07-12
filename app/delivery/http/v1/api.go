@@ -6,7 +6,7 @@ package v1
 import (
 	"github.com/dannywolfmx/ReSender/app"
 	"github.com/dannywolfmx/ReSender/app/delivery/http/v1/service"
-	"github.com/dannywolfmx/ReSender/app/registry"
+	"github.com/dannywolfmx/ReSender/registry"
 	"github.com/gin-gonic/gin"
 )
 
