@@ -66,6 +66,10 @@ func (h *handler) SignIn(ctn *gin.Context) {
 	if err != nil {
 		if err == auth.ErrInvalidToken {
 			ctn.AbortWithStatus(http.StatusUnauthorized)
+			return
+		} else if err == auth.ErrInvalidPassword {
+			ctn.AbortWithStatus(http.StatusUnauthorized)
+			return
 		}
 		ctn.AbortWithStatus(http.StatusInternalServerError)
 		return
