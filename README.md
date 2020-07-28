@@ -22,3 +22,5 @@ Esta aplicacion pretende seguir los lineamientos de la arquitectura hexagonal.
 * assets
 * auth - Auth es un middleware, esta no es dependiende de la aplicación, por lo que puede ser reutilizado en otros proyectos 
 * registry/container.go - aqui se encuentran nuestro contenedor para la inyección de dependencias, utilizando el framework de "sarulabs/di"
+
+prueba 2
