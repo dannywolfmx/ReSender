@@ -29,16 +29,16 @@ type ProfileUsecase interface {
 	GetByID(profileID uint) (*model.Profile, error)
 
 	//Create a new profile and return a nil error if the transactions workds.
-	Create(imageAvatarPath, name, password string) error
+	GetByUserID(id uint) (*model.Profile, error)
+
+	//Create a new profile and return a nil error if the transactions workds.
+	Create(userID uint) (*model.Profile, error)
 
 	//Delete profile account
 	Delete(profileID uint) error
 
 	//Update a profile, return the new profile and error
-	Update(profileID uint, imageAvatarPath, name string) error
-
-	//Create password to the profile and return an error if the transaction doesnt work
-	UpdatePassword(profileID uint, password string) error
+	Update(profileID uint, imageAvatarPath string) error
 }
 
 //OrderUsecase define un usecase para el modelo Order

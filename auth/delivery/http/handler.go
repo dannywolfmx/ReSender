@@ -79,5 +79,4 @@ func (h *handler) SignIn(ctn *gin.Context) {
 	}
 
 	ctn.JSON(http.StatusOK, signInResponseFields{Token: token})
-
 }

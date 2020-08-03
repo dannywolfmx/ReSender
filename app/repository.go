@@ -69,6 +69,8 @@ type ProfileRepository interface {
 	Get(id uint) (*model.Profile, error)
 	//GetByName
 	GetByName(name string) (*model.Profile, error)
+	//
+	GetByUserID(id uint) (*model.Profile, error)
 
 	//Save a profile
 	//Note: the profile name need to be unique

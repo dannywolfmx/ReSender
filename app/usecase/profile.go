@@ -32,62 +32,28 @@ func (u *profileUsecase) GetByID(profileID uint) (*model.Profile, error) {
 
 }
 
+//create a new profile and return a nil error if the transactions workds.
+func (u *profileUsecase) GetByUserID(id uint) (*model.Profile, error) {
+	//get just one result
+	return u.repo.GetByUserID(id)
+
+}
+
 //TODO implment ProfileUsecase de profileUsecase
 //Create a new profile and return a nil error if the transactions workds.
-func (u *profileUsecase) Create(imageAvatarPath, name, password string) error {
-
-	//Check if the name is already in the data base
-	err := u.service.Duplicated(name)
-	if err != nil {
-		return err
-	}
-
-	//Hash the password
-	hash, err := u.service.HashAndSaltPassword(password)
-	if err != nil {
-		return err
-	}
+func (u *profileUsecase) Create(userID uint) (*model.Profile, error) {
 
 	profile := &model.Profile{
-		ImageAvatarPath: imageAvatarPath,
-		Name:            name,
-		//Important hash the password first
-		Password: hash,
+		UserID: userID,
 	}
 
 	//Save the profile an check errors
-	err = u.repo.Save(profile)
+	err := u.repo.Save(profile)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
-}
-
-//Create password to the profile and return an error if the transaction doesnt work
-func (u *profileUsecase) UpdatePassword(profileID uint, password string) error {
-	//Get the profile by id
-	profile, err := u.repo.Get(profileID)
-	if err != nil {
-		return err
-	}
-
-	//Hash the password
-	hash, err := u.service.HashAndSaltPassword(password)
-	if err != nil {
-		return err
-	}
-
-	profile.Password = hash
-
-	//Update password
-	err = u.repo.Update(profile)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return profile, nil
 }
 
 //Delete profile account
@@ -96,12 +62,11 @@ func (u *profileUsecase) Delete(profileID uint) error {
 }
 
 //Update a profile, return the new profile and error
-func (u *profileUsecase) Update(profileID uint, imageAvatarPath, name string) error {
+func (u *profileUsecase) Update(profileID uint, imageAvatarPath string) error {
 
 	//Transform the data to domain entity
 	profile := &model.Profile{
 		ImageAvatarPath: imageAvatarPath,
-		Name:            name,
 	}
 
 	//Send the update value

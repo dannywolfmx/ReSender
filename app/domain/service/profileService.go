@@ -1,9 +1,6 @@
 package service
 
 import (
-	"fmt"
-	"log"
-
 	"github.com/dannywolfmx/ReSender/app"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -20,23 +17,6 @@ func NewProfileService(repo app.ProfileRepository) *ProfileService {
 	return &ProfileService{
 		repo: repo,
 	}
-}
-
-//Duplicated check if the name is already registred
-func (p *ProfileService) Duplicated(name string) error {
-	//If the profile dont exist you will get a nil pointer
-	profile, err := p.repo.GetByName(name)
-	if err != nil {
-		return err
-	}
-
-	log.Println(name)
-
-	if profile != nil {
-		return fmt.Errorf("El nombre ya esta registrado %s", profile.Name)
-	}
-
-	return nil
 }
 
 //HashAndSaltPassword get a hashed and salted password

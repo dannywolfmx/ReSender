@@ -159,20 +159,7 @@ type Profile struct {
 	//MailConfig configuraciones asociadas al perfil del usuario
 	MailConfig []*MailServer
 
-	//Name nombre del perfil
-	Name string
-
-	//Password profile
-	Password string
-}
-
-// NewProfile TODO: NEEDS COMMENT INFO
-func NewProfile(name, password, imageAvatarPath string) *Profile {
-	return &Profile{
-		ImageAvatarPath: imageAvatarPath,
-		Name:            name,
-		Password:        password,
-	}
+	UserID uint
 }
 
 //MailServer almacena la informacion de configuracion de un servidor de correos

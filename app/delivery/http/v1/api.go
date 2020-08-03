@@ -29,11 +29,10 @@ func Apply(r *gin.RouterGroup, ctn *registry.Container) {
 	r.DELETE("/order/:id", order.Delete)
 
 	//REST Profile
+	r.GET("/actualUserInfo", profile.GetByContext)
 	r.GET("/profiles", profile.GetAll)
 	r.GET("/profile/:profileID", profile.GetAll)
-	r.POST("/profile", profile.Create)
 	r.PUT("/profile", profile.Update)
-	r.PUT("/profile/updatePassword", profile.UpdatePassword)
 	r.DELETE("/profile", profile.Delete)
 
 }
