@@ -55,6 +55,11 @@ func (a *authUsecase) SignIn(username string, password string) (string, error) {
 		return "", err
 	}
 
+	//The user doesnt exist
+	if user == nil {
+		return "", auth.ErrInvalidUser
+	}
+
 	ok := a.service.ComparePasswordHash(password, user.Password)
 	if !ok {
 
