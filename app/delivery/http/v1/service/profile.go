@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/dannywolfmx/ReSender/app"
+	"github.com/dannywolfmx/ReSender/auth/domain/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,6 +18,40 @@ func NewProfileService(u app.ProfileUsecase) *profileService {
 	return &profileService{
 		u: u,
 	}
+}
+
+type UserContext struct {
+	Username string
+	Password string
+}
+
+//GetByContext get the profile data from the auth context
+func (s *profileService) GetByContext(c *gin.Context) {
+	user := c.MustGet("user").(*model.User)
+	profile, err := s.u.GetByUserID(user.ID)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": http.StatusInternalServerError,
+			"erro": "Error al obtener el usuario",
+		})
+		return
+	}
+
+	//The profile dont exist, we need to create a new one
+	if profile == nil {
+		//Set the new profile
+		profile, err = s.u.Create(user.ID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusInternalServerError,
+				"erro": "Error al tratar de crear un nuevo profile",
+			})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, profile)
 }
 
 func (s *profileService) GetAll(c *gin.Context) {
@@ -80,42 +115,6 @@ type createProfile struct {
 	ImageAvatarPath string `json:"image_avatar_path"`
 	Name            string `json:"name"`
 	Password        string `json:"password"`
-}
-
-//Create a new profile
-func (s *profileService) Create(c *gin.Context) {
-	//Create a profile data container
-	profile := &createProfile{}
-
-	//Bind the json information to the struct, and check if exist a error
-	if err := c.ShouldBind(profile); err != nil {
-		//Send a mmessege to the client with the error
-		c.JSON(
-			http.StatusBadRequest,
-			gin.H{
-				"code":  http.StatusBadRequest,
-				"error": "JSON invalid",
-			},
-		)
-		//Exit to the function
-		return
-	}
-	//Pass the struct data in "raw"
-	if err := s.u.Create(profile.ImageAvatarPath, profile.Name, profile.Password); err != nil {
-		c.JSON(
-			http.StatusBadRequest,
-			gin.H{
-				"code":  http.StatusBadRequest,
-				"error": err.Error(),
-			},
-		)
-		return
-	}
-	//Return the profile in JSON format
-	c.JSON(
-		http.StatusCreated,
-		profile,
-	)
 }
 
 type deleteProfile struct {
@@ -182,7 +181,7 @@ func (s *profileService) Update(c *gin.Context) {
 		//Exit to the function
 		return
 	}
-	if err := s.u.Update(profile.ID, profile.ImageAvatarPath, profile.Name); err != nil {
+	if err := s.u.Update(profile.ID, profile.ImageAvatarPath); err != nil {
 		c.JSON(
 			http.StatusBadRequest,
 			gin.H{
@@ -201,40 +200,4 @@ func (s *profileService) Update(c *gin.Context) {
 type updatePasswordProfile struct {
 	ProfileID uint   `json:"profile_id"`
 	Password  string `json:"password"`
-}
-
-//UpdatePassword
-func (s *profileService) UpdatePassword(c *gin.Context) {
-	profile := &updatePasswordProfile{}
-
-	//Bind the json information to the struct, and check if exist a error
-	if err := c.ShouldBind(profile); err != nil {
-		//Send a mmessege to the client with the error
-		c.JSON(
-			http.StatusBadRequest,
-			gin.H{
-				"code":  http.StatusBadRequest,
-				"error": "JSON invalid",
-			},
-		)
-		//Exit to the function
-		return
-	}
-
-	if err := s.u.UpdatePassword(profile.ProfileID, profile.Password); err != nil {
-		c.JSON(
-			http.StatusBadRequest,
-			gin.H{
-				"code":  http.StatusBadRequest,
-				"error": "error in the create funciton",
-			},
-		)
-		return
-	}
-	c.JSON(
-		http.StatusOK,
-		gin.H{
-			"code": http.StatusOK,
-		},
-	)
 }

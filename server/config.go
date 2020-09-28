@@ -55,7 +55,8 @@ func (a *App) initServices(router *gin.Engine) {
 }
 
 func (a *App) initMiddleWare(router *gin.Engine) {
-	setCORS(router, "http://localhost:3000")
+	setCORS(router, "*")
+	//setCORS(router, "http://localhost:3000")
 }
 
 func setCORS(router *gin.Engine, origins ...string) {

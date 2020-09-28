@@ -55,6 +55,11 @@ func (a *authUsecase) SignIn(username string, password string) (string, error) {
 		return "", err
 	}
 
+	//The user doesnt exist
+	if user == nil {
+		return "", auth.ErrInvalidUser
+	}
+
 	ok := a.service.ComparePasswordHash(password, user.Password)
 	if !ok {
 
@@ -79,7 +84,11 @@ func (a *authUsecase) ParseToken(tokenString string) (*model.User, error) {
 	}
 
 	if claims, ok := token.Claims.(*model.UserClaims); ok && token.Valid {
-		return claims.User, nil
+		user, err := a.repo.Get(claims.User.Username)
+		if err != nil || user == nil {
+			return nil, auth.ErrInvalidToken
+		}
+		return user, nil
 	}
 
 	return nil, auth.ErrInvalidToken

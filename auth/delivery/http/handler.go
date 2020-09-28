@@ -70,11 +70,13 @@ func (h *handler) SignIn(ctn *gin.Context) {
 		} else if err == auth.ErrInvalidPassword {
 			ctn.AbortWithStatus(http.StatusUnauthorized)
 			return
+		} else if err == auth.ErrInvalidUser {
+			ctn.AbortWithStatus(http.StatusUnauthorized)
+			return
 		}
 		ctn.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
 
 	ctn.JSON(http.StatusOK, signInResponseFields{Token: token})
-
 }

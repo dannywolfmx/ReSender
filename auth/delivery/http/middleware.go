@@ -37,11 +37,10 @@ func (m *AuthMiddleware) Handle(c *gin.Context) {
 	if err != nil {
 		status := http.StatusInternalServerError
 		if err == auth.ErrInvalidToken {
-			c.AbortWithStatus(status)
-			return
+			status = http.StatusUnauthorized
 		}
 		c.AbortWithStatus(status)
-
+		return
 	}
 
 	c.Set(auth.ContexUserKey, user)

@@ -30,6 +30,28 @@ func (p *profileRepository) Get(id uint) (*model.Profile, error) {
 	return profile, nil
 }
 
+//GetByName
+func (p *profileRepository) GetByName(name string) (*model.Profile, error) {
+	profile := &model.Profile{}
+	err := p.db.Where("name = ?", name).First(profile).Error
+	if gorm.IsRecordNotFoundError(err) {
+		//No record and no error
+		return nil, nil
+	}
+	return profile, err
+}
+
+//GetByID
+func (p *profileRepository) GetByUserID(id uint) (*model.Profile, error) {
+	profile := &model.Profile{}
+	err := p.db.Where("user_id = ?", id).First(profile).Error
+	if gorm.IsRecordNotFoundError(err) {
+		//No record and no error
+		return nil, nil
+	}
+	return profile, err
+}
+
 //All
 func (p *profileRepository) All() ([]*model.Profile, error) {
 	profile := []*model.Profile{}
@@ -47,15 +69,4 @@ func (p *profileRepository) Detele(id uint) error {
 func (p *profileRepository) Update(u *model.Profile) error {
 	p.db.Model(u).Update(u)
 	return nil
-}
-
-//GetByName
-func (p *profileRepository) GetByName(name string) (*model.Profile, error) {
-	profile := &model.Profile{}
-	err := p.db.Where("name = ?", name).First(profile).Error
-	if gorm.IsRecordNotFoundError(err) {
-		//No record and no error
-		return nil, nil
-	}
-	return profile, err
 }
