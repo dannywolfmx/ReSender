@@ -24,7 +24,7 @@ func ServerConfig() *Server{
 		log.Fatal("Error reading the port value")
 	}
 
-	return &server{
+	return &Server{
 		//Set port
 		Port:port,
 	}
