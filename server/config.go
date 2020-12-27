@@ -1,10 +1,13 @@
 package server
 
 import (
+	"fmt"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
 	api "github.com/dannywolfmx/ReSender/app/delivery/http"
+	"github.com/dannywolfmx/ReSender/config"
 	"github.com/dannywolfmx/ReSender/registry"
 
 	"github.com/dannywolfmx/ReSender/auth"
@@ -14,26 +17,32 @@ import (
 
 type App struct {
 	authUseCase auth.AuthUsecase
+	config *config.Server
 }
 
-func NewApp() *App {
+//NewApp create a new app with the app information
+func NewApp(config *config.Server) *App {
 	authCont, err := registry.NewContainer()
 	if err != nil {
 		panic(err)
 	}
 	return &App{
 		authUseCase: authCont.Resolve("auth-usecase").(auth.AuthUsecase),
+		config:config,
 	}
 
 }
 
-func (a *App) Run(port string) {
+//Run the server
+func (a *App) Run() {
 
 	router := gin.Default()
 	{
 		a.initMiddleWare(router)
 		a.initServices(router)
 	}
+
+	port := fmt.Sprintf(":%d", a.config.Port)
 
 	//Run the server
 	router.Run(port)
