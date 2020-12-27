@@ -1,5 +1,6 @@
 package config
-import(
+
+import (
 	"log"
 
 	"github.com/spf13/viper"
@@ -7,6 +8,7 @@ import(
 
 type Server struct{
 	Port int
+	DbType string
 }
 
 
@@ -24,8 +26,14 @@ func ServerConfig() *Server{
 		log.Fatal("Error reading the port value")
 	}
 
+	DbType, ok := viper.Get("db.type").(string);
+	if	!ok{
+		log.Fatal("Error reading the port value")
+	}
+
 	return &Server{
 		//Set port
 		Port:port,
+		DbType:DbType,
 	}
 }

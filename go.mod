@@ -12,6 +12,6 @@ require (
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/rs/xid v1.2.1
 	github.com/sarulabs/di v2.0.0+incompatible
-	github.com/spf13/viper v1.7.1 // indirect
+	github.com/spf13/viper v1.7.1
 	golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd
 )

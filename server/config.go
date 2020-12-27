@@ -22,12 +22,12 @@ type App struct {
 
 //NewApp create a new app with the app information
 func NewApp(config *config.Server) *App {
-	authCont, err := registry.NewContainer()
+	diContainer, err := registry.NewDIContainer(config.DbType)
 	if err != nil {
 		panic(err)
 	}
 	return &App{
-		authUseCase: authCont.Resolve("auth-usecase").(auth.AuthUsecase),
+		authUseCase: diContainer.AuthUsecase,
 		config:config,
 	}
 
@@ -49,11 +49,7 @@ func (a *App) Run() {
 }
 
 func (a *App) initServices(router *gin.Engine) {
-	authCont, err := registry.NewContainer()
-	if err != nil {
-		panic(err)
-	}
-	authApi.Apply(router, authCont)
+	authApi.Apply(router, a.authUseCase)
 
 	container, err := registry.NewContainer()
 	if err != nil {

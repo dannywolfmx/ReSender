@@ -9,6 +9,7 @@ import (
 	appService "github.com/dannywolfmx/ReSender/app/domain/service"
 	appRepository "github.com/dannywolfmx/ReSender/app/repository/gormrepo"
 	appUsecase "github.com/dannywolfmx/ReSender/app/usecase"
+	"github.com/dannywolfmx/ReSender/auth"
 
 	authModel "github.com/dannywolfmx/ReSender/auth/domain/model"
 	authService "github.com/dannywolfmx/ReSender/auth/domain/service"
@@ -19,6 +20,52 @@ import (
 type Container struct {
 	ctn di.Container
 }
+
+type DIContainer struct{
+	AuthUsecase auth.AuthUsecase
+}
+
+func NewDIContainer(dbType string) (*DIContainer, error){
+
+	connDB, err:= gormSqliteConnection("db/data/data.db")
+	if err != nil{
+		return nil, err
+	}
+
+	authUsecase, err := authUsecaseGORM(connDB)
+	if err != nil{
+		return nil, err
+	}
+
+	diContainer := &DIContainer{
+		AuthUsecase: authUsecase,
+	}
+
+	return diContainer, nil
+}
+
+
+//TODO delete dependency to *gorm.DB type, instance use own interface
+//Close the connection when the app close
+func authUsecaseGORM(connDB *gorm.DB) (auth.AuthUsecase, error){
+	repo := authRepository.NewUserRepository(connDB)
+	service := authService.NewUserService(repo)
+	return authUsecase.NewAuthUsecase(repo, service), nil
+}
+
+func gormSqliteConnection(dataBasePath string) (*gorm.DB, error){
+		//Fijar ruta de la db y el tipo de db
+		db, err := gorm.Open("sqlite3", dataBasePath)
+		if err != nil {
+			return nil, err
+		}
+		//Migrar base de datos para hacer match con estructuras
+		//TODO Leer desde una variable de entorno si es que debemos migrar la db
+		//con el motivo de que solo hacerlo cuando sea necesario
+		migrarDBGorm(db)
+		return db, nil
+}
+
 
 func NewContainer() (*Container, error) {
 	dataBaseFile := "/home/daniel/Programacion/ReSender/db/data/data.db"
@@ -85,15 +132,6 @@ func NewContainer() (*Container, error) {
 
 				//Cramos un usecase con un repositorio y un repositorio
 				return appUsecase.NewProfileUsecase(repository, service), nil
-			},
-		},
-		{
-			Name: "auth-usecase",
-			Build: func(ctn di.Container) (interface{}, error) {
-				connDB := ctn.Get("gormSqlite").(*gorm.DB)
-				repo := authRepository.NewUserRepository(connDB)
-				service := authService.NewUserService(repo)
-				return authUsecase.NewAuthUsecase(repo, service), nil
 			},
 		},
 	}...)
