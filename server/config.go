@@ -10,13 +10,12 @@ import (
 	"github.com/dannywolfmx/ReSender/config"
 	"github.com/dannywolfmx/ReSender/registry"
 
-	"github.com/dannywolfmx/ReSender/auth"
 	authApi "github.com/dannywolfmx/ReSender/auth/delivery"
 	"github.com/dannywolfmx/ReSender/auth/delivery/http"
 )
 
 type App struct {
-	authUseCase auth.AuthUsecase
+	diContainer *registry.DIContainer
 	config *config.Server
 }
 
@@ -27,7 +26,7 @@ func NewApp(config *config.Server) *App {
 		panic(err)
 	}
 	return &App{
-		authUseCase: diContainer.AuthUsecase,
+		diContainer: diContainer,
 		config:config,
 	}
 
@@ -49,14 +48,10 @@ func (a *App) Run() {
 }
 
 func (a *App) initServices(router *gin.Engine) {
-	authApi.Apply(router, a.authUseCase)
-
-	container, err := registry.NewContainer()
-	if err != nil {
-		panic(err)
-	}
-
-	api.Apply(router, http.NewAuthMiddleware(a.authUseCase), container)
+	authUsecase := a.diContainer.AuthUsecase
+	handler := http.NewAuthMiddleware(authUsecase)
+	authApi.Apply(router,authUsecase)
+	api.Apply(router,handler, a.diContainer)
 }
 
 func (a *App) initMiddleWare(router *gin.Engine) {

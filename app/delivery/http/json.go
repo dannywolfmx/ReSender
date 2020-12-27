@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Apply(router *gin.Engine, handler gin.HandlerFunc, ctn *registry.Container) {
+func Apply(router *gin.Engine, handler gin.HandlerFunc, ctn *registry.DIContainer) {
 	api := router.Group("/api", handler)
 	{
 		v1.Apply(api, ctn)

@@ -4,17 +4,16 @@
 package v1
 
 import (
-	"github.com/dannywolfmx/ReSender/app"
 	"github.com/dannywolfmx/ReSender/app/delivery/http/v1/service"
 	"github.com/dannywolfmx/ReSender/registry"
 	"github.com/gin-gonic/gin"
 )
 
-func Apply(r *gin.RouterGroup, ctn *registry.Container) {
+func Apply(r *gin.RouterGroup, ctn *registry.DIContainer) {
 	//Generate service with the use case
-	client := service.NewClientService(ctn.Resolve("client-usecase").(app.ClientUsecase))
-	order := service.NewOrderService(ctn.Resolve("order-usecase").(app.OrderUsecase))
-	profile := service.NewProfileService(ctn.Resolve("profile-usecase").(app.ProfileUsecase))
+	client := service.NewClientService(ctn.ClientUsecase)
+	order := service.NewOrderService(ctn.OrderUsecase)
+	profile := service.NewProfileService(ctn.ProfileUsecase)
 
 	//REST SECTION
 

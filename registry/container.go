@@ -3,7 +3,6 @@ package registry
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"github.com/sarulabs/di"
 
 	"github.com/dannywolfmx/ReSender/app"
 	appModel "github.com/dannywolfmx/ReSender/app/domain/model"
@@ -18,12 +17,11 @@ import (
 	authUsecase "github.com/dannywolfmx/ReSender/auth/usecase"
 )
 
-type Container struct {
-	ctn di.Container
-}
-
 type DIContainer struct{
 	AuthUsecase auth.AuthUsecase
+	OrderUsecase app.OrderUsecase
+	ProfileUsecase app.ProfileUsecase
+	ClientUsecase app.ClientUsecase
 }
 
 func NewDIContainer(dbType string) (*DIContainer, error){
@@ -37,9 +35,24 @@ func NewDIContainer(dbType string) (*DIContainer, error){
 	if err != nil{
 		return nil, err
 	}
+	orderUsecase, err := orderUsecaseGORM(connDB)
+	if err != nil{
+		return nil, err
+	}
+	profileUsecase, err := profileUsecaseGORM(connDB)
+	if err != nil{
+		return nil, err
+	}
+	clientUsecase, err := clientUsecaseGORM(connDB)
+	if err != nil{
+		return nil, err
+	}
 
 	diContainer := &DIContainer{
 		AuthUsecase: authUsecase,
+		OrderUsecase: orderUsecase,
+		ProfileUsecase: profileUsecase,
+		ClientUsecase: clientUsecase,
 	}
 
 	return diContainer, nil
@@ -54,28 +67,21 @@ func authUsecaseGORM(connDB *gorm.DB) (auth.AuthUsecase, error){
 	return authUsecase.NewAuthUsecase(repo, service), nil
 }
 
-func OrderUsecaseGORM(connDB *gorm.DB) (app.OrderUsecase, error){
+func orderUsecaseGORM(connDB *gorm.DB) (app.OrderUsecase, error){
 	repo := appRepository.NewOrderRepository(connDB)
 	service := appService.NewOrderService(repo)
 	return appUsecase.NewOrderUsecase(repo, service), nil
 }
 
-func ClientUsecaseGORM(connDB *gorm.DB) (app.ClientUsecase, error){
+func clientUsecaseGORM(connDB *gorm.DB) (app.ClientUsecase, error){
 	repo := appRepository.NewClientRepository(connDB)
 	service := appService.NewClientService(repo)
 	return appUsecase.NewClientUsecase(repo, service), nil
 }
 
-func ProfileUsecaseGORM(connDB *gorm.DB) (app.ProfileUsecase, error){
-	//Repositorio del profile
+func profileUsecaseGORM(connDB *gorm.DB) (app.ProfileUsecase, error){
 	repository := appRepository.NewProfileRepository(connDB)
-
-	//Servicio del profile
-	//El servicio requiere hacer operaciones con el repositorio por lo que se envia uno funcional
-	//Dependiedo de la funcionalidad puede compartir el mismo repo que el usecase
 	service := appService.NewProfileService(repository)
-
-	//Cramos un usecase con un repositorio y un repositorio
 	return appUsecase.NewProfileUsecase(repository, service), nil
 }
 
