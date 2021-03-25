@@ -5,9 +5,9 @@ import (
 	"github.com/dannywolfmx/ReSender/server"
 )
 
-
 func main() {
 
+	//TODO Hola
 	//Get configuration
 	configServer := config.ServerConfig()
 
